@@ -1,0 +1,38 @@
+
+public class Date {
+	
+	private int year;
+	private int month;
+	private int day;
+	
+	
+	
+	public Date(int year, int month, int day){
+		this.year = year;		
+		this.month = month;
+		this.day = day;
+	}
+	
+	public void addDays(int days){
+		days = days + this.day;
+		if(days > 31){
+			while(days > 31){
+				this.month ++;
+				if(month > 12){
+					this.year++;
+					this.month -= 12;
+				}
+				days -= 31;
+			}
+			this.day = days;
+		}else{
+			this.day += days;
+		}
+		
+	}
+	
+	public String toString(){
+		return this.year + "/" + this.month + "/" + this.day;
+	}
+	
+}

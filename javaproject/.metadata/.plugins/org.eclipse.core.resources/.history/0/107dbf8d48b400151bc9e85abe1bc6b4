@@ -1,0 +1,34 @@
+
+public class Test {
+
+	public static void main(String[] args) {
+		//TimeSpan test = new TimeSpan(2, 2);
+		//test.scale(99999999);
+		//System.out.print(test.toString());
+		double minutes = 0;
+		System.out.println(minutes);
+		minutes = 122;
+		System.out.println(minutes);
+		minutes *= 99999999;
+		System.out.println(minutes);
+		int test = (int) minutes;
+		System.out.println(test);
+		int hours = 0;
+		int RealMinutes;
+		while(test >= 60){
+			hours ++;
+			test -=60;
+		}
+		RealMinutes = test;
+		System.out.println(hours + "h" + RealMinutes + "m");
+		
+		
+		//Date test = new Date(1988, 7, 22);
+		//test.addDays(183);
+		//test.addWeeks(2);
+		//System.out.println(test.toString());
+	}
+
+
+		
+}

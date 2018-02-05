@@ -1,0 +1,16 @@
+
+public class SequentialIncrement implements Incrementable {
+
+	
+	public void increment() {
+		
+		
+	}
+
+	
+	public void getValue() {
+		
+		
+	}
+
+}

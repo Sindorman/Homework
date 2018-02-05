@@ -1,0 +1,27 @@
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class Square extends Rectangle implements Shape {
+
+	public Square(int X, int Y, int height, int width) {		
+		super(X, Y, height, width);
+	}
+	public void render(Graphics g){
+		if(getHit()){
+			g.drawRect(getX(), getY(), getWidth(), getWidth());    
+			g.setColor(getColor());
+			g.fillRect(getX() + 1, getY() + 1, getWidth()-1, getWidth()-1);
+			g.setColor(Color.BLACK);
+		}else {
+			g.drawRect(getX(), getY(), getWidth(), getWidth());    
+			g.setColor(Color.WHITE);
+			g.fillRect(getX() + 1, getY() + 1, getWidth()-1, getWidth()-1);
+			g.setColor(Color.BLACK);
+		}
+	}
+	
+	public double getArea(){
+		return getWidth() * getWidth()-4;
+	}
+	
+}

@@ -1,0 +1,47 @@
+package Homework7;
+import java.util.*;
+public class NumberFive {
+	public static void main(String[] args){
+		boolean UserWon = false;
+		Random rand = new Random();
+		Scanner MasterMind = new Scanner(System.in);
+		int[] SecretNumber = new int[4];
+		int[] UserNumber = new int[4];
+		String UserInput = "";
+		int y = 0;
+		for(int x = 0; x < 4; x++){
+			SecretNumber[x] = rand.nextInt(9)+1;
+		}
+		do{
+			y = 0;
+			int Correct = 0;
+			int CorrectPlace = 0;
+			
+			System.out.print("Please write 4 digit number: ");
+			do{
+			UserInput = MasterMind.nextLine();
+			}while(UserInput.length() != 7);
+			for(int x = 0; x < 4; x++){
+				
+				char number = UserInput.charAt(y);
+				UserNumber[x] = Character.getNumericValue(number) ;
+				y +=2;
+			}
+			for(int x = 0; x < SecretNumber.length; x++){
+				if(SecretNumber[x] == UserNumber[x]){
+					Correct++;
+					CorrectPlace++;
+				}
+				if (Correct == 4){
+					UserWon = true;
+					break;
+				}
+				/*for(y = 0; y < SecretNumber.length; y++){
+					
+				}*/
+			}
+			System.out.printf("You have %d correct. %d in correct place %n", Correct, CorrectPlace );
+		}while(UserWon != true);
+	}
+	
+}

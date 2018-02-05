@@ -1,0 +1,11 @@
+package Homework7;
+
+public class NumberTwo {
+	public static void main(String[] args){
+		int[] array = {1, -2, 4, -4, 9, -6, 16, -8, 25, -10};
+		
+	}
+	public static void stdev(int[] array){
+		
+	}
+}

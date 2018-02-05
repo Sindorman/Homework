@@ -1,0 +1,54 @@
+package Bykhovtsev;
+
+import pokergame.*;
+public class MyPokerPlayer implements PokerPlayer, PokerListener {
+	private int Chips;
+	private String id;
+	private PokerHand hand;
+	public static void main(String[] args) {
+		PokerGame.main(new String[]{"pokerstooges.Larry",
+		"pokerstooges.Moe", "pokerstooges.Curly"});
+	}
+
+	@Override
+	public void onEvent(PokerEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int numChips() {
+		return this.Chips;
+	}
+
+	@Override
+	public void collectChips(int numChips) {
+		this.Chips -= numChips;		
+	}
+
+	@Override
+	public void acceptChips(int numChips) {
+		this.Chips += numChips;		
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
+		
+	}
+
+	@Override
+	public PokerDecision decide(PokerGameDetails game, int betRequiredToCall) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PokerHand bestHand() {		
+		return null;
+	}
+	
+}
+
+
+

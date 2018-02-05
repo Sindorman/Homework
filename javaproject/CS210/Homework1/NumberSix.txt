@@ -1,0 +1,7 @@
+It does output:
+C
+A
+B
+A
+B
+A

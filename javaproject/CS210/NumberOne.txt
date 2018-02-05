@@ -1,0 +1,1 @@
+It has a "Fence Post" problem. At the end of if/else statmen we incriment year, which makes it Fence Post problem. It can be fixed by making 'year = year - 1;' After the end of the loop.

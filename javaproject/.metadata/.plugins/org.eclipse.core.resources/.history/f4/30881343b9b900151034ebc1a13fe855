@@ -1,0 +1,27 @@
+import java.util.*;
+public class RandomIncrementer implements Incrementable {
+	
+	public int integer;
+
+	public RandomIncrementer(){
+		Random rand = new Random();
+		this.integer = rand.nextInt();
+	}
+
+	public void increment() {
+		Random rand = new Random();
+		int check = 0;
+		do{
+			check = rand.nextInt();
+			this.integer = check;
+		}while (check == this.integer);
+		
+	}
+
+
+	public int getValue() {
+		
+		return 0;
+	}
+	
+}

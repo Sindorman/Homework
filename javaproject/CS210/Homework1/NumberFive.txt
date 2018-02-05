@@ -1,0 +1,33 @@
+1) /* Original */
+
+public ClASs final
+{
+   public void main(String args)
+    {
+        System.out.println("Test)
+        dosomething;
+    }
+
+    public dosomething()
+    {
+        System.out.prtln("Something)
+        dosomething();
+    }
+}
+
+2) /* Corrected */
+
+public class final
+{
+   public static void main(String[] args)
+    {
+        System.out.println("Test");
+        dosomething();
+    }
+
+    public static void dosomething()
+    {
+        System.out.println("Something");
+        dosomething();
+    }
+}

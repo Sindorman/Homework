@@ -1,0 +1,4 @@
+100 binary = 4 decimanl;
+1011 binary = 11 decimal;
+101010 binary = 42 decimal;
+1001110 binary = 78 decimal;

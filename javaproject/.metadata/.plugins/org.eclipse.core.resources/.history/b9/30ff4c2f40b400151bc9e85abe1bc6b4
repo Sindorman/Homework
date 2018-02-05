@@ -1,0 +1,16 @@
+
+public class Test {
+
+	public static void main(String[] args) {
+		//TimeSpan test = new TimeSpan(2, 2);
+		//test.scale(99999999);
+		//System.out.print(test.toString());
+		int minutes = 0;
+		System.out.println(minutes);
+		minutes = 107;
+		System.out.println(minutes);
+		minutes *= 99999999;
+		System.out.println(minutes);
+	}
+
+}

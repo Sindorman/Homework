@@ -1,0 +1,9 @@
+
+public class StudentAdvanceTicket extends AdvanceTicket {
+
+	public StudentAdvanceTicket(int number, int days) {
+		super(number, days);
+		// TODO Auto-generated constructor stub
+	}
+
+}

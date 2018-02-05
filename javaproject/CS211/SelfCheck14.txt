@@ -1,0 +1,8 @@
+a.O(N)
+b.O(N2)
+c.O(N)
+d.O(N)
+e.O(log B)
+f.O(N3)
+g.O(N)
+h.O(N)

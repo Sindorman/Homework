@@ -1,0 +1,16 @@
+
+public class AdvanceTicket extends Ticket {
+	
+	public AdvanceTicket(int number) {
+		super(number);
+		// TODO Auto-generated constructor stub
+	}
+
+	public double getPrice(){
+		return 30.0;
+	}
+	
+	public String toString(){
+		return "Number: " + super.getNumber() + ", Price: " + getPrice();
+	}
+}

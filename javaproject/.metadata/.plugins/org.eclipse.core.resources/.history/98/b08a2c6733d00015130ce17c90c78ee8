@@ -1,0 +1,15 @@
+import java.util.*;
+import java.io.*;
+
+public class TwoWords {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		Scanner dict = new Scanner(new File("dictionary.txt"));
+		List<String> words = new ArrayList<String>();
+		while (dict.hasNextLine()){
+			words.add(dict.next());
+		}
+		System.out.println(words);
+	}
+
+}

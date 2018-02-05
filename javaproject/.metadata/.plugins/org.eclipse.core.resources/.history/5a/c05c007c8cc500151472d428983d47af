@@ -1,0 +1,66 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Polygon;
+
+public class Triangle implements Shape {
+
+	private Point one;
+	private Point two;
+	private Point three;
+	private Color color;
+	
+	public Triangle (Point one, Point two, Point three) {
+		this.one = one;
+		this.two = two;
+		this.three = three;
+	}
+	
+	@Override
+	public void render(Graphics g) {
+		g.drawLine((int)one.getX(), (int)one.getY(), (int)two.getX(), (int)two.getY());
+		g.drawLine((int)one.getX(), (int)one.getY(), (int)three.getX(), (int)three.getY());
+		g.drawLine((int)three.getX(), (int)three.getY(), (int)two.getX(), (int)two.getY());
+		//Polygon poly = new Polygon();		
+		//poly.addPoint((int)one.getX(), (int)one.getY());
+		//poly.addPoint((int)two.getX(), (int)two.getY());
+		//poly.addPoint((int)three.getX(), (int)three.getY());
+		//g.setColor(Color.WHITE);
+		//g.fillPolygon(poly);
+		//g.setColor(Color.BLACK);
+	}
+
+	@Override
+	public boolean hitTest(Point pt, HitTestChangeListener listener) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setColor(Color color) {
+		this.color = color;
+		
+	}
+
+	@Override
+	public double getArea() {
+		int s = (sideLength(one, two) + sideLength(one, three) + sideLength(three, two))/2;
+		return Math.sqrt(s * (s - sideLength(one, two)) * (s - sideLength(one, three)) * (s - sideLength(three, two)));
+	}
+
+	@Override
+	public Point getPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setPosition(Point point) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public int sideLength(Point one, Point two){
+		return (int)Math.sqrt(((two.getX() - one.getX()) * (two.getX() - one.getX()) - (two.getY() - one.getY()) * (two.getY() - one.getY())));
+	}
+}

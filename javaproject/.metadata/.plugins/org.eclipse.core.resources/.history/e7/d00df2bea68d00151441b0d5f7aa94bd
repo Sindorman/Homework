@@ -1,0 +1,23 @@
+package Homework7;
+
+public class NumberTwo {
+	public static void main(String[] args){
+		int[] array = {1, -2, 4, -4, 9, -6, 16, -8, 25, -10};
+		stdev(array);
+		System.out.print(Math.abs(4));
+	}
+	public static void stdev(int[] array){
+		int AverageNumber = Average(array);
+		System.out.print(AverageNumber);
+		
+	}
+	public static int Average(int[] AverageNum){
+		int sum = 0;
+		for(int x = 0; x < AverageNum.length; x++){
+			
+			sum =+ Math.abs(AverageNum[x]); 
+		}
+		
+		return sum/AverageNum.length;
+	}
+}

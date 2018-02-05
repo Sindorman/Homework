@@ -1,0 +1,17 @@
+
+public class SequentialIncrement implements Incrementable {
+
+	public int integer;
+	
+	public void increment() {
+		integer++;
+		
+	}
+
+	
+	public void getValue() {
+		
+		
+	}
+
+}

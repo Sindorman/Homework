@@ -1,0 +1,46 @@
+import java.util.*;
+
+public class Test {
+
+	public static void main(String[] args) {
+		//TimeSpan test = new TimeSpan(2, 2);
+		//test.scale(99999999);
+		//System.out.print(test.toString());
+	/*	double minutes = 0;
+		System.out.println(minutes);
+		minutes = 122;
+		System.out.println(minutes);
+		minutes *= 99999999;
+		System.out.println(minutes);
+		int test = (int) minutes;
+		System.out.println(test);
+		int hours = 0;
+		int RealMinutes;
+		while(test >= 60){
+			hours ++;
+			test -=60;
+		}
+		RealMinutes = test;
+		System.out.println(hours + "h" + RealMinutes + "m");
+		*/
+		
+		Date test = new Date(1976, 5, 9);
+		//test.addDays(183);
+		//test.addWeeks(2);
+		Date result = new Date(2001, 10, 28);
+		System.out.println(test.daysTo(result));
+		//int year = 1989;
+		//System.out.print(year % 4);
+		System.out.println(test.daysTo(result));
+		Random rand = new Random();
+		int check = 0;
+		int integer = rand.nextInt();
+		do{
+			check = rand.nextInt();
+			integer = check;
+		}while (check == integer);
+	}
+	
+
+		
+}
