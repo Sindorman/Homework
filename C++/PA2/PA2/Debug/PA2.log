@@ -1,0 +1,6 @@
+﻿  PA2.cpp
+c:\c++\pa2\pa2\avltreetesting.h(20): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\c++\pa2\pa2\avltreetesting.h(24): warning C4018: '<': signed/unsigned mismatch
+c:\c++\pa2\pa2\avltree.h(256): warning C4715: 'AvlTree<int>::remove': not all control paths return a value
+  PA2.vcxproj -> C:\C++\PA2\Debug\PA2.exe
+  PA2.vcxproj -> C:\C++\PA2\Debug\PA2.pdb (Full PDB)

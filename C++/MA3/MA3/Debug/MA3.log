@@ -1,0 +1,9 @@
+﻿  MA3.cpp
+c:\c++\ma3\ma3\avltreetesting.h(19): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\c++\ma3\ma3\avltreetesting.h(23): warning C4018: '<': signed/unsigned mismatch
+c:\c++\ma3\ma3\avltree.h(345): warning C4553: '==': operator has no effect; did you intend '='?
+  c:\c++\ma3\ma3\avltree.h(339): note: while compiling class template member function 'void AvlTree<int>::move(AvlTree<int>::AvlNode *)'
+  c:\c++\ma3\ma3\avltree.h(117): note: see reference to function template instantiation 'void AvlTree<int>::move(AvlTree<int>::AvlNode *)' being compiled
+  c:\c++\ma3\ma3\avltreetesting.h(18): note: see reference to class template instantiation 'AvlTree<int>' being compiled
+  MA3.vcxproj -> C:\C++\MA3\Debug\MA3.exe
+  MA3.vcxproj -> C:\C++\MA3\Debug\MA3.pdb (Full PDB)

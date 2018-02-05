@@ -1,0 +1,8 @@
+﻿  stdafx.cpp
+  PA3.cpp
+c:\c++\pa3\pa3\dictionary.h(96): warning C4018: '<': signed/unsigned mismatch
+c:\c++\pa3\pa3\dictionary.h(106): warning C4018: '<': signed/unsigned mismatch
+c:\c++\pa3\pa3\testinghash.h(126): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\c++\pa3\pa3\dictionary.h(89): warning C4715: 'Dictionary::hashIt': not all control paths return a value
+  PA3.vcxproj -> C:\C++\PA3\Debug\PA3.exe
+  PA3.vcxproj -> C:\C++\PA3\Debug\PA3.pdb (Full PDB)
