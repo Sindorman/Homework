@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename compilation unit &apos;subclassSyntax.java&apos; to &apos;Employee.java&apos;&#x0D;&#x0A;- Original project: &apos;PracticeIt&apos;&#x0D;&#x0A;- Original element: &apos;subclassSyntax.java&apos;&#x0D;&#x0A;- Renamed element: &apos;Employee.java&apos;" description="Rename compilation unit &apos;subclassSyntax.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;{subclassSyntax.java" name="Employee.java" references="false" stamp="1453935350281" version="1.0"/>
-</session>

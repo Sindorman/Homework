@@ -1,4 +1,0 @@
-﻿  program4.cpp
-c:\users\mikeb\onedrive\c++\program4\program4\sorting.h(20): warning C4018: '>': signed/unsigned mismatch
-c:\users\mikeb\onedrive\c++\program4\program4\sorting.h(31): warning C4018: '<': signed/unsigned mismatch
-  program4.vcxproj -> C:\Users\mikeb\OneDrive\C++\program4\Debug\program4.exe
