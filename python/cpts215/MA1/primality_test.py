@@ -68,4 +68,6 @@ if __name__ == "__main__":
 
     # Call our function and print the result
     print("{} is {}prime".format(num, ("not " if  not is_prime(num) else "")))
+
+    # TODO check with professor if this is a different integer prompted number
     print("sum of primes from 2 to {} is {}".format(num, sum_primes(num)))
