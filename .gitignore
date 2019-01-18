@@ -2,6 +2,8 @@
 Release
 x64
 Debug
+*.sdf
+*.VC
 .vs
 *.class
 *.exe
