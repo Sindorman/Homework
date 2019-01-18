@@ -1,0 +1,62 @@
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework (master)
+$ ls
+C++/  cpts215/  javaproject/  python/  README.md
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework (master)
+$ cd python/
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework/python (master)
+$ ls
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework/python (master)
+$ mkdir cpts215
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework/python (master)
+$ cd cpts215/
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework/python/cpts215 (master)
+$ mkdir lesson_notes prog_assigments micro_assigments project
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework/python/cpts215 (master)
+$ ls
+lesson_notes/  micro_assigments/  prog_assigments/  project/
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework/python/cpts215 (master)
+$ cd micro_assigments/
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework/python/cpts215/micro_assigments (master)
+$ mkdir MA1
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework/python/cpts215/micro_assigments (master)
+$ cd MA1/
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework/python/cpts215/micro_assigments/MA1 (master)
+$ touch primality_test.py
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework/python/cpts215/micro_assigments/MA1 (master)
+$ cd ../..
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework/python/cpts215 (master)
+$ ls -l
+total 0
+drwxr-xr-x 1 Michael 197609 0 Jan 17 22:12 lesson_notes/
+drwxr-xr-x 1 Michael 197609 0 Jan 17 22:12 micro_assigments/
+drwxr-xr-x 1 Michael 197609 0 Jan 17 22:12 prog_assigments/
+drwxr-xr-x 1 Michael 197609 0 Jan 17 22:12 project/
+
+Michael@DESKTOP-SKQR1RE MINGW64 /c/Projects/Homework/python/cpts215 (master)
+$ ls -R
+.:
+lesson_notes/  micro_assigments/  prog_assigments/  project/
+
+./lesson_notes:
+
+./micro_assigments:
+MA1/
+
+./micro_assigments/MA1:
+primality_test.py
+
+./prog_assigments:
+
+./project:
