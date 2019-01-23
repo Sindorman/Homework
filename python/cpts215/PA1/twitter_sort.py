@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from scanner import *
 from datetime import datetime
 
