@@ -39,5 +39,11 @@ def write_records(records_list, filename):
         for rec in records_list:
             f.write("{}\n".format(rec))
 
+def main():
+    if len(sys.argv) < 3:
+        print("Error! Please run script providing name of the two files to be merged and name of the output file as arguments!")
+        exit(1)
+    read_records(sys.argv[0])
+
 if __name__ == "__main__":
-    read_records("")
+    main()
