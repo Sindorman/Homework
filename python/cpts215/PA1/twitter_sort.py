@@ -7,9 +7,9 @@ class record:
     def __init__(self, string):
         string = string.split('\"')
         self.name = str(string[0])[1:(len(string[0])-1)]
-        self.message = string[1][0:(len(string[1])-1)]
+        self.message = string[1][0:(len(string[1]))]
         self.datetime_object = datetime.strptime(str(string[2][0:(len(string[2])-1)]), ' %Y %m %d %H:%M:%S')
-        self.char_length = len(string[1][0:(len(string[1])-1)])
+        self.char_length = len(self.message)
 
     def get_name(self):
         return self.name
@@ -75,18 +75,22 @@ def count_tweets_hashtags(records_list):
             count_over += 1
         elif(r.get_char_length() < 50):
             count_short += 1
-    print("Number of tweets over 140 character limit: {}\nNumber of short tweets: {}\nAverage character per tweet: {}".format(count_over, count_short, round(count_total/len(records_list))))
+    print("Number of tweets over 140 character limit: {}\nNumber of short tweets: {}\nAverage characters per tweet: {}".format(count_over, count_short, round(count_total/len(records_list))))
 
 def main():
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 4:
         print("Error! Please run script providing name of the two files to be merged and name of the output file as arguments!")
         exit(1)
+
     records1 = read_records(sys.argv[1])
     records2 = read_records(sys.argv[2])
     sorted_rec = merge_and_sort_tweets(records1, records2)
+
     for r in sorted_rec:
         print(r)
+
     count_tweets_hashtags(sorted_rec)
+    write_records(sorted_rec, sys.argv[3])
 
 if __name__ == "__main__":
     main()
