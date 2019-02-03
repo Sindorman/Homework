@@ -28,7 +28,13 @@ class record:
         string = string.split('\"')
         self.name = str(string[0])[1:(len(string[0])-1)]
         self.message = string[1][0:]
-        self.datetime_object = datetime.strptime(str(string[2][0:(len(string[2])-1)]), ' %Y %m %d %H:%M:%S')
+
+        # For some reason split returns string with whitespace on the end, but end of file doesn't have it.
+        # So datetime gets confused and cuts last digit otherwise in last line
+        cut_index = 1
+        if str(string[2][(len(string[2])-1)]) == " ":
+            cut_index = 0
+        self.datetime_object = datetime.strptime(str(string[2][0:(len(string[2])-cut_index)]), ' %Y %m %d %H:%M:%S')
 
     def get_name(self):
         '''
