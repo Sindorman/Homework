@@ -60,6 +60,12 @@ def plot_graph(name, table, n):
     balance_y.append(0)
     principle_paid.append(int(principle))
     interest_paid.append(int(interest))
+
+    formatted_balance = list()
+    for b in balance_y:
+        formatted_balance.append("${:,}".format(round(b)))
+    
+    formatted_balance = np.array(formatted_balance)
     
     balance_y = np.array(balance_y)
     principle_paid = np.array(principle_paid)
@@ -74,6 +80,7 @@ def plot_graph(name, table, n):
     plt.ylabel('Balance', fontsize=15)
     plt.xlabel('Years', fontsize=15)
     plt.axis([0, n, 0, table[0][0] + table[0][0] * 0.2])
+    plt.yticks(balance_y, formatted_balance)
     plt.grid()
     plt.show()
 
