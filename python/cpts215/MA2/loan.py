@@ -17,14 +17,27 @@ def calc_loan(name, cost, n, r):
     print("Monthly payment: {}".format(monthly_pay))
 
     table = list()
+    graph_data = [list(), list(), list()]
+    total_principle = 0
     total_interest = 0
     balance = cost
+    index = 0
     while balance > 0:
+        if index % 12 == 0:
+            graph_data[0].append(balance)
+            graph_data[1].append(int(total_principle))
+            graph_data[2].append(int(total_interest))
         interest = round(balance * (r / 1200), 2)
         total_interest += interest
         principle = round(monthly_pay - interest, 2)
         table.append([balance, principle, interest, monthly_pay])
         balance = round(balance - principle, 2)
+        total_principle += principle
+        index += 1
+    
+    graph_data[0].append(0)
+    graph_data[1].append(int(total_principle))
+    graph_data[2].append(int(total_interest))
 
     print("Total loan amount: {}".format(table[0][0] + total_interest))
     print("Total interest paid: {}".format(total_interest))
@@ -35,53 +48,36 @@ def calc_loan(name, cost, n, r):
         print ("{:<7}${:>10.2f}   ${:>8.2f}   ${:>7.2f}   ${:>8.2f}".format(index, t[0], t[1], t[2], t[3]))
         index += 1
     print("{:<7}${:>10.2f}   ${:>8.2f}   ${:>7.2f}   ${:>8.2f}".format(index, 0.00, 0.00, 0.00, 0.00))
-    plot_graph(name, table, n)
+    del table
+    plot_graph(name, cost, graph_data, n)
 
-def plot_graph(name, table, n):
+def plot_graph(name, cost, graph_data, n):
     balance_x = np.array(list(range(0, n + 1)))
-    balance_y = list()
+    balance_y = np.array(graph_data[0])
 
     labels = ["Principle Paid", "Interest Paid"]
 
-    principle_paid = list()
-    interest_paid = list()
-    principle = 0
-    interest = 0
-    
-    index = 0
-    while index < len(table):
-        if index % 12 == 0:
-            balance_y.append(table[index][0])
-            principle_paid.append(int(principle))
-            interest_paid.append(int(interest))
-        principle += table[index][1]
-        interest += table[index][2]
-        index += 1
-    balance_y.append(0)
-    principle_paid.append(int(principle))
-    interest_paid.append(int(interest))
+    # Converting to numpy arrays because graph likes them more
+    principle_paid = np.array(graph_data[1])
+    interest_paid = np.array(graph_data[2])
 
-    formatted_balance = list()
-    for b in balance_y:
-        formatted_balance.append("${:,}".format(round(b)))
-    
-    formatted_balance = np.array(formatted_balance)
-    
-    balance_y = np.array(balance_y)
-    principle_paid = np.array(principle_paid)
-    interest_paid = np.array(interest_paid)
     #plt.rc('font', family='serif', size=13)
     plt.stackplot(balance_x, principle_paid, interest_paid, colors=['g', "#FFA500"], labels=labels)
     plt.title(name + " Loan")
     balance_line = plt.plot(balance_x, balance_y, label="Balance Remaining")
     plt.setp(balance_line, color='k', linewidth=2.0)
     plt.legend(loc='upper center')
-    plt.autoscale(enable=True, axis=u'both', tight=False)
     plt.ylabel('Balance', fontsize=15)
     plt.xlabel('Years', fontsize=15)
-    plt.axis([0, n, 0, table[0][0] + table[0][0] * 0.2])
-    plt.yticks(balance_y, formatted_balance)
+    plt.axis([0, n, 0, cost + cost * 0.2])
+    location, proper = plt.yticks()
+    del proper
+    formatted_balance = list()
+    for f in location:
+        formatted_balance.append("${:,}".format(f))
+    plt.yticks(location, formatted_balance)
     plt.grid()
+    plt.autoscale(enable=True, axis=u'both', tight=False)
     plt.show()
 
 
