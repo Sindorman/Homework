@@ -60,6 +60,7 @@ def plot_graph(name, cost, graph_data, n):
     # Converting to numpy arrays because graph likes them more
     principle_paid = np.array(graph_data[1])
     interest_paid = np.array(graph_data[2])
+    del graph_data
 
     #plt.rc('font', family='serif', size=13)
     plt.stackplot(balance_x, principle_paid, interest_paid, colors=['g', "#FFA500"], labels=labels)
