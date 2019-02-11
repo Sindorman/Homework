@@ -14,7 +14,7 @@ def balance(cost, n , r):
 
 def calc_loan(name, cost, n, r):
     monthly_pay = monthly_payment(cost, n , r)
-    print("Monthly payment: {}".format(monthly_pay))
+    print("Monthly payment: {:.2f}".format(monthly_pay))
 
     table = list()
     graph_data = [list(), list(), list()]
@@ -28,7 +28,7 @@ def calc_loan(name, cost, n, r):
             graph_data[1].append(int(total_principle))
             graph_data[2].append(int(total_interest))
         interest = round(balance * (r / 1200), 2)
-        total_interest += interest
+        total_interest = round(interest + total_interest, 2)
         principle = round(monthly_pay - interest, 2)
         table.append([balance, principle, interest, monthly_pay])
         balance = round(balance - principle, 2)
@@ -39,8 +39,8 @@ def calc_loan(name, cost, n, r):
     graph_data[1].append(int(total_principle))
     graph_data[2].append(int(total_interest))
 
-    print("Total loan amount: {}".format(table[0][0] + total_interest))
-    print("Total interest paid: {}".format(total_interest))
+    print("Total loan amount: {:.2f}".format(table[0][0] + total_interest))
+    print("Total interest paid: {:.2f}".format(total_interest))
 
     print("{:<7} {:>10s}   {:>9s}   {:>8s}   {:>9s}".format("Month", "Balance", "Principal", "Interest", "Payment"))
     index = 1
