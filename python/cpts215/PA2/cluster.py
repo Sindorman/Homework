@@ -36,5 +36,12 @@ def main():
         print("Error! Please run script providing name of the files containing data!")
         exit(1)
     
+    iris = pd.read_csv(sys.argv[1], delimiter = ',', header=None)
+    #iris.info()
+    for thing in iris.iterrows():
+        print("This: {} is of type {}".format(thing, type(thing)))
+    print(iris)
+ 
+    
 if __name__ == "__main__":
     main()
