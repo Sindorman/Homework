@@ -174,6 +174,9 @@ def main():
     records2 = read_records(sys.argv[2])
     sorted_rec = merge_and_sort_tweets(records1, records2)
 
+    for tweet in sorted_rec:
+        print (str(tweet))
+
     count_tweets_hashtags(sorted_rec)
     write_records(sorted_rec, sys.argv[3])
 
