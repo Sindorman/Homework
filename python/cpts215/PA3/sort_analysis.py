@@ -105,15 +105,43 @@ class CircularDoublyLinkedList:
                     temp_one.next.data = temp_one.data
                     temp_one.data = temp_data
                     swapped = True
-                    data[2] = data[2] + 1
+                    data[2] = data[2] + 3
                 temp_one = temp_one.next
                 data[3] = data[3] + 1
                 data[0] = data[0] + 1
             if swapped is False:
-                return
+                return data
             data[0] = data[0] + 1
             index += 1
             data[3] = data[3] + 1
+        return data
+    
+    def selection_sort(self):
+        index = 0
+        minimal = None
+        temp_one = self.head
+        data = [0, 0, 0 ,0]
+        while index < self.size:
+            data[1] = data[1] + 1
+            minimal = temp_one
+            temp_two = temp_one.next
+            data[3] = data[3] + 2
+            while temp_two is not self.head:
+                data[1] = data[1] + 1
+                if temp_two.data < minimal.data:
+                    minimal = temp_two
+                temp_two = temp_two.next
+                data[3] = data[3] + 1
+                data[0] = data[0] + 1
+            temp_data = minimal.data
+            minimal.data = temp_one.data
+            temp_one.data = temp_data
+            data[2] = data[2] + 3
+            index += 1
+            data[3] = data[3] + 1
+            temp_one = temp_one.next
+            data[3] = data[3] + 1
+        return data
 
 
 def main():
@@ -142,15 +170,31 @@ def main():
     '''
     index = 1
     cir_list2 = CircularDoublyLinkedList()
-    number = 5000
+    number = 300
     while index != number:
         new_node = Node(random.randint(1, number))
         cir_list2.append(new_node)
         index += 1
     cir_list2.print()
-    cir_list2.bubble_sort()
+    data_list = cir_list2.bubble_sort()
     print('\n')
     cir_list2.print()
+    print('\n')
+    print(data_list)
+
+    index = 1
+    cir_list2 = CircularDoublyLinkedList()
+    number = 300
+    while index != number:
+        new_node = Node(random.randint(1, number))
+        cir_list2.append(new_node)
+        index += 1
+    cir_list2.print()
+    data_list = cir_list2.selection_sort()
+    print('\n')
+    cir_list2.print()
+    print('\n')
+    print(data_list)
     
 if __name__ == "__main__":
     main()
