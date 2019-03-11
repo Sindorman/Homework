@@ -91,23 +91,29 @@ class CircularDoublyLinkedList:
         return self.size
 
     def bubble_sort(self):
-        temp_one = self.head
-        temp_two = temp_one.next
         index = 0
+        data = [0, 0, 0 ,0]
         while index < self.size:
+            data[1] = data[1] + 1
             swapped = False
-            while temp_two is not temp_one:
-                if temp_two.data > temp_two.next.data:
-                    temp_data = temp_two.next.data
-                    temp_two.next.data = temp_two.data
-                    temp_two.data = temp_data
+            temp_one = self.head
+            data[3] = data[3] + 1
+            while temp_one.next is not self.head:
+                data[1] = data[1] + 1
+                if temp_one.data > temp_one.next.data:
+                    temp_data = temp_one.next.data
+                    temp_one.next.data = temp_one.data
+                    temp_one.data = temp_data
                     swapped = True
-                temp_two = temp_two.next
+                    data[2] = data[2] + 1
+                temp_one = temp_one.next
+                data[3] = data[3] + 1
+                data[0] = data[0] + 1
             if swapped is False:
                 return
+            data[0] = data[0] + 1
             index += 1
-            temp_one = temp_one.next
-            temp_two = temp_one.next
+            data[3] = data[3] + 1
 
 
 def main():
@@ -136,8 +142,9 @@ def main():
     '''
     index = 1
     cir_list2 = CircularDoublyLinkedList()
-    while index is not 301:
-        new_node = Node(random.randint(1, 301))
+    number = 5000
+    while index != number:
+        new_node = Node(random.randint(1, number))
         cir_list2.append(new_node)
         index += 1
     cir_list2.print()
