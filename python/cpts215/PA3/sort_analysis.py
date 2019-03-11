@@ -31,6 +31,8 @@ class CircularDoublyLinkedList:
     
     def get_node(self, index):
         current = self.head
+        if index >= self.size:
+            return None
         for i in range(index):
             current = current.next
             if current == self.head:
@@ -90,6 +92,26 @@ class CircularDoublyLinkedList:
     def __len__(self):
         return self.size
 
+    def create_list(self, number):
+        index = 1
+        while index != number + 1:
+            new_node = Node(index)
+            self.append(new_node)
+            index += 1
+
+    def create_list_random(self, number):
+        index = 0
+        while index != number:
+            new_node = Node(random.randint(1, number))
+            self.append(new_node)
+            index += 1
+    
+    def create_list_descending(self, number):
+        while number > 0:
+            new_node = Node(number)
+            self.append(new_node)
+            number -= 1
+
     def bubble_sort(self):
         index = 0
         data = [0, 0, 0 ,0]
@@ -142,7 +164,91 @@ class CircularDoublyLinkedList:
             temp_one = temp_one.next
             data[3] = data[3] + 1
         return data
+        
+    def merge_sort(self):
 
+        # Get merged list(as singlular) and connect head to the tail.
+        # comparison, loop control comp, assign, loop control assign
+        data = [0, 0, 0, 0]
+        self.head = self.merge_sort_helper(self.head, data)
+        tail = self.get_node(self.size - 1)
+        tail.next = self.head
+        self.head.prev = tail
+        return data
+
+    def merge_sort_helper(self, start, data):
+        if start == None or start.next == None:
+            return start
+        self.head.prev.next = None
+        left, right = self.split_list(start, data)
+
+        left  = self.merge_sort_helper(left, data)
+        right = self.merge_sort_helper(right, data)
+
+        return self.merge_lists(left, right, data)
+
+    def split_list(self, node, data):
+        if node == None or node.next == None:
+            left = node
+            right = None
+
+            return left, right
+
+        else:
+            middle = node
+            front = node.next
+
+            while front != None:
+                data[1] = data[1] + 1
+                front = front.next
+                data[3] = data[3] + 1
+
+                if front != None:
+                    front = front.next
+                    middle = middle.next
+                    data[2] = data[2] + 1
+                data[0] = data[0] + 1
+        data[0] = data[0] + 1
+
+        left = node
+        right = middle.next
+        middle.next = None
+        data[2] = data[2] + 1
+
+        return left, right
+
+    def merge_lists(self, left, right, data):
+        temp_head = Node(None)
+        current = temp_head
+        data[2] = data[2] + 1
+
+        while left and right:
+            if left.data < right.data:
+                current.next = left
+                left.prev = current
+                left = left.next
+                data[2] = data[2] + 3
+
+            else:
+                current.next = right
+                right.prev = current
+                right = right.next
+                data[2] = data[2] + 3
+            data[0] = data[0] + 1
+            data[1] = data[1] + 1
+
+            current = current.next
+            data[3] = data[3] + 1
+
+        if left == None:
+            current.next = right
+            data[2] = data[2] + 1
+
+        elif right == None:
+            current.next = left
+            data[2] = data[2] + 1
+
+        return temp_head.next
 
 def main():
     '''
@@ -168,13 +274,8 @@ def main():
         cir_list.pop()
     cir_list.print()
     '''
-    index = 1
     cir_list2 = CircularDoublyLinkedList()
-    number = 300
-    while index != number:
-        new_node = Node(random.randint(1, number))
-        cir_list2.append(new_node)
-        index += 1
+    cir_list2.create_list_random(300)
     cir_list2.print()
     data_list = cir_list2.bubble_sort()
     print('\n')
@@ -182,15 +283,19 @@ def main():
     print('\n')
     print(data_list)
 
-    index = 1
     cir_list2 = CircularDoublyLinkedList()
-    number = 300
-    while index != number:
-        new_node = Node(random.randint(1, number))
-        cir_list2.append(new_node)
-        index += 1
+    cir_list2.create_list_random(300)
     cir_list2.print()
     data_list = cir_list2.selection_sort()
+    print('\n')
+    cir_list2.print()
+    print('\n')
+    print(data_list)
+
+    cir_list2 = CircularDoublyLinkedList()
+    cir_list2.create_list_descending(300)
+    cir_list2.print()
+    data_list = cir_list2.merge_sort()
     print('\n')
     cir_list2.print()
     print('\n')
