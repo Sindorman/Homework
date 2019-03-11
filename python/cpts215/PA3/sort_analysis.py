@@ -14,6 +14,7 @@ import math
 import matplotlib.pyplot as plt
 import sys
 import random
+import time
 
 class Node:
     def __init__(self, data):
@@ -34,6 +35,8 @@ class CircularDoublyLinkedList:
         if index >= self.size:
             return None
         for i in range(index):
+            if current.next is None:
+                return current
             current = current.next
             if current == self.head:
                 return None
@@ -88,7 +91,19 @@ class CircularDoublyLinkedList:
             current = current.next
             if current == self.head:
                 break
-    
+
+    def as_list(self):
+        if self.head is None:
+            return list()
+        current = self.head
+        l = list()
+        while True:
+            l.append(current.data)
+            current = current.next
+            if current == self.head:
+                break
+        return l
+
     def __len__(self):
         return self.size
 
@@ -250,6 +265,18 @@ class CircularDoublyLinkedList:
 
         return temp_head.next
 
+import time
+
+def time_fn( fn):
+    start = time.clock()
+    results = fn()
+    end = time.clock()
+    total = 0
+    for t in results:
+        total += t
+    results.append(total)
+    return [results, end-start]
+
 def main():
     '''
     Main funtion definition
@@ -274,32 +301,90 @@ def main():
         cir_list.pop()
     cir_list.print()
     '''
-    cir_list2 = CircularDoublyLinkedList()
-    cir_list2.create_list_random(300)
-    cir_list2.print()
-    data_list = cir_list2.bubble_sort()
-    print('\n')
-    cir_list2.print()
-    print('\n')
-    print(data_list)
+    factor = 1
+    conf = [500 * factor, 1000 * factor, 5000 * factor, 10000 * factor]
+    selection_list = []
+    bubble_list = []
+    merge_list = []
+    # Sorted
+    for c in conf:
+        cir_list = CircularDoublyLinkedList()
+        cir_list.create_list(c)
+        temp_d = time_fn(cir_list.bubble_sort)
+        temp_d[0].insert(0, "Sorted N={}".format(c))
+        temp_d[0].insert(1, temp_d[1])
+        bubble_list.append(temp_d[0])
 
-    cir_list2 = CircularDoublyLinkedList()
-    cir_list2.create_list_random(300)
-    cir_list2.print()
-    data_list = cir_list2.selection_sort()
-    print('\n')
-    cir_list2.print()
-    print('\n')
-    print(data_list)
+        cir_list = CircularDoublyLinkedList()
+        cir_list.create_list(c)
+        temp_d = time_fn(cir_list.selection_sort)
+        temp_d[0].insert(0, "Sorted N={}".format(c))
+        temp_d[0].insert(1, temp_d[1])
+        selection_list.append(temp_d[0])
 
-    cir_list2 = CircularDoublyLinkedList()
-    cir_list2.create_list_descending(300)
-    cir_list2.print()
-    data_list = cir_list2.merge_sort()
-    print('\n')
-    cir_list2.print()
-    print('\n')
-    print(data_list)
+        cir_list = CircularDoublyLinkedList()
+        cir_list.create_list(c)
+        temp_d = time_fn(cir_list.merge_sort)
+        temp_d[0].insert(0, "Sorted N={}".format(c))
+        temp_d[0].insert(1, temp_d[1])
+        merge_list.append(temp_d[0])
+    
+    # Descending
+    for c in conf:
+        cir_list = CircularDoublyLinkedList()
+        cir_list.create_list_descending(c)
+        temp_d = time_fn(cir_list.bubble_sort)
+        temp_d[0].insert(0, "Descending Sorted N={}".format(c))
+        temp_d[0].insert(1, temp_d[1])
+        bubble_list.append(temp_d[0])
+
+        cir_list = CircularDoublyLinkedList()
+        cir_list.create_list_descending(c)
+        temp_d = time_fn(cir_list.selection_sort)
+        temp_d[0].insert(0, "Descending Sorted N={}".format(c))
+        temp_d[0].insert(1, temp_d[1])
+        selection_list.append(temp_d[0])
+
+        cir_list = CircularDoublyLinkedList()
+        cir_list.create_list_descending(c)
+        temp_d = time_fn(cir_list.merge_sort)
+        temp_d[0].insert(0, "Descending Sorted N={}".format(c))
+        temp_d[0].insert(1, temp_d[1])
+        merge_list.append(temp_d[0])
+    # Random
+    for c in conf:
+        cir_list = CircularDoublyLinkedList()
+        cir_list.create_list_random(c)
+        temp_d = time_fn(cir_list.bubble_sort)
+        temp_d[0].insert(0, "Random N={}".format(c))
+        temp_d[0].insert(1, temp_d[1])
+        bubble_list.append(temp_d[0])
+
+        cir_list = CircularDoublyLinkedList()
+        cir_list.create_list_random(c)
+        temp_d = time_fn(cir_list.selection_sort)
+        temp_d[0].insert(0, "Random N={}".format(c))
+        temp_d[0].insert(1, temp_d[1])
+        selection_list.append(temp_d[0])
+
+        cir_list = CircularDoublyLinkedList()
+        cir_list.create_list_random(c)
+        temp_d = time_fn(cir_list.merge_sort)
+        temp_d[0].insert(0, "Random N={}".format(c))
+        temp_d[0].insert(1, temp_d[1])
+        merge_list.append(temp_d[0])
+
+        data_selected = pd.DataFrame(selection_list, columns=["List configuration", "Seconds", "# Data", "# Loop", "# Data assignments", "# Loop assignments", "Total"])
+        data_merge = pd.DataFrame(merge_list, columns=["List configuration", "Seconds", "# Data", "# Loop", "# Data assignments", "# Loop assignments", "Total"])
+        data_bubble = pd.DataFrame(bubble_list, columns=["List configuration", "Seconds", "# Data", "# Loop", "# Data assignments", "# Loop assignments", "Total"])
+
+        data_bubble.to_csv("bubble_sort.csv", index=False)
+        data_merge.to_csv("merge_sort.csv", index=False)
+        data_selected.to_csv("selection_sort.csv", index=False)
+
+        
+        #print(data)
+
     
 if __name__ == "__main__":
     main()
