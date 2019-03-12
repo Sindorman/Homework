@@ -6,7 +6,9 @@ Class: CptS 215, Spring 2019
 Programming Project #3
 2/17/19
 
-Description: TODO change this. This program scanns CSV file of data and does k-means clustering on it, with plotting it. Couldn't finish on time.
+Description: This program Contains Double Circular Linked List class implementation.
+             It also contains selection sort, bubble sort, merge sort for it. It generates 3 types of lists with configures amount of data,
+             runs different sorting algorithms and compares their metrics, outputting to CSV file and graphing.
 '''
 
 import pandas as pd
@@ -15,22 +17,47 @@ import matplotlib.pyplot as plt
 import sys
 import random
 import time
+import numpy as np
 
 class Node:
+    '''
+    A class representing a node. 
+    Node has data, and two pointers.
+    '''
     def __init__(self, data):
+        '''
+        Creates new node with given data and None pointers.
+        Parameter list: data point.
+        '''
         self.data = data
         self.prev = None
         self.next = None
     
     def __lt__(self, other):
+        '''
+        Method to compare current data point to another.
+        Parameter list: another data point.
+        '''
         return self.data < other.data
 
 class CircularDoublyLinkedList:
+    '''
+    A class representing Double Circualr Linked List. 
+    Class has pointer which represents head and size of the current list.
+    '''
     def __init__(self):
+        '''
+        Creates new empty list.
+        '''
         self.head = None
         self.size = 0
     
     def get_node(self, index):
+        '''
+        Method of getting a node at given point.
+        Parameter list: index as an integer.
+        returns: Node at the given index
+        '''
         current = self.head
         if index >= self.size:
             return None
@@ -43,6 +70,10 @@ class CircularDoublyLinkedList:
         return current
 
     def append(self, new_node):
+        '''
+        Method to append to the end of the list.
+        Parameter list: New node.
+        '''
         if self.head is None:
             self.head = new_node
             new_node.next = new_node
@@ -57,11 +88,19 @@ class CircularDoublyLinkedList:
             self.size += 1
     
     def add(self, new_node):
+        '''
+        Method to add to the front of the list.
+        Parameter list: New node.
+        '''
         self.append(new_node)
         self.head = new_node
         self.size += 1
     
     def remove(self, node):
+        '''
+        Method to remove specific node from the list.
+        Parameter list: specific node.
+        '''
         if self.head.next == self.head:
             self.head = None
         else:
@@ -72,6 +111,10 @@ class CircularDoublyLinkedList:
             self.size -= 1
 
     def pop(self):
+        '''
+        Method to pop the last element from the list. Removes the node
+        returns: node at the end of the list
+        '''
         if self.size is 0:
             return None
         end = self.head.prev
@@ -83,6 +126,9 @@ class CircularDoublyLinkedList:
         return end
 
     def print(self):
+        '''
+        Method to print the List
+        '''
         if self.head is None:
             return
         current = self.head 
@@ -93,6 +139,10 @@ class CircularDoublyLinkedList:
                 break
 
     def as_list(self):
+        '''
+        Method to get current Double list as regular Python list
+        return: python list object
+        '''
         if self.head is None:
             return list()
         current = self.head
@@ -105,9 +155,17 @@ class CircularDoublyLinkedList:
         return l
 
     def __len__(self):
+        '''
+        Method of getting length of the list
+        return: lenght of the list as an integer
+        '''
         return self.size
 
     def create_list(self, number):
+        '''
+        Method of populating list of sorted elements
+        Parameter list: number of elements to populate, as an integer.
+        '''
         index = 1
         while index != number + 1:
             new_node = Node(index)
@@ -115,6 +173,10 @@ class CircularDoublyLinkedList:
             index += 1
 
     def create_list_random(self, number):
+        '''
+        Method of populating list of random elements. Elements ranges from 1 to the given number.
+        Parameter list: number of elements to populate, as an integer.
+        '''
         index = 0
         while index != number:
             new_node = Node(random.randint(1, number))
@@ -122,12 +184,20 @@ class CircularDoublyLinkedList:
             index += 1
     
     def create_list_descending(self, number):
+        '''
+        Method of populating list of descending sorted elements
+        Parameter list: number of elements to populate, as an integer.
+        '''
         while number > 0:
             new_node = Node(number)
             self.append(new_node)
             number -= 1
 
     def bubble_sort(self):
+        '''
+        Bubble sort algorithm. Sorts current list using early exit bubble sort.
+        returns: list of metrics data
+        '''
         index = 0
         data = [0, 0, 0 ,0]
         while index < self.size:
@@ -154,6 +224,10 @@ class CircularDoublyLinkedList:
         return data
     
     def selection_sort(self):
+        '''
+        Selection sort algorithm. Sorts current list using selection sort.
+        returns: list of metrics data
+        '''
         index = 0
         minimal = None
         temp_one = self.head
@@ -181,6 +255,10 @@ class CircularDoublyLinkedList:
         return data
         
     def merge_sort(self):
+        '''
+        Merge sort algorithm. Sorts current list using merge sort.
+        returns: list of metrics data
+        '''
 
         # Get merged list(as singlular) and connect head to the tail.
         # comparison, loop control comp, assign, loop control assign
@@ -192,6 +270,10 @@ class CircularDoublyLinkedList:
         return data
 
     def merge_sort_helper(self, start, data):
+        '''
+        Merge sort helper, for recursion.
+        returns: pointer to the merged list
+        '''
         if start == None or start.next == None:
             return start
         self.head.prev.next = None
@@ -203,6 +285,11 @@ class CircularDoublyLinkedList:
         return self.merge_lists(left, right, data)
 
     def split_list(self, node, data):
+        '''
+        Merge sort split list helper function.
+        Parameter list: node at which to start the split. list of metrics
+        returns: left and right split lists
+        '''
         if node == None or node.next == None:
             left = node
             right = None
@@ -233,6 +320,11 @@ class CircularDoublyLinkedList:
         return left, right
 
     def merge_lists(self, left, right, data):
+        '''
+        Merge sort helper function. Merges two lists.
+        Parameters list: left pointer, right pointer, list of metrics
+        returns: merged list starting from left pointer to the right pointer.
+        '''
         temp_head = Node(None)
         current = temp_head
         data[2] = data[2] + 1
@@ -265,9 +357,12 @@ class CircularDoublyLinkedList:
 
         return temp_head.next
 
-import time
-
 def time_fn( fn):
+    '''
+    Helpfer function to time specific function and recieve returns from the function.
+    Parameters list: function pointer.
+    returns: list containing returns of the function and time it took to run.
+    '''
     start = time.clock()
     results = fn()
     end = time.clock()
@@ -279,33 +374,14 @@ def time_fn( fn):
 
 def main():
     '''
-    Main funtion definition
-    '''
-    '''
-    if len(sys.argv) < 3:
-        print("Error! Please run script providing name of the files containing data and number of clusters!")
-        exit(1)
-    try:
-        k = int(sys.argv[2])
-    except ValueError:
-        print("Error! That is not an number!")
-        exit(1)
-    
-    cir_list = CircularDoublyLinkedList()
-    for i in range(1, 5001):
-        new_node = Node(i)
-        cir_list.append(new_node)
-    cir_list.print()
-
-    for i in range(2500):
-        cir_list.pop()
-    cir_list.print()
+    Definition of main function. Calls all data, gets it. Dumps data to the CSV and graphs it.
     '''
     factor = 1
     conf = [500 * factor, 1000 * factor, 5000 * factor, 10000 * factor]
     selection_list = []
     bubble_list = []
     merge_list = []
+
     # Sorted
     for c in conf:
         cir_list = CircularDoublyLinkedList()
@@ -351,6 +427,7 @@ def main():
         temp_d[0].insert(0, "Descending Sorted N={}".format(c))
         temp_d[0].insert(1, temp_d[1])
         merge_list.append(temp_d[0])
+
     # Random
     for c in conf:
         cir_list = CircularDoublyLinkedList()
@@ -374,17 +451,45 @@ def main():
         temp_d[0].insert(1, temp_d[1])
         merge_list.append(temp_d[0])
 
-        data_selected = pd.DataFrame(selection_list, columns=["List configuration", "Seconds", "# Data", "# Loop", "# Data assignments", "# Loop assignments", "Total"])
-        data_merge = pd.DataFrame(merge_list, columns=["List configuration", "Seconds", "# Data", "# Loop", "# Data assignments", "# Loop assignments", "Total"])
-        data_bubble = pd.DataFrame(bubble_list, columns=["List configuration", "Seconds", "# Data", "# Loop", "# Data assignments", "# Loop assignments", "Total"])
+    data_selected = pd.DataFrame(selection_list, columns=["List configuration", "Seconds", "# Data", "# Loop", "# Data assignments", "# Loop assignments", "Total"])
+    data_merge = pd.DataFrame(merge_list, columns=["List configuration", "Seconds", "# Data", "# Loop", "# Data assignments", "# Loop assignments", "Total"])
+    data_bubble = pd.DataFrame(bubble_list, columns=["List configuration", "Seconds", "# Data", "# Loop", "# Data assignments", "# Loop assignments", "Total"])
 
-        data_bubble.to_csv("bubble_sort.csv", index=False)
-        data_merge.to_csv("merge_sort.csv", index=False)
-        data_selected.to_csv("selection_sort.csv", index=False)
+    data_bubble.to_csv("bubble_sort_results.csv", index=False)
+    data_merge.to_csv("merge_sort_results.csv", index=False)
+    data_selected.to_csv("selection_sort_results.csv", index=False)
 
-        
-        #print(data)
+    make_graph("Sorted", "Total_Operations", data_selected["Total"].tolist()[0:4], data_merge["Total"].tolist()[0:4], data_bubble["Total"].tolist()[0:4])
+    make_graph("Descending", "Total_Operations", data_selected["Total"].tolist()[4:8], data_merge["Total"].tolist()[4:8], data_bubble["Total"].tolist()[4:8])
+    make_graph("Random", "Total_Operations", data_selected["Total"].tolist()[8:], data_merge["Total"].tolist()[8:], data_bubble["Total"].tolist()[8:])
+    make_graph("Sorted", "Seconds", data_selected["Seconds"].tolist()[0:4], data_merge["Seconds"].tolist()[0:4], data_bubble["Seconds"].tolist()[0:4])
+    make_graph("Descending", "Seconds", data_selected["Seconds"].tolist()[4:8], data_merge["Seconds"].tolist()[4:8], data_bubble["Seconds"].tolist()[4:8])
+    make_graph("Random", "Seconds", data_selected["Seconds"].tolist()[8:], data_merge["Seconds"].tolist()[8:], data_bubble["Seconds"].tolist()[8:])
 
-    
+def make_graph(name, metrics, data_s, data_m, data_b):
+    '''
+    Function that graphs data and saves the graph as PNG.
+    Parameters list: name of the graph as string. Name of the metrics as string. Data for selection sort. Data for merge sort. Data for bubble sort.
+    '''
+
+    s1 = pd.Series(data_s, index=[500, 1000, 5000, 10000], name="selection sort")
+    s2 = pd.Series(data_m, index=[500, 1000, 5000, 10000], name="merge sort")
+    s3 = pd.Series(data_b, index=[500, 1000, 5000, 10000], name="bubble_sort")
+    sers = [s1, s2, s3]
+
+    x_locs = np.arange(1, 5)
+    x_labels = [500, 1000, 5000, 10000]
+    f, ax = plt.subplots()
+    ax.set_title(name)
+    ax.set_ylabel(metrics)
+    ax.set_xlabel("List size N")
+    ax.set_xticks(x_locs)
+    ax.set_xticklabels(x_labels)
+    for ser in sers:
+        plt.plot(x_locs, ser, label=ser.name)
+    plt.legend(loc=0)
+    plt.savefig(r"{}.png".format(name + "_" + metrics))
+    plt.show()
+
 if __name__ == "__main__":
     main()
