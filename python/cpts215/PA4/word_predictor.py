@@ -30,12 +30,11 @@ class WordPredictor:
             for line in f:
                 for word in line.split():
                     self.train_word(word)
-                    self.total += 1
             f.close()
 
         except FileNotFoundError:
             print("Could not open training file: {}".format(training_file))
-            exit(1)
+            return
 
     def train_word(self, word):
         cleanString = (re.sub(r'\W+','', word )).lower()
@@ -43,8 +42,8 @@ class WordPredictor:
             self.word_to_count.put(cleanString, 1)
         else:
             value = self.word_to_count.get(cleanString )
-            self.word_to_count.put(cleanString, value.value + 1)
-            
+            self.word_to_count.put(cleanString, value + 1)
+        self.total += 1
 
     def build(self):
         for t in self.word_to_count.slots:
@@ -59,7 +58,7 @@ class WordPredictor:
                     prefix += c
                     if self.prefix_to_entry.get(prefix) == -1:
                         self.prefix_to_entry.put(prefix, dictE)
-                    elif self.prefix_to_entry.get(prefix).value.get_prob() < dictE.get_prob():
+                    elif self.prefix_to_entry.get(prefix).get_prob() < dictE.get_prob():
                         self.prefix_to_entry.put(prefix, dictE)
 
     def get_word_count(self, word):
@@ -70,11 +69,11 @@ class WordPredictor:
 
     def get_best(self, prefix):
         if self.prefix_to_entry.get(prefix) == -1:
-            return 0
+            return DictEntry("null", 0)
         else:
-            return self.prefix_to_entry.get(prefix).value.get_word()
+            return self.prefix_to_entry.get(prefix)
 
-    def get_total(self):
+    def get_training_count(self):
         return self.total
 
 def main():
@@ -85,7 +84,7 @@ def main():
     test.train(sys.argv[1])
     test.word_to_count.print()
     #test.train_word("the")
-    print("Total words: {}".format(test.get_total()))
+    print("Total words: {}".format(test.get_training_count()))
     #print(test.word_to_count.print())
     test.build()
     print(test.get_best("circul"))

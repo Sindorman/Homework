@@ -20,7 +20,7 @@ class Map:
     '''
     
     '''
-    def __init__(self, size=11):
+    def __init__(self, size=20011):
         '''
         
         '''
@@ -57,7 +57,7 @@ class Map:
                 if t is None:
                     continue
                 if t == n:
-                    return t
+                    return t.value
             return -1
     
     def remove(self, key):
