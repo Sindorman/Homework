@@ -43,11 +43,11 @@ class WordPredictor:
             self.word_to_count.put(cleanString, 1)
         else:
             value = self.word_to_count.get(cleanString )
-            print("word: {}, value: {}".format(cleanString, value))
-            self.word_to_count.remove(cleanString)
-            self.word_to_count.put(cleanString, value + 1)
-            value = self.word_to_count.get(cleanString )
-            print("new word: {}, value: {}".format(cleanString, value))
+            if cleanString == "the":
+                print("word: {}, value: {}".format(cleanString, value.value))
+            self.word_to_count.put(cleanString, value.value + 1)
+        #self.word_to_count.print()
+            
 
     def build(self):
         for t in self.word_to_count.slots:
@@ -87,11 +87,13 @@ def main():
         exit(1)
     test = WordPredictor()
     test.train(sys.argv[1])
+    test.word_to_count.print()
+    #test.train_word("the")
     print("Total words: {}".format(test.get_total()))
     #print(test.word_to_count.print())
     #test.build()
     #print(test.get_best("t"))
-    print(test.word_to_count.get("and"))
-
+    print(test.word_to_count.get("the").value)
+    test.word_to_count.print()
 if __name__ == "__main__":
     main()
