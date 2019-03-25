@@ -47,15 +47,24 @@ class WordPredictor:
         for w in self.word_to_count:
             prefix = ""
             dictE = DictEntry(w, self.word_to_count.get(w) / self.total)
-            self.prefix_to_entry[w] = dictE
             for c in w:
                 prefix += c
-                if self.prefix_to_entry.get(c) is None:
-                    self.prefix_to_entry[c] = dictE
-                elif dictE.get_prob() > self.prefix_to_entry.get(c).get_prob():
-                    self.prefix_to_entry[c] = dictE
+                if self.prefix_to_entry.get(prefix) is None:
+                    self.prefix_to_entry[prefix] = dictE
+                elif self.prefix_to_entry.get(prefix).get_prob() < dictE.get_prob():
+                    self.prefix_to_entry[prefix] = dictE
 
+    def get_word_count(self, word):
+        if self.word_to_count.get(word) is None:
+            return 0
+        else:
+            return self.word_to_count.get(word)
 
+    def get_best(self, prefix):
+        if self.prefix_to_entry.get(prefix) is None:
+            return 0
+        else:
+            return self.prefix_to_entry.get(prefix).get_word()
 
     def get_total(self):
         return self.total
@@ -68,5 +77,8 @@ def main():
     test.train(sys.argv[1])
     print("Total words: {}".format(test.get_total()))
     print(test.word_to_count)
+    test.build()
+    print(test.get_best("tha"))
+
 if __name__ == "__main__":
     main()
