@@ -9,10 +9,13 @@ class Node:
         if other is None:
             return False
         return self.key == other.key
+
     def __str__(self):
         return "{}:{}".format(self.key, self.value)
+
     def __repr__(self):
         return self.__str__()
+
 class Map:
     '''
     
@@ -33,10 +36,8 @@ class Map:
         n = Node(key, item)
         if self.slots[hashvalue] is None:
             self.slots[hashvalue] = [n]
-            #print("putting")
         elif self.slots[hashvalue].count(n) == 0: # empty slot or slot contains item already
             self.slots[hashvalue].append(n)
-            #print("putting")
         else:
             index = self.slots[hashvalue].index(n)
             self.slots[hashvalue][index] = n
@@ -113,20 +114,7 @@ class Map:
         key = 0
         for x in item:
             key += ord(x)
-        #print("hashing: {}".format(key % self.size))
         return key % self.size
     
     def print(self):
         print(self.slots)
-        '''
-        text = "["
-        for k in self.slots:
-            if k is None:
-                continue
-            for t in k:
-                if t is None:
-                    continue
-                text += str(t) + ", "
-        text += "]"
-        print(text)
-        '''

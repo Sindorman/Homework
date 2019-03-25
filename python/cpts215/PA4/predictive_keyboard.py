@@ -43,10 +43,7 @@ class WordPredictor:
             self.word_to_count.put(cleanString, 1)
         else:
             value = self.word_to_count.get(cleanString )
-            if cleanString == "the":
-                print("word: {}, value: {}".format(cleanString, value.value))
             self.word_to_count.put(cleanString, value.value + 1)
-        #self.word_to_count.print()
             
 
     def build(self):
@@ -57,13 +54,12 @@ class WordPredictor:
                 if key is None:
                     continue
                 prefix = ""
-                dictE = DictEntry(key, self.word_to_count.get(key) / self.total)
-                #print(key)
-                for c in key:
+                dictE = DictEntry(key.key, key.value / self.total)
+                for c in key.key:
                     prefix += c
                     if self.prefix_to_entry.get(prefix) == -1:
                         self.prefix_to_entry.put(prefix, dictE)
-                    elif self.prefix_to_entry.get(prefix).get_prob() < dictE.get_prob():
+                    elif self.prefix_to_entry.get(prefix).value.get_prob() < dictE.get_prob():
                         self.prefix_to_entry.put(prefix, dictE)
 
     def get_word_count(self, word):
@@ -76,7 +72,7 @@ class WordPredictor:
         if self.prefix_to_entry.get(prefix) == -1:
             return 0
         else:
-            return self.prefix_to_entry.get(prefix).get_word()
+            return self.prefix_to_entry.get(prefix).value.get_word()
 
     def get_total(self):
         return self.total
@@ -91,9 +87,7 @@ def main():
     #test.train_word("the")
     print("Total words: {}".format(test.get_total()))
     #print(test.word_to_count.print())
-    #test.build()
-    #print(test.get_best("t"))
-    print(test.word_to_count.get("the").value)
-    test.word_to_count.print()
+    test.build()
+    print(test.get_best("circul"))
 if __name__ == "__main__":
     main()
