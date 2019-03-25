@@ -7,7 +7,7 @@ class HashTable:
         
         '''
         self.size = size
-        self.slots = [[None]] * self.size
+        self.slots = [None] * self.size
         
     def put(self, item):
         '''
@@ -16,7 +16,10 @@ class HashTable:
         '''
         hashvalue = self.hashfunction(item)
         slot_placed = -1
-        if self.slots[hashvalue].count(item) == 0: # empty slot or slot contains item already
+        if self.slots[hashvalue] is None:
+            self.slots[hashvalue] = [item]
+            return hashvalue
+        elif self.slots[hashvalue].count(item) == 0: # empty slot or slot contains item already
             self.slots[hashvalue].append(item)
             slot_placed = hashvalue
         else:
@@ -30,6 +33,9 @@ class HashTable:
         returns slot position if item in hashtable, -1 otherwise
         '''
         hashvalue = self.hashfunction(item)
+        if self.slots[hashvalue] is None:
+            self.slots[hashvalue] = [item]
+            return -1
         if self.slots[hashvalue].count(item) == 0: # cannot find item
             return -1
         else:
@@ -50,11 +56,25 @@ class HashTable:
                     break
             return hashvalue
 
+    def resize(self):
+        temp = [[None]] * (self.size * (self.size * 0.25))
+        for t in self.slots:
+            index = self.slots.index(t)
+            temp[index] = t
+        self.slots = temp
+        self.size = self.size * (self.size * 0.25)
+
     def hashfunction(self, item):
         '''
         Remainder method
         '''
-        return item % self.size
+        if type(item) is int:
+            return item % self.size
+
+        key = 0
+        for x in item:
+            key += ord(x)
+        return key % self.size
 
 class Map(HashTable):
     '''
@@ -140,11 +160,8 @@ class Map(HashTable):
             self.values[slot] = None
         return slot
 
-    def hashfunction(self, item):
-        '''
-        Remainder method
-        '''
-        key = 0
-        for x in item:
-            key += ord(x)
-        return key % self.size
+    def __iter__(self):
+        return self.values.__iter__()
+    
+    def print(self):
+        print(self.slots)
