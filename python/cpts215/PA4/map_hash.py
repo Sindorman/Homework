@@ -110,6 +110,9 @@ class Map:
         '''
         if type(item) is int:
             return item % self.size
+        
+        if type(item) is list:
+            return len(item) % self.size
 
         key = 0
         for x in item:
