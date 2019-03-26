@@ -64,7 +64,7 @@ class Map:
         n = Node(key, item)
         if self.slots[hashvalue] is None:
             self.slots[hashvalue] = [n]
-        elif self.slots[hashvalue].count(n) == 0: # empty slot or slot contains item already
+        elif self.slots[hashvalue].count(n) == 0:
             self.slots[hashvalue].append(n)
         else:
             index = self.slots[hashvalue].index(n)
