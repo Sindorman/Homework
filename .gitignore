@@ -8,3 +8,4 @@ Debug
 .vs
 *.class
 *.exe
+*.cpython*
