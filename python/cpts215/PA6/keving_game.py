@@ -45,5 +45,32 @@ def main():
     print(new_g)
     print(new_g.get_vertex("Jerry Smith"))
 
+    inp = ""
+    print("Kevin Bacon game Or type \"exit\" to exit the program.")
+    while inp != "exit":
+        bacon_number = 0
+        end = False
+        out_put = ""
+        inp = input("Enter the name of an actor: ")
+        name = inp
+        if inp == "exit":
+            break
+        while not end:
+            bacon_number += 1
+            new_vertext = new_g.get_vertex(inp)
+            if new_vertext is None or new_vertext.ID == "Kevin Bacon":
+                end = True
+                break
+            other_end_actor, other_end_name = "", ""
+            for f, g in new_vertext.connected_to.items(): # Unfortunately I could not find a way to just get one single element by index from python dictionary
+                other_end_actor = f.ID
+                other_end_name = g
+                break
+            out_put += "{} appeared in {} with {}\n".format(new_vertext.ID, other_end_name, other_end_actor)
+            inp = other_end_actor
+        print("{}'s bacon number is {}".format(name, bacon_number))
+        print(out_put)
+
+
 if __name__ == "__main__":
     main()
