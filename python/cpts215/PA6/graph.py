@@ -11,17 +11,21 @@ class Vertex:
         self.ID = key
         self.connected_to = {}
 
-    def add_neighbor(self, neighbor, weight=0):
+    def add_neighbor(self, neighbor, label=""):
         '''
         add a connection from this vertex to anothe
         '''
-        self.connected_to[neighbor] = weight
+        self.connected_to[neighbor] = label
 
     def __str__(self):
         '''
         returns all of the vertices in the adjacency list, as represented by the connectedTo instance variable
         '''
-        return str(self.ID) + ' connected to: ' + str([x.ID for x in self.connected_to])
+        ret = str(self.ID) + ' connected to: ['
+        for x in self.connected_to:
+            ret += "{} -> {}, ".format(x.ID, self.connected_to[x])
+        ret += "]"
+        return ret
 
     def get_connections(self):
         '''
@@ -35,7 +39,7 @@ class Vertex:
         '''
         return self.ID
 
-    def get_weight(self, neighbor):
+    def get_label(self, neighbor):
         '''
         returns the weight of the edge from this vertex to the vertex passed as a parameter
         '''
@@ -59,7 +63,7 @@ class Graph:
         edges = ""
         for vert in self.vert_list.values():
             for vert2 in vert.get_connections():
-                edges += "(%s, %s)\n" %(vert.get_ID(), vert2.get_ID())
+                edges += "(%s -> %s -> %s)\n" %(vert.get_ID(), vert.get_label(vert2), vert2.get_ID())
         return edges
 
     def add_vertex(self, key):
@@ -86,7 +90,7 @@ class Graph:
         '''
         return n in self.vert_list
 
-    def add_edge(self, f, t, cost=0):
+    def add_edge(self, f, t, cost=""):
         '''
         connecting one vertex to another
         '''
@@ -116,11 +120,16 @@ class Graph:
         frontier_queue = deque()
         frontier_queue.appendleft(start)
         discovered_set = set([start])
-        
+        graph = Graph()
+        graph.add_vertex(start.ID)
+
         while len(frontier_queue) > 0:
             curr_v = frontier_queue.pop()
-            print(curr_v)
+            #print(curr_v)
             for adj_v in curr_v.get_connections():
                 if adj_v not in discovered_set:
                     frontier_queue.appendleft(adj_v)
+                    graph.add_vertex(adj_v.ID)
+                    graph.add_edge(adj_v.ID, curr_v.ID, adj_v.get_label(curr_v))
                     discovered_set.add(adj_v)
+        return graph
