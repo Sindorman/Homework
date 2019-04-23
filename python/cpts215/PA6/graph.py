@@ -1,8 +1,18 @@
 from collections import deque
 
+'''
+Programmer: Mykhailo Bykhovtsev
+Class: CptS 215, Spring 2019
+Programming Project #6
+04/22/19
+
+Description: Directional graph class
+'''
+
 class Vertex:
     '''
-    keep track of the vertices to which it is connected, and the weight of each edge
+    A class representing a Vertex for graph. 
+    Vertex has ID which is a key and list of connected vertecies.
     '''
     def __init__(self, key):
         '''
@@ -13,7 +23,8 @@ class Vertex:
 
     def add_neighbor(self, neighbor, label=""):
         '''
-        add a connection from this vertex to anothe
+        Method used to add a neighboor vertex.
+        Parameter list: Vertex that is a neightboor, and edge label.
         '''
         self.connected_to[neighbor] = label
 
@@ -29,13 +40,15 @@ class Vertex:
 
     def get_connections(self):
         '''
-        
+        Method used to get list of connected vertecies.
+        return: list.
         '''
         return self.connected_to.keys()
 
     def get_ID(self):
         '''
-        
+        Method of accessing ID of Vertex.
+        return: ID as anything
         '''
         return self.ID
 
@@ -47,7 +60,8 @@ class Vertex:
     
 class Graph:
     '''
-    contains a dictionary that maps vertex names to vertex objects. 
+    A class representing a directional Graph. 
+    Graph contains number of vertices and list of vertices.
     '''
     def __init__(self):
         '''
@@ -68,7 +82,9 @@ class Graph:
 
     def add_vertex(self, key):
         '''
-        adding vertices to a graph 
+        Method used to add new Vertex to the graph.
+        Parameter list: key of vertex.
+        return: new Vertex class.
         '''
         self.num_vertices = self.num_vertices + 1
         new_vertex = Vertex(key)
@@ -77,7 +93,9 @@ class Graph:
 
     def get_vertex(self, n):
         '''
-        
+        Method used to get vertex.
+        Parameter list: ID of vertex.
+        return: Vertex or None.
         '''
         if n in self.vert_list:
             return self.vert_list[n]
@@ -92,7 +110,8 @@ class Graph:
 
     def add_edge(self, f, t, cost=""):
         '''
-        connecting one vertex to another
+        Method used to connect two vertices.
+        Parameter list: ID of first vertex, ID of second vertex, their label.
         '''
         if f not in self.vert_list:
             nv = self.add_vertex(f)
@@ -114,8 +133,9 @@ class Graph:
 
     def bfs(self, g, start):
         '''
-        enqueue: append left
-        dequeue: pop right
+        Method used to do Breadth-first Search.
+        Parameter list: Vertext to start.
+        return: New directional Graph from Breadth-first Search.
         '''
         frontier_queue = deque()
         frontier_queue.appendleft(start)
