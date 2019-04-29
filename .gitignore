@@ -9,3 +9,4 @@ Debug
 *.class
 *.exe
 *.cpython*
+.ipynb_checkpoints*
