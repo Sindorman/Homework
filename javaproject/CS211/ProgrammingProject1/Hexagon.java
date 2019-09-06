@@ -44,7 +44,7 @@ public class Hexagon implements Shape {
 			poly.addPoint((int)One.getX() + 1, (int)One.getY() + 40 * size - 1);
 			poly.addPoint((int)One.getX() - 15 * size + 1, (int)One.getY() + 20 * size);
 			g.fillPolygon(poly);
-			g.setColor(Color.BLACK);
+			g.setColor(color);
 		}
 		
 	}

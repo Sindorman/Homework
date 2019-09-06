@@ -24,7 +24,7 @@ public class Triangle implements Shape {
 			poly.addPoint((int)one.getX() - 25 * size + 2, (int)one.getY() + 30 * size - 1);
 			g.setColor(color);
 			g.fillPolygon(poly);
-			g.setColor(Color.BLACK);
+			g.setColor(color);
 		}else {
 			g.drawLine((int)one.getX(), (int)one.getY(), (int)one.getX() + 25 * size, (int)one.getY() + 30 * size);
 			g.drawLine((int)one.getX(), (int)one.getY(), (int)one.getX() - 25 * size, (int)one.getY() + 30 * size);
@@ -35,7 +35,7 @@ public class Triangle implements Shape {
 			poly.addPoint((int)one.getX() - 25 * size + 2, (int)one.getY() + 30 * size - 1);
 			g.setColor(Color.WHITE);
 			g.fillPolygon(poly);
-			g.setColor(Color.BLACK);
+			g.setColor(color);
 		}
 	}
 

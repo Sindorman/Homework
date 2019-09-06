@@ -1,7 +1,5 @@
-
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -65,7 +63,7 @@ class ShapeFactory {
         	return test;
         }else if (shapeString.equals("SQUARE")){
         	int side = random.nextInt(100)+8;
-        	Rectangle test = new Square(random.nextInt(350)+20, random.nextInt(350)+20, side , side);
+        	Rectangle test = new Square(random.nextInt(350)+20, side , side);
         	return test;
         }else if (shapeString.equals("OVAL")){
         	Oval test = new Oval(random.nextInt(350)+20, random.nextInt(350)+20, random.nextInt(100)+8, random.nextInt(100)+8);
@@ -261,17 +259,21 @@ public class ShapePanel extends JFrame {
         buttons.add(buttonClear);
 
         // TODO (Bonus) - create a color toolbar that will allow the user to change the color of the next clicked on shape
-       /* Color[] colors = {Color.BLACK, Color.RED, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA, Color.ORANGE, Color.YELLOW, Color.PINK};
-        JPanel Colors = new JPanel();
+        Color[] colors = {Color.BLACK, Color.RED, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA, Color.ORANGE, Color.YELLOW, Color.PINK};
         //Colors.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         JPanel ColorBut = new JPanel();
         content.add(ColorBut);
-        ColorBut.setLayout(new BoxLayout(ColorBut, BoxLayout.X_AXIS));        
-        for (int x = 0; x < colors.length; x ++){
-        	
-        	JButton button = new JButton(colors[x].toString() + "");
-        	buttons.add(button);
-        }*/
+        ColorBut.setLayout(new BoxLayout(ColorBut, BoxLayout.X_AXIS));
+        for (final Color c : colors){        	
+        	JButton button = new JButton();
+        	button.setBackground(c);
+        	button.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	panel.setColorSelection(c);
+                }
+            });        	
+        	ColorBut.add(button);
+        }
         content.add(panel);
 
         //... Set window characteristics

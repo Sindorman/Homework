@@ -29,7 +29,7 @@ public class Octagon implements Shape {
 			poly.addPoint((int)One.getX() - 15 * size, (int)One.getY() + 35 * size);
 			poly.addPoint((int)One.getX() - 15 * size, (int)One.getY() + 15 * size);
 			g.fillPolygon(poly);
-			g.setColor(Color.BLACK);
+			g.setColor(color);
 		}else {	
 			g.drawLine((int)One.getX(), (int)One.getY(), (int)One.getX() + 20 * size, (int)One.getY());
 			g.drawLine((int)One.getX() + 20 * size, (int)One.getY(), (int)One.getX() + 35 * size, (int)One.getY() + 15 * size);
@@ -50,7 +50,7 @@ public class Octagon implements Shape {
 			poly.addPoint((int)One.getX() - 15 * size + 1, (int)One.getY() + 35 * size);
 			poly.addPoint((int)One.getX() - 15 * size + 1, (int)One.getY() + 15 * size);
 			g.fillPolygon(poly);
-			g.setColor(Color.BLACK);
+			g.setColor(color);
 		}
 	}
 

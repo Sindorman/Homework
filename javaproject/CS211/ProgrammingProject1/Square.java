@@ -4,20 +4,20 @@ import java.awt.Point;
 
 public class Square extends Rectangle implements Shape {
 
-	public Square(int X, int Y, int height, int width) {		
-		super(X, Y, height, width);
+	public Square(int X, int height, int width) {		
+		super(X, X, height, width);
 	}
 	public void render(Graphics g){
 		if(getHit()){
 			g.drawRect(getX(), getY(), getWidth(), getHeight());    
 			g.setColor(getColor());
 			g.fillRect(getX(), getY(), getWidth(), getHeight());
-			g.setColor(Color.BLACK);
+			g.setColor(getColor());
 		}else {
 			g.drawRect(getX(), getY(), getWidth(), getHeight());    
 			g.setColor(Color.WHITE);
-			g.fillRect(getX() + 1, getY() + 1, getWidth()-1, getHeight()-1);
-			g.setColor(Color.BLACK);
+			g.fillRect(getX() + 1, getY() + 1, getWidth() - 1, getHeight() - 1);
+			g.setColor(getColor());
 		}
 	}
 	public Point getPosition() {

@@ -24,12 +24,12 @@ private Color color;
 			g.drawOval(X, Y, Width, Height);
 			g.setColor(color);
 			g.fillOval(X, Y, Width, Height);
-			g.setColor(Color.BLACK);			
+			g.setColor(color);			
 		}else {
 			g.drawOval(X, Y, Width, Height);
 			g.setColor(Color.WHITE);
 			g.fillOval(X + 1, Y + 1, Width - 2, Height - 2);
-			g.setColor(Color.BLACK);
+			g.setColor(color);
 		}
 	}
 

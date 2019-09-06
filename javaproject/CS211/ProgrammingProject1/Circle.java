@@ -17,12 +17,12 @@ public class Circle extends Oval {
 			g.drawOval(getX(), getY(), getWidth(), getWidth());
 			g.setColor(super.getColor());
 			g.fillOval(getX(), getY(), getWidth(), getWidth());
-			g.setColor(Color.BLACK);
+			g.setColor(super.getColor());
 		}else{
 			g.drawOval(getX(), getY(), getWidth(), getWidth());
 			g.setColor(Color.WHITE);
 			g.fillOval(getX() + 1, getY() + 1, getWidth()-2, getWidth()-2);
-			g.setColor(Color.BLACK);
+			g.setColor(super.getColor());
 		}
 	}
 

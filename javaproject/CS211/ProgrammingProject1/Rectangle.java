@@ -25,14 +25,14 @@ public class Rectangle implements Shape {
 			g.drawRect(X, Y, Width, Height);
 			g.setColor(color);
 			g.fillRect(X, Y, Width, Height);
-			g.setColor(Color.BLACK);
+			g.setColor(color);
 			
 		}else{
-			g.setColor(Color.BLACK);
+			g.setColor(color);
 			g.drawRect(X, Y, Width, Height);
 			g.setColor(Color.WHITE);
 			g.fillRect(X + 1, Y + 1, Width-1, Height-1);
-			g.setColor(Color.BLACK);
+			g.setColor(color);
 		}
 	}
 
