@@ -13,12 +13,17 @@ import Data.Char (toUpper)
 exists :: Eq t => t -> [t] -> Bool
 exists item list = if list == []
                    then False
-                   else 
-                       if head list == item
-                       then True
-                       else exists item (tail list)
+                   else if head list == item
+                        then True
+                        else exists item (tail list)
 -- 2. listUnion
 
+listUnion :: Eq a => [a] -> [a] -> [a]
+listUnion list1 list2 = if list2 == []
+                        then list1
+                        else if exists (head list2) list1
+                             then listUnion list1 (tail list2)
+                             else listUnion ((head list2):list1) (tail list2)
 
 
 -- 3. replace
