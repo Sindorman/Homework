@@ -153,3 +153,26 @@ class Graph:
                     graph.add_edge(adj_v.ID, curr_v.ID, adj_v.get_label(curr_v))
                     discovered_set.add(adj_v)
         return graph
+
+import matplotlib.pyplot as plt
+import networkx as nx
+
+if __name__ == "__main__":
+    G = nx.DiGraph()
+    G.add_edge(0, 3, label=5)
+    G.add_edge(3, 5, label=10)
+    G.add_edge(5, 6, label=5)
+    G.add_edge(0, 3, label=5)
+    G.add_edge(0, 1, label=10)
+    G.add_edge(1, 2, label=15)
+    G.add_edge(2, 4, label=5)
+    G.add_edge(4, 7, label=15)
+    elabels = {edge:G[edge[0]][edge[1]]["label"] for i, edge in enumerate(G.edges())}
+    pos = nx.spring_layout(G)
+    nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), node_color='gold', node_size = 500)
+    nx.draw_networkx_labels(G, pos, font_size=8)
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=elabels, font_size=8)
+    nx.draw_networkx_edges(G, pos, edge_color='c', arrows=True)
+    plt.axis('off')
+    plt.autoscale(enable=True, tight=False)
+    plt.show()

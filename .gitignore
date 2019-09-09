@@ -1,4 +1,6 @@
-#ignore specific files
+# ignore specific files
+
+# Misc
 Release
 x64
 Debug
@@ -8,5 +10,12 @@ Debug
 .vs
 *.class
 *.exe
+
+# Python
 *.cpython*
 .ipynb_checkpoints*
+
+# Haskell
+*.o
+*.hi
+
