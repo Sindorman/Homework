@@ -28,12 +28,12 @@ listUnion list1 list2 = if list2 == []
 
 -- 3. replace
 
-replace :: (Eq t1, Num t1) => t1 -> t2 -> [t2] -> [t2]
-replace index value list = if index > length list
+replace :: (Eq t1, Num t1, Eq t2) => t1 -> t2 -> [t2] -> [t2]
+replace index value list = if list == []
                            then list
-                           else if index /= -1
-                                then listUnion (head list) (replace (index - 1) value (tail list))
-                                else value:list
+                           else if index /= 0
+                                then (head list):replace (index - 1) value (tail list)
+                                else value:(tail list)
 
 
 -- 4. prereqFor
