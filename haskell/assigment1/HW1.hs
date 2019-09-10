@@ -9,7 +9,7 @@ module HW1
 import Data.Char (toUpper)
 
 -- 1. exists
-
+-- Exists function that checks if an element is in the list
 exists :: Eq t => t -> [t] -> Bool
 exists item list = if list == []
                    then False
@@ -17,7 +17,8 @@ exists item list = if list == []
                         then True
                         else exists item (tail list)
 -- 2. listUnion
-
+-- ListUnion function that gives you a union of two lists works same as ++, but probably less efficient(because if they are lists with pointers 
+-- then connecting tail of list one to head of list two is most effiecient)
 listUnion :: Eq a => [a] -> [a] -> [a]
 listUnion list1 list2 = if list2 == []
                         then list1
@@ -27,7 +28,8 @@ listUnion list1 list2 = if list2 == []
 
 
 -- 3. replace
-
+-- I had to add Eq t2 because the check required list to have typeclass.
+-- I tried using "if index > length list" but it required t1 to be Int and not t1. So this function is not efficient for index out of bounds with large list.
 replace :: (Eq t1, Num t1, Eq t2) => t1 -> t2 -> [t2] -> [t2]
 replace index value list = if list == []
                            then list
