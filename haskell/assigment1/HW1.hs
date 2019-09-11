@@ -40,15 +40,8 @@ replace index value list = if list == []
                                 then (head list):replace (index - 1) value (tail list)
                                 else value:(tail list)
 
-
-prereqsList = [("Cpts122" , ["CptS121"]), ("CptS132" , ["CptS131"]), ("CptS223" , ["CptS122", "MATH216"]), ("CptS233" , ["CptS132", "MATH216"]), 
-               ("CptS260" , ["CptS223", "CptS233"]), ("CptS315" , ["CptS223", "CptS233"]), ("CptS317" , ["CptS122", "CptS132", "MATH216"]), 
-               ("CptS321" , ["CptS223", "CptS233"]), ("CptS322" , ["CptS223","CptS233"]), ("CptS350" , ["CptS223","CptS233", "CptS317"]), 
-               ("CptS355" , ["CptS223"]), ("CptS360" , ["CptS223","CptS260"]),("CptS370" , ["CptS233","CptS260"]),
-               ("CptS427" , ["CptS223","CptS360", "CptS370", "MATH216", "EE234"])
-              ]
-
 -- 4. prereqFor
+-- I had to add Eq t because the check required list to have typeclass.
 prereqFor :: (Eq a, Eq t) => [(a, [t])] -> t -> [a]
 prereqFor list course = let prereq = []
                         in if list == []

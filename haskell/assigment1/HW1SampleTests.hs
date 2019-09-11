@@ -68,12 +68,15 @@ p2_test5 = TestCase (assertEqual "listUnion \"\" \"\""  (sort "")  (sort (listUn
 p3_test1 = TestCase (assertEqual "replace 3 40 [1, 2, 3, 4, 5, 6]" [1,2,3,40,5,6] (replace 3 40 [1, 2, 3, 4, 5, 6]) ) 
 p3_test2 = TestCase (assertEqual "replace 0 'X' \"abcd\""  "Xbcd" (replace 0 'X' "abcd") ) 
 p3_test3 = TestCase (assertEqual "replace 5 6 [1,2,3,4,5]" [1,2,3,4,5] (replace 5 6 [1,2,3,4,5]))
+p3_test4 = TestCase (assertEqual "replace 3 'y' \"ab\"" "ab" (replace 3 'y' "ab"))
+p3_test5 = TestCase (assertEqual "replace 0 1 [1, 2]" [1, 2] (replace 0 1 [1, 2]))
 
 p4_test1 = TestCase (assertEqual "prereqFor prereqsList \"CptS260\"" (sort ["CptS360","CptS370"])  (sort (prereqFor prereqsList "CptS260")) ) 
 p4_test2 = TestCase (assertEqual "prereqFor prereqsList \"CptS223\"" (sort ["CptS260","CptS315","CptS321","CptS322","CptS350","CptS355","CptS360",
             "CptS427"])  (sort (prereqFor prereqsList "CptS223")) ) 
-p4_test3 = TestCase (assertEqual "prereqFor prereqsList \"CptS355\"" ([])  (sort (prereqFor prereqsList "CptS355")) ) 
-
+p4_test3 = TestCase (assertEqual "prereqFor prereqsList \"CptS355\"" ([])  (sort (prereqFor prereqsList "CptS355")) )
+p4_test4 = TestCase (assertEqual "prereqFor prereqsList \"MATH216\"" (["CptS223","CptS233","CptS317","CptS427"])  (sort (prereqFor prereqsList "MATH216")) ) 
+p4_test5 = TestCase (assertEqual "prereqFor prereqsList \"ENGL220\"" ([])  (sort (prereqFor prereqsList "ENGL220")) )
 
 p5_test1 = TestCase (assertBool "isPalindrome \"a01 02 2010A\"" (isPalindrome "a01 02 2010A")) 
 p5_test2 = TestCase (assertBool "isPalindrome \"Doc note I dissent a fast never prevents a fatness I diet on cod\"" (isPalindrome "Doc note I dissent a fast never prevents a fatness I diet on cod")) 
@@ -96,9 +99,13 @@ tests = TestList [ TestLabel "Problem 1- test1 " p1_test1,
                    TestLabel "Problem 3- test1 " p3_test1, 
                    TestLabel "Problem 3- test2 " p3_test2, 
                    TestLabel "Problem 3- test3 " p3_test3,
+                   TestLabel "Problem 3- test4 " p3_test4,
+                   TestLabel "Problem 3- test5 " p3_test5,
                    TestLabel "Problem 4- test1 " p4_test1, 
                    TestLabel "Problem 4- test2 " p4_test2, 
                    TestLabel "Problem 4- test3 " p4_test3,
+                   TestLabel "Problem 4- test4 " p4_test4,
+                   TestLabel "Problem 4- test5 " p4_test5, 
                    TestLabel "Problem 5- test1 " p5_test1, 
                    TestLabel "Problem 5- test2 " p5_test2, 
                    TestLabel "Problem 5- test3 " p5_test3,
