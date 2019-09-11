@@ -77,11 +77,14 @@ p4_test2 = TestCase (assertEqual "prereqFor prereqsList \"CptS223\"" (sort ["Cpt
 p4_test3 = TestCase (assertEqual "prereqFor prereqsList \"CptS355\"" ([])  (sort (prereqFor prereqsList "CptS355")) )
 p4_test4 = TestCase (assertEqual "prereqFor prereqsList \"MATH216\"" (["CptS223","CptS233","CptS317","CptS427"])  (sort (prereqFor prereqsList "MATH216")) ) 
 p4_test5 = TestCase (assertEqual "prereqFor prereqsList \"ENGL220\"" ([])  (sort (prereqFor prereqsList "ENGL220")) )
-{-
+
 p5_test1 = TestCase (assertBool "isPalindrome \"a01 02 2010A\"" (isPalindrome "a01 02 2010A")) 
 p5_test2 = TestCase (assertBool "isPalindrome \"Doc note I dissent a fast never prevents a fatness I diet on cod\"" (isPalindrome "Doc note I dissent a fast never prevents a fatness I diet on cod")) 
 p5_test3 = TestCase (assertBool "isPalindrome \"Yreka Bakery\"" (isPalindrome "Yreka Bakery"))
+p5_test4 = TestCase (assertBool "isPalindrome \"aa\"" (isPalindrome "aa"))
+p5_test5 = TestCase (assertEqual "isPalindrome \"a b\"" False (isPalindrome "a b"))
 
+{-
 p6_test1 = TestCase (assertEqual "groupSumtoN 15 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [[1,2,3,4,5],[6,7],[8],[9],[10]] (groupSumtoN 15 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) ) 
 p6_test2 = TestCase (assertEqual "groupSumtoN 11 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [[1,2,3,4],[5,6],[7],[8],[9],[10]] (groupSumtoN 11 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) ) 
 p6_test3 = TestCase (assertEqual "groupSumtoN 55 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [[1,2,3,4,5,6,7,8,9,10]] (groupSumtoN 55 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) ) 
@@ -109,6 +112,8 @@ tests = TestList [ TestLabel "Problem 1- test1 " p1_test1,
                    TestLabel "Problem 5- test1 " p5_test1, 
                    TestLabel "Problem 5- test2 " p5_test2, 
                    TestLabel "Problem 5- test3 " p5_test3,
+                   TestLabel "Problem 5- test4 " p5_test4,
+                   TestLabel "Problem 5- test5 " p5_test5,
                    TestLabel "Problem 6- test1 " p6_test1, 
                    TestLabel "Problem 6- test2 " p6_test2, 
                    TestLabel "Problem 6- test3 " p6_test3
