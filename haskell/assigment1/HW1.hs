@@ -64,4 +64,9 @@ isPalindrome word = checkPalindrome word (reverse word)
                                                      else checkPalindrome (tail w) (tail r)
                                                 else True
 -- 6. groupSumtoN
-
+-- Function that takes number and a list and returns a list of sub-lists that contain max sum of elements to given number. Not as effeciently implemented :)
+groupSumtoN :: (Ord a, Num a) => a -> [a] -> [[a]]
+groupSumtoN number list = (trav number list [])
+                   where trav n [] acc = [acc]
+                         trav n (x:xs) acc | (sum acc) + x <= n = (trav n xs (x : acc))
+                                           | otherwise = (reverse acc:(trav n xs [x]))

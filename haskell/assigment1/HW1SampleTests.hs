@@ -84,11 +84,13 @@ p5_test3 = TestCase (assertBool "isPalindrome \"Yreka Bakery\"" (isPalindrome "Y
 p5_test4 = TestCase (assertBool "isPalindrome \"aa\"" (isPalindrome "aa"))
 p5_test5 = TestCase (assertEqual "isPalindrome \"a b\"" False (isPalindrome "a b"))
 
-{-
+
 p6_test1 = TestCase (assertEqual "groupSumtoN 15 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [[1,2,3,4,5],[6,7],[8],[9],[10]] (groupSumtoN 15 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) ) 
 p6_test2 = TestCase (assertEqual "groupSumtoN 11 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [[1,2,3,4],[5,6],[7],[8],[9],[10]] (groupSumtoN 11 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) ) 
-p6_test3 = TestCase (assertEqual "groupSumtoN 55 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [[1,2,3,4,5,6,7,8,9,10]] (groupSumtoN 55 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) ) 
--}
+p6_test3 = TestCase (assertEqual "groupSumtoN 55 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [[1,2,3,4,5,6,7,8,9,10]] (groupSumtoN 55 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) )
+p6_test4 = TestCase (assertEqual "groupSumtoN 55 []" [[]] (groupSumtoN 55 []) ) 
+p6_test5 = TestCase (assertEqual "groupSumtoN 2 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]] (groupSumtoN 2 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) ) 
+
 tests = TestList [ TestLabel "Problem 1- test1 " p1_test1,
                    TestLabel "Problem 1- test2 " p1_test2,  
                    TestLabel "Problem 1- test3 " p1_test3,
@@ -116,7 +118,9 @@ tests = TestList [ TestLabel "Problem 1- test1 " p1_test1,
                    TestLabel "Problem 5- test5 " p5_test5,
                    TestLabel "Problem 6- test1 " p6_test1, 
                    TestLabel "Problem 6- test2 " p6_test2, 
-                   TestLabel "Problem 6- test3 " p6_test3
+                   TestLabel "Problem 6- test3 " p6_test3,
+                   TestLabel "Problem 6- test4 " p6_test4,
+                   TestLabel "Problem 6- test5 " p6_test5
                  ] 
                   
 
