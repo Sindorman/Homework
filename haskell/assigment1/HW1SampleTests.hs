@@ -62,6 +62,8 @@ p1_test5 = TestCase (asserBool "exists 's' \"ay\"" False (exists 's' "ay"))
 p2_test1 = TestCase (assertEqual "listUnion [1,3,4] [2,3,4,5]"  (sort [1,2,3,4,5])  (sort (listUnion [1,3,4] [2,3,4,5])) ) 
 p2_test2 = TestCase (assertEqual "listUnion \"CptS355\" \"cpts322\""  (sort ("CptS35cs2"))  (sort (listUnion "CptS355" "cpts322" )) )
 p2_test3 = TestCase (assertEqual "listUnion [[1,2],[2,3]] [[1],[2,3],[2,3]]"  (sort [[1,2],[1],[2,3]])  (sort (listUnion [[1,2],[2,3]] [[1],[2,3],[2,3]] ) ) ) 
+p2_test4 = TestCase (assertEqual "listUnion [] []"  (sort [])  (sort (listUnion [] [])) ) 
+p2_test5 = TestCase (assertEqual "listUnion \"\" \"\""  (sort "")  (sort (listUnion "" "")) ) 
 
 p3_test1 = TestCase (assertEqual "replace 3 40 [1, 2, 3, 4, 5, 6]" [1,2,3,40,5,6] (replace 3 40 [1, 2, 3, 4, 5, 6]) ) 
 p3_test2 = TestCase (assertEqual "replace 0 'X' \"abcd\""  "Xbcd" (replace 0 'X' "abcd") ) 
@@ -89,6 +91,8 @@ tests = TestList [ TestLabel "Problem 1- test1 " p1_test1,
                    TestLabel "Problem 2- test1 " p2_test1, 
                    TestLabel "Problem 2- test2 " p2_test2, 
                    TestLabel "Problem 2- test3 " p2_test3,
+                   TestLabel "Problem 2- test4 " p2_test4,
+                   TestLabel "Problem 2- test5 " p2_test5,
                    TestLabel "Problem 3- test1 " p3_test1, 
                    TestLabel "Problem 3- test2 " p3_test2, 
                    TestLabel "Problem 3- test3 " p3_test3,

@@ -16,6 +16,9 @@ exists item list = if list == []
                    else if head list == item
                         then True
                         else exists item (tail list)
+-- 1b 
+-- Because we restrict the typeclass of t to Eq, so any t's can be evaluated as equal or not equal.
+
 -- 2. listUnion
 -- ListUnion function that gives you a union of two lists works same as ++, but probably less efficient(because if they are lists with pointers 
 -- then connecting tail of list one to head of list two is most effiecient)
@@ -38,9 +41,21 @@ replace index value list = if list == []
                                 else value:(tail list)
 
 
+prereqsList = [("Cpts122" , ["CptS121"]), ("CptS132" , ["CptS131"]), ("CptS223" , ["CptS122", "MATH216"]), ("CptS233" , ["CptS132", "MATH216"]), 
+               ("CptS260" , ["CptS223", "CptS233"]), ("CptS315" , ["CptS223", "CptS233"]), ("CptS317" , ["CptS122", "CptS132", "MATH216"]), 
+               ("CptS321" , ["CptS223", "CptS233"]), ("CptS322" , ["CptS223","CptS233"]), ("CptS350" , ["CptS223","CptS233", "CptS317"]), 
+               ("CptS355" , ["CptS223"]), ("CptS360" , ["CptS223","CptS260"]),("CptS370" , ["CptS233","CptS260"]),
+               ("CptS427" , ["CptS223","CptS360", "CptS370", "MATH216", "EE234"])
+              ]
+
 -- 4. prereqFor
-
-
+prereq = []
+prereqFor :: (Eq a, Eq t) => [(a, [t])] -> t -> [a]
+prereqFor list course = if list == []
+                        then prereq
+                        else if exists course (snd (head list)) 
+                             then listUnion (prereqFor (tail list) course) ((fst (head list)):prereq)
+                             else prereqFor (tail list) course
 
 -- 5. isPalindrome
 
