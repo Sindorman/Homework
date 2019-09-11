@@ -20,8 +20,7 @@ exists item list = if list == []
 -- Because we restrict the typeclass of t to Eq, so any t's can be evaluated as equal or not equal.
 
 -- 2. listUnion
--- ListUnion function that gives you a union of two lists works same as ++, but probably less efficient(because if they are lists with pointers 
--- then connecting tail of list one to head of list two is most effiecient)
+-- ListUnion function that gives you a union of two lists works same as ++, but does not include duplicates.
 listUnion :: Eq a => [a] -> [a] -> [a]
 listUnion list1 list2 = if list2 == []
                         then list1
@@ -41,6 +40,7 @@ replace index value list = if list == []
                                 else value:(tail list)
 
 -- 4. prereqFor
+-- Function that given list of all classes and their prerequisites and course will return list of courses to which this course is a prereq.
 -- I had to add Eq t because the check required list to have typeclass.
 prereqFor :: (Eq a, Eq t) => [(a, [t])] -> t -> [a]
 prereqFor list course = let prereq = []
@@ -51,11 +51,17 @@ prereqFor list course = let prereq = []
                                 else prereqFor (tail list) course
 
 -- 5. isPalindrome
-
-
-
-
+-- Function that checks if a given string is a palindrome. Ignores spaces, case-sensitivity.
+isPalindrome :: [Char] -> Bool
+isPalindrome word = checkPalindrome word (reverse word)
+                    where checkPalindrome w r = if w /= [] && r /= []
+                                                then if head w == ' '
+                                                          then checkPalindrome (tail w) r
+                                                     else if head r == ' '
+                                                          then checkPalindrome w (tail r)
+                                                     else if (toUpper (head w)) /= (toUpper (head r))
+                                                          then False
+                                                     else checkPalindrome (tail w) (tail r)
+                                                else True
 -- 6. groupSumtoN
-
-
 
