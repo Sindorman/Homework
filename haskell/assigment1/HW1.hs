@@ -49,13 +49,13 @@ prereqsList = [("Cpts122" , ["CptS121"]), ("CptS132" , ["CptS131"]), ("CptS223" 
               ]
 
 -- 4. prereqFor
-prereq = []
 prereqFor :: (Eq a, Eq t) => [(a, [t])] -> t -> [a]
-prereqFor list course = if list == []
-                        then prereq
-                        else if exists course (snd (head list)) 
-                             then listUnion (prereqFor (tail list) course) ((fst (head list)):prereq)
-                             else prereqFor (tail list) course
+prereqFor list course = let prereq = []
+                        in if list == []
+                           then prereq
+                           else if exists course (snd (head list)) 
+                                then listUnion (prereqFor (tail list) course) ((fst (head list)):prereq)
+                                else prereqFor (tail list) course
 
 -- 5. isPalindrome
 
