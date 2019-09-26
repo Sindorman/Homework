@@ -26,6 +26,8 @@ p1a_test2 = TestCase (assertEqual "merge2 [] [1,3,4,5,7,8,10]" [1,3,4,5,7,8,10] 
 p1a_test3 = TestCase (assertEqual "merge2 [2,5,6,8,9] []" [2,5,6,8,9]  (merge2 [2,5,6,8,9] []) ) 
 
 p1b_test1 = TestCase (assertEqual "merge2Tail [2,5,6,8,9] [1,3,4,5,7,8,10]" [1,2,3,4,5,5,6,7,8,8,9,10]  (merge2Tail [2,5,6,8,9] [1,3,4,5,7,8,10]) ) 
+p1b_test2 = TestCase (assertEqual "merge2 [] [1,3,4,5,7,8,10]" [1,3,4,5,7,8,10]  (merge2Tail [] [1,3,4,5,7,8,10]) ) 
+p1b_test3 = TestCase (assertEqual "merge2 [-1,2,5,6,8,9] []" [-1,2,5,6,8,9]  (merge2Tail [-1,2,5,6,8,9] []) ) 
 
 p1c_test1 = TestCase (assertEqual "mergeN [[3,4],[-3,-2,-1],[1,2,5,8,9]]" [-3,-2,-1,1,2,3,4,5,8,9]  (mergeN [[3,4],[-3,-2,-1],[1,2,5,8,9]]) )
 p1c_test2 = TestCase (assertEqual "mergeN []" 0  (mergeN []) )
@@ -38,11 +40,24 @@ p2a_test4 = TestCase (assertEqual "getInRange (-1) 1 [1, 2, 0]" [0] (getInRange 
 
 p2b_test1 = TestCase (assertEqual "countInRange 3 10 [[1,2,3,4],[5,6,7,8,9],[10,11]]" 6 (countInRange 3 10 [[1,2,3,4],[5,6,7,8,9],[10,11]]) )
 p2b_test2 = TestCase (assertEqual "countInRange (-5) 5 [[-10,-5,-4],[0,4,5],[],[10]]" 3 (countInRange (-5) 5 [[-10,-5,-4],[0,4,5],[],[10]]) )
+p2b_test3 = TestCase (assertEqual "countInRange (-1) 2 [[-1,2,-3,4],[5,6,-7,8,9],[10,-11]]" 0 (countInRange (-1) 2 [[-1,2,-3,4],[5,6,-7,8,9],[10,-11]]) )
+p2b_test4 = TestCase (assertEqual "countInRange 3 10 [[], []]" 0 (countInRange 3 10 [[], []]) )
 
 p3a_test1 = TestCase (assertEqual "addLengths (FOOT 2) (INCH 5)" (INCH 29) (addLengths (FOOT 2) (INCH 5)) ) 
 p3a_test2 = TestCase (assertEqual "addLengths (YARD 3) (INCH (-3))"  (INCH 105) (addLengths (YARD 3) (INCH (-3))) ) 
+p3a_test3 = TestCase (assertEqual "addLengths (INCH 2) (INCH 2)" (INCH 4) (addLengths (INCH 2) (INCH 2)) )
+p3a_test4 = TestCase (assertEqual "addLengths (FOOT 2) (FOOT 2)" (INCH 48) (addLengths (FOOT 2) (FOOT 2)) )
+p3a_test5 = TestCase (assertEqual "addLengths (YARD 2) (YARD 2)" (INCH 128) (addLengths (YARD 2) (YARD 2)) )
+p3a_test6 = TestCase (assertEqual "addLengths (FOOT 2) (INCH 2)" (INCH 50) (addLengths (FOOT 2) (INCH 2)) )
+p3a_test7 = TestCase (assertEqual "addLengths (INCH 2) (FOOT 2)" (INCH 50) (addLengths (INCH 2) (FOOT 2)) )
+p3a_test8 = TestCase (assertEqual "addLengths (FOOT 2) (YARD 2)" (INCH 96) (addLengths (FOOT 2) (YARD 2)) )
+p3a_test9 = TestCase (assertEqual "addLengths (YARD 2) (FOOT 2)" (INCH 96) (addLengths (YARD 2) (FOOT 2)) )
+p3a_test10 = TestCase (assertEqual "addLengths (INCH 2) (YARD 2)" (INCH 26) (addLengths (INCH 2) (YARD 2)) )
+p3a_test11 = TestCase (assertEqual "addLengths (YARD 2) (INCH 2)" (INCH 26) (addLengths (YARD 2) (INCH 2)) )
 
 p3b_test1 = TestCase (assertEqual "addAllLengths [[YARD 2, FOOT 1], [YARD 1, FOOT 2, INCH 10],[YARD 3]]" (INCH 262) (addAllLengths [[YARD 2, FOOT 1], [YARD 1, FOOT 2, INCH 10],[YARD 3]]) )
+p3b_test2 = TestCase (assertEqual " addAllLengths [[FOOT 2], [FOOT 2, INCH 2],[]]" (INCH 50) ( addAllLengths [[FOOT 2], [FOOT 2, INCH 2],[]]) )
+p3b_test3 = TestCase (assertEqual " addAllLengths []" (INCH 0) ( addAllLengths []) )
 
 p4a_test1 = TestCase (assertEqual ("sumTree "++(show t1)) 32 (sumTree t1) ) 
 t1_output = NODE 32 (NODE 15 (NODE 9 (LEAF 4) (LEAF 5)) (LEAF 6)) (NODE 17 (LEAF 8) (LEAF 9))
@@ -83,6 +98,8 @@ tests = TestList [ TestLabel "Problem 1a - test1 " p1a_test1,
                    TestLabel "Problem 1a - test2 " p1a_test2,
                    TestLabel "Problem 1a - test3 " p1a_test3,
                    TestLabel "Problem 1b - test1 " p1b_test1,
+                   TestLabel "Problem 1b - test2 " p1b_test2,
+                   TestLabel "Problem 1b - test3 " p1b_test3,
                    TestLabel "Problem 1c - test1 " p1c_test1,
                    TestLabel "Problem 1c - test2 " p1c_test2,
                    TestLabel "Problem 1c - test3 " p1c_test3,
@@ -91,10 +108,23 @@ tests = TestList [ TestLabel "Problem 1a - test1 " p1a_test1,
                    TestLabel "Problem 2a - test3 " p2a_test3,
                    TestLabel "Problem 2a - test4 " p2a_test4,
                    TestLabel "Problem 2b - test1 " p2b_test1,
-                   TestLabel "Problem 2b - test2 " p2b_test2,  
+                   TestLabel "Problem 2b - test2 " p2b_test2,
+                   TestLabel "Problem 2b - test3 " p2b_test3, 
+                   TestLabel "Problem 2b - test4 " p2b_test4,
                    TestLabel "Problem 3a - test1 " p3a_test1,
-                   TestLabel "Problem 3a - test2 " p3a_test2,  
+                   TestLabel "Problem 3a - test2 " p3a_test2,
+                   TestLabel "Problem 3a - test3 " p3a_test3,
+                   TestLabel "Problem 3a - test4 " p3a_test4,
+                   TestLabel "Problem 3a - test5 " p3a_test5,
+                   TestLabel "Problem 3a - test6 " p3a_test6,
+                   TestLabel "Problem 3a - test7 " p3a_test7,
+                   TestLabel "Problem 3a - test8 " p3a_test8,
+                   TestLabel "Problem 3a - test9 " p3a_test9,
+                   TestLabel "Problem 3a - test10 " p3a_test10,
+                   TestLabel "Problem 3a - test11 " p3a_test11, 
                    TestLabel "Problem 3b - test1 " p3b_test1,
+                   TestLabel "Problem 3b - test2 " p3b_test2,
+                   TestLabel "Problem 3b - test3 " p3b_test3,
                    TestLabel "Problem 4a - test1 " p4a_test1,
                    TestLabel "Problem 4b - test1 " p4b_test1,
                    TestLabel "Problem 5 - test1 " p5_test1,

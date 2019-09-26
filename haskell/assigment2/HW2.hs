@@ -55,9 +55,22 @@ countInRange v1 v2 list = foldl (addStuff) 0 (mergeN (map callInRange list))
 
 data LengthUnit =  INCH  Int | FOOT  Int | YARD  Int
                    deriving (Show, Read, Eq)
+
 -- addLengths 
+addLengths :: LengthUnit -> LengthUnit -> LengthUnit
+addLengths (INCH l1) (INCH l2) = INCH(l1 + l2)
+addLengths (FOOT l1) (FOOT l2) = INCH(l1 * 12 + l2 * 12)
+addLengths (YARD l1) (YARD l2) = INCH(l1 * 36 + l2 * 36)
+addLengths (FOOT l1) (INCH l2) = INCH(l1 * 12 + l2)
+addLengths (INCH l1) (FOOT l2) = INCH(l1 + 12 * l2)
+addLengths (FOOT l1) (YARD l2) = INCH(l1 * 12 + l2 * 36)
+addLengths (YARD l1) (FOOT l2) = INCH(l1 * 36 + l2 * 12)
+addLengths (INCH l1) (YARD l2) = INCH(l1 + l2 * 36)
+addLengths (YARD l1) (INCH l2) = INCH(l1 * 36 + l2)
 
 -- addAllLengths
+addAllLengths :: [[LengthUnit]] -> LengthUnit
+addAllLengths list = foldl (addLengths) (INCH 0) (concat list)
 
 {-4 - sumTree and createSumTree - 22%-}
 
