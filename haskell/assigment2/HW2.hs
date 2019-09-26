@@ -76,11 +76,16 @@ addAllLengths list = foldl (addLengths) (INCH 0) (concat list)
 
 data Tree a = LEAF a | NODE a  (Tree a)  (Tree a) 
               deriving (Show, Read, Eq)
- 
---sumTree
 
+--sumTree
+sumTree :: Num p => Tree p -> p
+sumTree (LEAF a) = a
+sumTree (NODE v t1 t2) = (sumTree t1) + (sumTree t2)
 
 --createSumTree
+createSumTree :: Num a => Tree a -> Tree a
+createSumTree (LEAF a) = LEAF a
+createSumTree (NODE a t1 t2) = NODE ((sumTree t1) + (sumTree t2)) (createSumTree t1) (createSumTree t2)
 
 
 {-5 - foldListTree - 20%-}
