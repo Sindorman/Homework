@@ -59,9 +59,12 @@ p3b_test1 = TestCase (assertEqual "addAllLengths [[YARD 2, FOOT 1], [YARD 1, FOO
 p3b_test2 = TestCase (assertEqual " addAllLengths [[FOOT 2], [FOOT 2, INCH 2],[]]" (INCH 50) ( addAllLengths [[FOOT 2], [FOOT 2, INCH 2],[]]) )
 p3b_test3 = TestCase (assertEqual " addAllLengths []" (INCH 0) ( addAllLengths []) )
 
-p4a_test1 = TestCase (assertEqual ("sumTree "++(show t1)) 32 (sumTree t1) ) 
+p4a_test1 = TestCase (assertEqual ("sumTree "++(show t1)) 32 (sumTree t1) )
+p4a_test2 = TestCase (assertEqual ("sumTree "++(show t6)) 20 (sumTree t6) ) 
 t1_output = NODE 32 (NODE 15 (NODE 9 (LEAF 4) (LEAF 5)) (LEAF 6)) (NODE 17 (LEAF 8) (LEAF 9))
 p4b_test1 = TestCase (assertEqual ("createSumTree "++ (show t1)) (t1_output) (createSumTree t1) ) 
+t6_output = NODE 20 (NODE 5 (LEAF 2) (LEAF 3)) (NODE 15 (NODE 11 (LEAF 5) (LEAF 6)) (LEAF 4))
+p4b_test2 = TestCase (assertEqual ("createSumTree "++ (show t6)) (t6_output) (createSumTree t6) ) 
 
 p5_test1 = TestCase (assertEqual ("foldListTree (+) 0 "++ (show t4)) 36 (foldListTree (+) 0 t4 ) ) 
 p5_test2 = TestCase (assertEqual ("foldListTree (++) \"\" "++ (show t5)) "School-of-Electrical-Engineering-and-Computer-Science-WSU" (foldListTree (++) "" t5) )
@@ -127,7 +130,9 @@ tests = TestList [ TestLabel "Problem 1a - test1 " p1a_test1,
                    TestLabel "Problem 3b - test2 " p3b_test2,
                    TestLabel "Problem 3b - test3 " p3b_test3,
                    TestLabel "Problem 4a - test1 " p4a_test1,
+                   TestLabel "Problem 4a - test2 " p4a_test2,
                    TestLabel "Problem 4b - test1 " p4b_test1,
+                   TestLabel "Problem 4b - test2 " p4b_test2,
                    TestLabel "Problem 5 - test1 " p5_test1,
                    TestLabel "Problem 5 - test2 " p5_test2,
                    TestLabel "Problem 5 - test3 " p5_test3

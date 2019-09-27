@@ -1,5 +1,7 @@
 -- CptS 355 - Fall 2019 Assignment 2
 -- Please include your name and the names of the students with whom you discussed any of the problems in this homework
+-- Mykhailo Bykhovtsev
+-- Worked by myself
 
 module HW2
      where
