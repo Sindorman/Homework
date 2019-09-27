@@ -30,7 +30,7 @@ merge2Tail list1 list2 = mergeNew list1 list2 []
                             revAppend (x:xs) acc = revAppend xs (x:acc)
 
 --mergeN
-mergeN:: Ord a => [[a]] -> [a]
+mergeN :: Ord a => [[a]] -> [a]
 mergeN [] = []
 mergeN (x:xs) = foldl merge2 x xs
 
@@ -92,7 +92,7 @@ createSumTree (NODE a t1 t2) = NODE ((sumTree t1) + (sumTree t2)) (createSumTree
 data ListTree a = ListLEAF [a] | ListNODE [(ListTree a)]
                   deriving (Show, Read, Eq)
  
-foldListTree :: Num a => (a -> a -> a) -> a -> ListTree a -> a 
+foldListTree :: (a -> a -> a) -> a -> ListTree a -> a 
 foldListTree f b (ListLEAF a) = foldr f b a
 foldListTree f b (ListNODE y) = foldr (flip (foldListTree f)) b y
 

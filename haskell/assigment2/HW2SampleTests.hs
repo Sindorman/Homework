@@ -30,8 +30,8 @@ p1b_test2 = TestCase (assertEqual "merge2 [] [1,3,4,5,7,8,10]" [1,3,4,5,7,8,10] 
 p1b_test3 = TestCase (assertEqual "merge2 [-1,2,5,6,8,9] []" [-1,2,5,6,8,9]  (merge2Tail [-1,2,5,6,8,9] []) ) 
 
 p1c_test1 = TestCase (assertEqual "mergeN [[3,4],[-3,-2,-1],[1,2,5,8,9]]" [-3,-2,-1,1,2,3,4,5,8,9]  (mergeN [[3,4],[-3,-2,-1],[1,2,5,8,9]]) )
-p1c_test2 = TestCase (assertEqual "mergeN []" 0  (mergeN []) )
-p1c_test3 = TestCase (assertEqual "mergeN [[], [1, 2]]" [1, 2]  (mergeN [[], [1, 2]]) )
+p1c_test2 = TestCase (assertEqual "mergeN []" [0]  (mergeN [[0]]) )
+p1c_test3 = TestCase (assertEqual "mergeN [[], [0, 1, 2]]" [0, 1, 2]  (mergeN [[0], [1, 2]]) )
 
 p2a_test1 = TestCase (assertEqual "getInRange (-5) 5 [10,5,0,1,2,-5,-10]" [0,1,2]  (getInRange (-5) 5 [10,5,0,1,2,-5,-10]) )
 p2a_test2 = TestCase (assertEqual "getInRange (-1) 1 [-2,2,3,4,5]" [] (getInRange (-1) 1 [-2,2,3,4,5]) )
@@ -47,13 +47,13 @@ p3a_test1 = TestCase (assertEqual "addLengths (FOOT 2) (INCH 5)" (INCH 29) (addL
 p3a_test2 = TestCase (assertEqual "addLengths (YARD 3) (INCH (-3))"  (INCH 105) (addLengths (YARD 3) (INCH (-3))) ) 
 p3a_test3 = TestCase (assertEqual "addLengths (INCH 2) (INCH 2)" (INCH 4) (addLengths (INCH 2) (INCH 2)) )
 p3a_test4 = TestCase (assertEqual "addLengths (FOOT 2) (FOOT 2)" (INCH 48) (addLengths (FOOT 2) (FOOT 2)) )
-p3a_test5 = TestCase (assertEqual "addLengths (YARD 2) (YARD 2)" (INCH 128) (addLengths (YARD 2) (YARD 2)) )
-p3a_test6 = TestCase (assertEqual "addLengths (FOOT 2) (INCH 2)" (INCH 50) (addLengths (FOOT 2) (INCH 2)) )
-p3a_test7 = TestCase (assertEqual "addLengths (INCH 2) (FOOT 2)" (INCH 50) (addLengths (INCH 2) (FOOT 2)) )
+p3a_test5 = TestCase (assertEqual "addLengths (YARD 2) (YARD 2)" (INCH 144) (addLengths (YARD 2) (YARD 2)) )
+p3a_test6 = TestCase (assertEqual "addLengths (FOOT 2) (INCH 2)" (INCH 26) (addLengths (FOOT 2) (INCH 2)) )
+p3a_test7 = TestCase (assertEqual "addLengths (INCH 2) (FOOT 2)" (INCH 26) (addLengths (INCH 2) (FOOT 2)) )
 p3a_test8 = TestCase (assertEqual "addLengths (FOOT 2) (YARD 2)" (INCH 96) (addLengths (FOOT 2) (YARD 2)) )
 p3a_test9 = TestCase (assertEqual "addLengths (YARD 2) (FOOT 2)" (INCH 96) (addLengths (YARD 2) (FOOT 2)) )
-p3a_test10 = TestCase (assertEqual "addLengths (INCH 2) (YARD 2)" (INCH 26) (addLengths (INCH 2) (YARD 2)) )
-p3a_test11 = TestCase (assertEqual "addLengths (YARD 2) (INCH 2)" (INCH 26) (addLengths (YARD 2) (INCH 2)) )
+p3a_test10 = TestCase (assertEqual "addLengths (INCH 2) (YARD 2)" (INCH 74) (addLengths (INCH 2) (YARD 2)) )
+p3a_test11 = TestCase (assertEqual "addLengths (YARD 2) (INCH 2)" (INCH 74) (addLengths (YARD 2) (INCH 2)) )
 
 p3b_test1 = TestCase (assertEqual "addAllLengths [[YARD 2, FOOT 1], [YARD 1, FOOT 2, INCH 10],[YARD 3]]" (INCH 262) (addAllLengths [[YARD 2, FOOT 1], [YARD 1, FOOT 2, INCH 10],[YARD 3]]) )
 p3b_test2 = TestCase (assertEqual " addAllLengths [[FOOT 2], [FOOT 2, INCH 2],[]]" (INCH 50) ( addAllLengths [[FOOT 2], [FOOT 2, INCH 2],[]]) )
@@ -64,7 +64,8 @@ t1_output = NODE 32 (NODE 15 (NODE 9 (LEAF 4) (LEAF 5)) (LEAF 6)) (NODE 17 (LEAF
 p4b_test1 = TestCase (assertEqual ("createSumTree "++ (show t1)) (t1_output) (createSumTree t1) ) 
 
 p5_test1 = TestCase (assertEqual ("foldListTree (+) 0 "++ (show t4)) 36 (foldListTree (+) 0 t4 ) ) 
-p5_test2 = TestCase (assertEqual ("foldListTree (++) \"\" "++ (show t5)) "School-of-Electrical-Engineering-and-Computer-Science-WSU" (foldListTree (++) "" t5) ) 
+p5_test2 = TestCase (assertEqual ("foldListTree (++) \"\" "++ (show t5)) "School-of-Electrical-Engineering-and-Computer-Science-WSU" (foldListTree (++) "" t5) )
+p5_test3 = TestCase (assertEqual ("foldListTree (+) 0 "++ (show t7)) 25 (foldListTree (+) 0 t7 ) ) 
 
 
 -- Sample Tree Integer examples given in the assignment prompt; make sure to provide your own tree examples for both tree data types
@@ -128,7 +129,8 @@ tests = TestList [ TestLabel "Problem 1a - test1 " p1a_test1,
                    TestLabel "Problem 4a - test1 " p4a_test1,
                    TestLabel "Problem 4b - test1 " p4b_test1,
                    TestLabel "Problem 5 - test1 " p5_test1,
-                   TestLabel "Problem 5 - test2 " p5_test2
+                   TestLabel "Problem 5 - test2 " p5_test2,
+                   TestLabel "Problem 5 - test3 " p5_test3
                  ] 
                   
 
