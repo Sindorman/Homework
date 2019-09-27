@@ -92,6 +92,17 @@ createSumTree (NODE a t1 t2) = NODE ((sumTree t1) + (sumTree t2)) (createSumTree
 data ListTree a = ListLEAF [a] | ListNODE [(ListTree a)]
                   deriving (Show, Read, Eq)
  
-
+foldListTree :: Num a => (a -> a -> a) -> a -> ListTree a -> a 
+foldListTree f b (ListLEAF a) = foldr f b a
+foldListTree f b (ListNODE y) = foldr (flip (foldListTree f)) b y
 
 {- 6- Create two tree values :  Tree Integer  and  listTree a ;  Both trees should have at least 3 levels. -}
+
+t6 = NODE 0 (NODE 0 (LEAF 2) (LEAF 3))
+                (NODE 0 (NODE 0 (LEAF 5) (LEAF 6)) (LEAF 4))
+
+t7 = ListNODE 
+ [ ListNODE [ListLEAF [], ListLEAF []],    
+   ListLEAF [], 
+   ListNODE [ListLEAF [-9,4,7],ListLEAF [9,8], ListNODE([ListLEAF [4], ListLEAF [3]])], 
+   ListNODE [ListLEAF[-1], ListLEAF[]] ]
