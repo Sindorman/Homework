@@ -25,6 +25,7 @@ class HW3SampleTests(unittest.TestCase):
     def test_sprintLog(self):
         self.assertDictEqual(sprintLog(self.log1),self.sprint1)
         self.assertDictEqual(sprintLog(self.log2),self.sprint2)
+        self.assertDictEqual(sprintLog({}), {})
 
     def test_addSprints(self):
         self.assertDictEqual(addSprints(self.sprint1,self.sprint2),self.addedSprints)
