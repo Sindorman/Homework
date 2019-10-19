@@ -26,9 +26,12 @@ class HW3SampleTests(unittest.TestCase):
         self.assertDictEqual(sprintLog(self.log1),self.sprint1)
         self.assertDictEqual(sprintLog(self.log2),self.sprint2)
         self.assertDictEqual(sprintLog({}), {})
+        self.assertDictEqual(sprintLog(self.log3), {'task5': {'Aaron': 15, 'Rae': 20}, 'task6': {'Aaron': 8, 'Helen': 16}})
 
     def test_addSprints(self):
         self.assertDictEqual(addSprints(self.sprint1,self.sprint2),self.addedSprints)
+        self.assertDictEqual(addSprints(sprintLog(self.log1), sprintLog(self.log3)), {'task1': {'John': 5, 'Rae': 10, 'Kelly': 8, 'Alex': 11}, 'task2': {'Rae': 4, 'Alex': 2, 'Aaron': 15}, 'task3': {'Kelly': 5, 'Alex': 1, 'Ethan': 12, 'Helen': 10}, 'task5': {'Aaron': 15, 'Rae': 20}, 'task6': {'Aaron': 8, 'Helen': 16}})
+        self.assertDictEqual(addSprints(sprintLog(self.log2), sprintLog(self.log3)), {'task1': {'Mark': 5, 'Kelly': 10, 'Alex': 15}, 'task2': {'Mark': 2, 'Alex': 2, 'Rae': 10, 'Aaron': 10}, 'task4': {'Helen': 16}} {'task5': {'Aaron': 15, 'Rae': 20}, 'task6': {'Aaron': 8, 'Helen': 16}})
 
     def test_addNLogs(self):
         self.assertDictEqual(addNLogs(self.logList),self.sprintSummary)
