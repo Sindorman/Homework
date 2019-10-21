@@ -20,8 +20,8 @@ class HW3SampleTests(unittest.TestCase):
         self.lookup2List = [(0,{"x":0,"y":True,"z":"zero"}), (0,{"x":1}), (1,{"y":False}), (1,{"x":3, "z":"three"}), (2,{})]
         # iterFile output
         self.filetokens = ["CptS","355","Assignment","3","-","Python","Warmup","This","is","a","text","test","file","for","CptS","355","-","Assignment","3","-","Python","Warmup","With","some","repeated","text","for","CptS","355","-","Assignment","3","-","Python","Warmup","."]
-        self.histogram = [('-', 5), ('3', 3), ('355', 3), ('Assignment', 3), ('CptS', 3), ('Python', 3), ('Warmup', 3), ('for', 2), ('text', 2), ('.', 1), ('This', 1), ('With', 1), ('a', 1), ('file', 1), ('is', 1), ('repeated', 1), ('some', 1), ('test', 1)]
-        
+        self.histogram = [('-', 5), ('Warmup', 3), ('Python', 3), ('3', 3), ('Assignment', 3), ('355', 3), ('CptS', 3), ('for', 2), ('text', 2), ('.', 1), ('repeated', 1), ('some', 1), ('With', 1), ('file', 1), ('test', 1), ('a', 1), ('is', 1), ('This', 1)]
+
     def test_sprintLog(self):
         self.assertDictEqual(sprintLog(self.log1),self.sprint1)
         self.assertDictEqual(sprintLog(self.log2),self.sprint2)
@@ -31,7 +31,7 @@ class HW3SampleTests(unittest.TestCase):
     def test_addSprints(self):
         self.assertDictEqual(addSprints(self.sprint1,self.sprint2),self.addedSprints)
         self.assertDictEqual(addSprints(sprintLog(self.log1), sprintLog(self.log3)), {'task1': {'John': 5, 'Rae': 10, 'Kelly': 8, 'Alex': 11}, 'task2': {'Rae': 4, 'Alex': 2, 'Aaron': 15}, 'task3': {'Kelly': 5, 'Alex': 1, 'Ethan': 12, 'Helen': 10}, 'task5': {'Aaron': 15, 'Rae': 20}, 'task6': {'Aaron': 8, 'Helen': 16}})
-        self.assertDictEqual(addSprints(sprintLog(self.log2), sprintLog(self.log3)), {'task1': {'Mark': 5, 'Kelly': 10, 'Alex': 15}, 'task2': {'Mark': 2, 'Alex': 2, 'Rae': 10, 'Aaron': 10}, 'task4': {'Helen': 16}} {'task5': {'Aaron': 15, 'Rae': 20}, 'task6': {'Aaron': 8, 'Helen': 16}})
+        self.assertDictEqual(addSprints(sprintLog(self.log2), sprintLog(self.log3)), {'task1': {'Mark': 5, 'Kelly': 10, 'Alex': 15}, 'task2': {'Mark': 2, 'Alex': 2, 'Rae': 10, 'Aaron': 10}, 'task4': {'Helen': 16}, 'task5': {'Aaron': 15, 'Rae': 20}, 'task6': {'Aaron': 8, 'Helen': 16}})
 
     def test_addNLogs(self):
         self.assertDictEqual(addNLogs(self.logList),self.sprintSummary)
@@ -41,15 +41,23 @@ class HW3SampleTests(unittest.TestCase):
         self.assertEqual(lookupVal(self.lookupList,"y"),False)
         self.assertEqual(lookupVal(self.lookupList,"z"),"found")
         self.assertEqual(lookupVal(self.lookupList,"t"),None)
+        self.assertEqual(lookupVal(self.lookupList,"d"),None)
+        self.assertEqual(lookupVal(self.lookupList,"g"),None)
 
     def test_lookupVal2(self):
-        pass
+        self.assertEqual(lookupVal2(self.lookup2List,"x"), 1)
+        self.assertEqual(lookupVal2(self.lookup2List,"y"), False)
+        self.assertEqual(lookupVal2(self.lookup2List,"z"), "zero")
+        self.assertEqual(lookupVal2(self.lookup2List,"t"), None)
 
     def test_unzip(self):
-        pass
+        self.assertEqual(unzip ([(1,"a",{1:"a"}),(2,"b",{2:"b"}),(3,"c",{3:"c"}),(4,"d",{4:"d"})]), ([1, 2, 3, 4], ['a', 'b', 'c', 'd'], [{1: 'a'}, {2: 'b'}, {3: 'c'}, {4: 'd'}]))
     
     def test_numPaths(self):
-        pass 
+        self.assertEqual(numPaths(2,2,[(2,1)]), 1)
+        self.assertEqual(numPaths(3,3,[(2,3)]), 3)
+        self.assertEqual(numPaths(4,3,[(2,2)]), 4)
+        self.assertEqual(numPaths(10,3,[(2,2),(7,1)]), 27)
 
     def test_iterFile(self):
         mywords = iterFile("testfile.txt")
@@ -62,7 +70,7 @@ class HW3SampleTests(unittest.TestCase):
         self.assertEqual(restofFile,self.filetokens[3:])
 
     def test_wordHistogram(self):
-        pass
+        self.assertEqual(wordHistogram(iterFile("testfile.txt")), self.histogram)
 
 if __name__ == '__main__':
     unittest.main()
