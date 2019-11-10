@@ -207,10 +207,11 @@ def groupMatch(it):
             # as a whole.
             res.append(groupMatch(it))
         else:
-            res.append(c)
+            check = check_input(c)
+            if check is None:
+                check = c
+            res.append(check)
     return False
-
-
 
 # COMPLETE THIS FUNCTION
 # Function to parse a list of tokens and arrange the tokens between { and } braces 
@@ -242,12 +243,6 @@ def interpretSPS(code): # code is a code array
 def interpreter(s): # s is a string
     interpretSPS(parse(tokenize(s)))
 
-
-#clear opstack and dictstack
-def clearStacks():
-    opstack[:] = []
-    dictstack[:] = []
-
 def check_input(s):
     ret = None
     # Sort of hacky, but we only have few types to looks for
@@ -261,8 +256,10 @@ def check_input(s):
             l.append(c)
         return (len(l), l)
 
-    if s == "True" or s == "False":
-        return bool(s)
+    if s == "True":
+        return True
+    elif s == "False":
+        return False
     try:
         ret = int(s)
     except:
@@ -272,71 +269,8 @@ def check_input(s):
             pass
     return ret
 
-#testing
-
-input1 = """
-        /square {dup mul} def 
-        [-5 -4 3 -2 1] dup aload length 0 exch -1 1 
-        {pop exch square add} for 
-        55 eq stack
-        """
-
-input2 ="""
-            /n 5 def
-            /fact {
-                0 dict begin
-                /n exch def
-                n 2 lt
-                { 1}
-                {n 1 sub fact n mul }
-                ifelse
-                end 
-            } def
-            n fact stack
-            """
-
-input3 = """
-            /fact{
-                0 dict
-                begin
-                    /n exch def
-                    1
-                    n -1 1 {mul} for
-                end
-            } def
-            6 fact stack
-            """
-
-input4 = """
-            /sumArray { 0 exch aload length -1 1 {pop add} for } def
-            /x 5 def
-            /y 10 def 
-            [1 2 3 4 x] sumArray
-            [x 7 8 9 y] sumArray
-            [y 11 12] sumArray
-            [0 0 0] astore
-            stack 
-        """
-
-input5 = """
-            1 2 3 4 5 count copy 15 1 1 5 {pop exch sub} for 0 eq  
-            stack 
-            """
-
-input6 = """ls
-            /pow2 {1 dict begin 
-                     /x exch def 
-                     1 x -1 1 {pop 2 mul} for  
-                   end } def
-            [1 2 3 4 5 6 7] dup /A exch def
-            0 1 A length 1 sub { /n exch def A n get pow2 /x exch def A n x put } for 
-            A
-            stack
-            """
-
 def main():
-    print(tokenize(input1))
-    print(parse(tokenize(input1)))
+    pass
 
 if __name__ == "__main__":
     main()

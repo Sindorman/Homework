@@ -274,6 +274,83 @@ class HW4Sampletests_part1(unittest.TestCase):
     #     psDef()
     #     print(opstack)
 
+class HW4Sampletests_part2(unittest.TestCase):
+    
+    def setUp(self):
+        opstack[:] = []
+        dictstack[:] = []
+        self.input1 = """
+                /square {dup mul} def 
+                [-5 -4 3 -2 1] dup aload length 0 exch -1 1 
+                {pop exch square add} for 
+                55 eq stack
+                """
+
+        self.input2 ="""
+                    /n 5 def
+                    /fact {
+                        0 dict begin
+                        /n exch def
+                        /g False def
+                        n 2 lt
+                        { 1}
+                        {n 1 sub fact n mul }
+                        ifelse
+                        end 
+                    } def
+                    n fact stack
+                    """
+
+        self.input3 = """
+                    /fact{
+                        0 dict
+                        begin
+                            /n exch def
+                            1
+                            n -1 1 {mul} for
+                        end
+                    } def
+                    6 fact stack
+                    """
+
+        self.input4 = """
+                    /sumArray { 0 exch aload length -1 1 {pop add} for } def
+                    /x 5 def
+                    /y 10 def 
+                    [1 2 3 4 x] sumArray
+                    [x 7 8 9 y] sumArray
+                    [y 11 12] sumArray
+                    [0 0 0] astore
+                    stack 
+                """
+
+        self.input5 = """
+                    1 2 3 4 5 count copy 15 1 1 5 {pop exch sub} for 0 eq  
+                    stack 
+                    """
+
+        self.input6 = """ls
+                    /pow2 {1 dict begin 
+                            /x exch def 
+                            1 x -1 1 {pop 2 mul} for  
+                        end } def
+                    [1 2 3 4 5 6 7] dup /A exch def
+                    0 1 A length 1 sub { /n exch def A n get pow2 /x exch def A n x put } for 
+                    A
+                    stack
+                    """
+
+    def test_parsing1(self):
+        output = ['/square', ['dup', 'mul'], 'def', (5, [-5, -4, 3, -2, 1]), 'dup', 'aload', 'length', 0, 'exch', -1, 1, ['pop', 'exch', 'square', 'add'], 'for', 55, 'eq', 'stack']
+        self.assertEqual(parse(tokenize(self.input1)), output)
+    
+    def test_parsing2(self):
+        output = ['/n', 5, 'def', '/fact', [0, 'dict', 'begin', '/n', 'exch', 'def', '/g', False, 'def', 'n', 2, 'lt', [1], ['n', 1, 'sub', 'fact', 'n', 'mul'], 'ifelse', 'end'], 'def', 'n', 'fact', 'stack']
+        self.assertEqual(parse(tokenize(self.input2)), output)
+    
+    def test_parsing3(self):
+        output = ['/fact', [0, 'dict', 'begin', '/n', 'exch', 'def', 1, 'n', -1, 1, ['mul'], 'for', 'end'], 'def', 6, 'fact', 'stack']
+        self.assertEqual(parse(tokenize(self.input3)), output)
 
 if __name__ == '__main__':
     unittest.main()
