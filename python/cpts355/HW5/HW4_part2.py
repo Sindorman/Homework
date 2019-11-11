@@ -2,9 +2,9 @@
 '''
 Programmer: Mykhailo Bykhovtsev
 Class: CptS 355
-Homework #4
+Homework #4 part 2
 
-Description: HW4.
+Description: HW4 part 2.
              
 '''
 
@@ -41,7 +41,7 @@ dictstack = []  #assuming top of the stack is the end of the list
 
 def dictPop():
     if not len(dictstack):
-        return None
+        raise Exception("Stack is empty")
     return dictstack.pop()
 
 def dictPush(d):
@@ -60,10 +60,9 @@ def define(name, value):
 
 def lookup(name):
     for d in range(len(dictstack) - 1, -1, -1):
-        for n in dictstack[d]:
+        for n in reversed(list(dictstack[d].keys())):
             if n[1:] == name:
                 return dictstack[d][n]
-    print("definition is not in the stack!")
     return None
     # return the value associated with name
     # What is your design decision about what to do when there is no definition for “name”? If “name” is not defined, your program should not break, but should give an appropriate error message.
@@ -73,6 +72,7 @@ def lookup(name):
 # Arithmetic and comparison operators: add, sub, mul, eq, lt, gt
 # Make sure to check the operand stack has the correct number of parameters 
 # and types of the parameters are correct.
+
 def add():
     opPush(opPop() + opPop())
 
@@ -96,16 +96,16 @@ def gt():
 #--------------------------- 25% -------------------------------------
 # Array operators: define the string operators length, get, put, aload, astore
 def length():
-    ar = opPop()
-    opPush(ar)
-    opPush(ar[0])
+    opPush(opPop()[0])
 
 
 def get():
     value = opPop()
+    de = lookup(value)
+    if de is not None:
+        value = de
+
     ar = opPop()
-    opPush(ar)
-    opPush(value)
     opPush(ar[1][value])
 
 def put():
@@ -113,7 +113,6 @@ def put():
     put_where = opPop()
     put_there = opPop()
     put_there[1][put_where] = put_what
-    opPush(put_there)
 
 def aload():
     ar = opstack[len(opstack) - 1]
@@ -162,7 +161,10 @@ def exch():
 
 def stack():
     for c in range(len(opstack) - 1, -1, -1):
-        print(c)
+        if isinstance(opstack[c], tuple):
+            print(opstack[c][1])
+        else:
+            print(opstack[c])
 
 #--------------------------- 20% -------------------------------------
 # Define the dictionary manipulation operators: psDict, begin, end, psDef
@@ -175,7 +177,7 @@ def psDict():
     opPush({})
 
 def begin():
-    dictPush(opPop())
+    opPop()
 
 def end():
     dictPop()
@@ -188,8 +190,35 @@ def psDef():
 def tokenize(s):
     return re.findall("/?[a-zA-Z][a-zA-Z0-9_]*|[\[][a-zA-Z-?0-9_\s!][a-zA-Z-?0-9_\s!]*[\]]|[-]?[0-9]+|[}{]+|%.*|[^ \t\n]", s)
 
+def for_loop():
+    code = pop()
+    end = pop()
+    incr = pop()
+    start = pop()
+    if incr > 0:
+        end += 1
+    else:
+        end -= 1
 
-# COMPLETE THIS FUNCTION
+    for i in range(start, end, incr):
+        opPush(i)
+        interpretSPS(code)
+
+
+def ifelse():
+    code_array2 = opPop()
+    code_array1 = opPop()
+    boolean = opPop()
+    if boolean == True:
+        interpretSPS(code_array1)
+    else:
+        interpretSPS(code_array2)
+
+commands = {"def": psDef, "dup": dup, "aload": aload, "length": length, "exch": exch, "pop": pop, "add": add, "sub": sub, "mul": mul, "eq": eq, "gt": gt, "lt":lt,
+            "astore": astore, "get": get, "clear": clear, "count": count, "stack": stack, "for": for_loop, "copy": copy, "begin": begin, "end": end, "put": put,
+            "dict": psDict, "ifelse": ifelse
+            }
+
 # The it argument is an iterator.
 # The sequence of return characters should represent a list of properly nested
 # tokens, where the tokens between '{' and '}' is included as a sublist. If the
@@ -213,7 +242,6 @@ def groupMatch(it):
             res.append(check)
     return False
 
-# COMPLETE THIS FUNCTION
 # Function to parse a list of tokens and arrange the tokens between { and } braces 
 # as code-arrays.
 # Properly nested parentheses are arranged into a list of properly nested lists.
@@ -237,7 +265,36 @@ def parse(L):
 # Write auxiliary functions if you need them. This will probably be the largest function of the whole project, 
 # but it will have a very regular and obvious structure if you've followed the plan of the assignment.
 def interpretSPS(code): # code is a code array
-    pass
+    if code == [] or code == ():
+        return
+
+    new = code[0]
+    if isinstance(new, list):
+        opPush(new)
+        interpretSPS(code[1:])
+        return
+    elif isinstance(new, tuple):
+        # verify tuple for any defines
+        for x in range(0, len(new[1])):
+            de = lookup(new[1][x])
+            if de is not None:
+                new[1][x] = de
+        opPush(new)
+        interpretSPS(code[1:])
+        return
+
+    g = commands.get(new)
+    de = lookup(new)
+    if g is not None:
+        g()
+    elif de is not None:
+        if isinstance(de, tuple) or not isinstance(de, list):
+            interpretSPS([de])
+        else:
+            interpretSPS(de)
+    else:
+        opPush(new)
+    interpretSPS(code[1:])
 
 
 def interpreter(s): # s is a string
@@ -267,6 +324,8 @@ def check_input(s):
             ret = float(s)
         except:
             pass
+    if ret is None and s != "":
+        ret = s
     return ret
 
 def main():
