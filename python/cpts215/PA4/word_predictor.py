@@ -11,6 +11,7 @@ Description: This program contains DictEntry and WordPredictor classes that are 
 import re
 import sys
 from map_hash import Map
+from tqdm import tqdm
 import timeit
 
 class DictEntry:
@@ -78,7 +79,8 @@ class WordPredictor:
         '''
         try:
             f = open(training_file, "r")
-            for line in f:
+            print("Training on words:")
+            for line in tqdm(f):
                 for word in line.split():
                     self.train_word(word)
             f.close()
@@ -104,7 +106,8 @@ class WordPredictor:
         '''
         Iterates all words and build their predicitions and prefexis storing in prefix Map. Basic version.
         '''
-        for t in self.word_to_count.slots:
+        print("Building predictions:")
+        for t in tqdm(self.word_to_count.slots):
             if t is None:
                 continue
             for key in t:
@@ -123,7 +126,8 @@ class WordPredictor:
         '''
         Iterates all words and build their predicitions and prefexis storing in prefix Map. Advanced version. Stores all word posibilities for a prefix in descending order to get top N.
         '''
-        for t in self.word_to_count.slots:
+        print("Building predictions:")
+        for t in tqdm(self.word_to_count.slots):
             if t is None:
                 continue
             for key in t:
@@ -202,9 +206,9 @@ def main():
     test.build_n()
     stop = timeit.default_timer()
     elapsed = (stop - start)
-    print("elapsed (s): %.6f" %(elapsed))
+    print("Total time to build was (s): %.6f" %(elapsed))
     inp = ""
-    print("Please type in prefix got best match. Or type \"exit\" to exit the program.")
+    print("Please type in prefix to get the best match. Or type \"exit\" to exit the program.")
     while inp != "exit":
         inp = input("Prefix: ")
         if inp == "exit":
@@ -212,7 +216,7 @@ def main():
         print("Best matches are: ")
         index = 0
         for t in test.get_best_n(inp.lower()):
-            print("{}: {}\n".format(index, t.get_word()))
+            print("{}: {}\n".format(index + 1, t.get_word()))
             index += 1
             if index == int(sys.argv[1]):
                 break
