@@ -190,7 +190,7 @@ def psDef():
 def tokenize(s):
     return re.findall("/?[a-zA-Z][a-zA-Z0-9_]*|[\[][a-zA-Z-?0-9_\s!][a-zA-Z-?0-9_\s!]*[\]]|[-]?[0-9]+|[}{]+|%.*|[^ \t\n]", s)
 
-def for_loop():
+def for_loop(scope):
     code = pop()
     end = pop()
     incr = pop()
@@ -202,17 +202,17 @@ def for_loop():
 
     for i in range(start, end, incr):
         opPush(i)
-        interpretSPS(code)
+        interpretSPS(code, scope)
 
 
-def ifelse():
+def ifelse(scope):
     code_array2 = opPop()
     code_array1 = opPop()
     boolean = opPop()
     if boolean == True:
-        interpretSPS(code_array1)
+        interpretSPS(code_array1, scope)
     else:
-        interpretSPS(code_array2)
+        interpretSPS(code_array2, scope)
 
 commands = {"def": psDef, "dup": dup, "aload": aload, "length": length, "exch": exch, "pop": pop, "add": add, "sub": sub, "mul": mul, "eq": eq, "gt": gt, "lt":lt,
             "astore": astore, "get": get, "clear": clear, "count": count, "stack": stack, "for": for_loop, "copy": copy, "begin": begin, "end": end, "put": put,
@@ -264,14 +264,14 @@ def parse(L):
 # COMPLETE THIS FUNCTION 
 # Write auxiliary functions if you need them. This will probably be the largest function of the whole project, 
 # but it will have a very regular and obvious structure if you've followed the plan of the assignment.
-def interpretSPS(code): # code is a code array
+def interpretSPS(code, scope): # code is a code array
     if code == [] or code == ():
         return
 
     new = code[0]
     if isinstance(new, list):
         opPush(new)
-        interpretSPS(code[1:])
+        interpretSPS(code[1:], scope)
         return
     elif isinstance(new, tuple):
         # verify tuple for any defines
@@ -280,25 +280,28 @@ def interpretSPS(code): # code is a code array
             if de is not None:
                 new[1][x] = de
         opPush(new)
-        interpretSPS(code[1:])
+        interpretSPS(code[1:], scope)
         return
 
     g = commands.get(new)
     de = lookup(new)
     if g is not None:
-        g()
+        if new == "for" or new == "ifelse":
+            g(scope)
+        else:
+            g()
     elif de is not None:
         if isinstance(de, tuple) or not isinstance(de, list):
-            interpretSPS([de])
+            interpretSPS([de], scope)
         else:
-            interpretSPS(de)
+            interpretSPS(de, scope)
     else:
         opPush(new)
-    interpretSPS(code[1:])
+    interpretSPS(code[1:], scope)
 
 
-def interpreter(s): # s is a string
-    interpretSPS(parse(tokenize(s)))
+def interpreter(s, scope): # s is a string
+    interpretSPS(parse(tokenize(s)), scope)
 
 def check_input(s):
     ret = None
