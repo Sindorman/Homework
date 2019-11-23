@@ -2,9 +2,9 @@
 '''
 Programmer: Mykhailo Bykhovtsev
 Class: CptS 355
-Homework #4 part 2
+Homework #5
 
-Description: HW4 part 2.
+Description: HW5.
              
 '''
 
@@ -44,25 +44,28 @@ def dictPop():
         raise Exception("Stack is empty")
     return dictstack.pop()
 
-def dictPush(d):
-    dictstack.append(d)
+def dictPush(d, scope):
+    index = len(dictstack) - 1 if scope == "static" else 0
+    dictstack.append((index, d))
     #dictPush pushes the dictionary ‘d’ to the dictstack. 
     #Note that, your interpreter will call dictPush only when Postscript 
     #“begin” operator is called. “begin” should pop the empty dictionary from 
     #the opstack and push it onto the dictstack by calling dictPush.
 
-def define(name, value):
-    dictstack.append({name: value})
+def define(name, value, scope):
+    index = len(dictstack) - 1 if scope == "static" else -1
+    dictstack[index][1][name] = value
     #add name:value pair to the top dictionary in the dictionary stack. 
     #Keep the '/' in the name constant. 
     #Your psDef function should pop the name and value from operand stack and 
     #call the “define” function.
 
-def lookup(name):
+def lookup(name, scope):
     for d in range(len(dictstack) - 1, -1, -1):
-        for n in reversed(list(dictstack[d].keys())):
-            if n[1:] == name:
-                return dictstack[d][n]
+        index = dictstack[d][0] if scope == "static" else d
+        for n in reversed(list(dictstack[index][1].keys())):
+            if n == ("/" + str(name)):
+                return dictstack[index][1][n]
     return None
     # return the value associated with name
     # What is your design decision about what to do when there is no definition for “name”? If “name” is not defined, your program should not break, but should give an appropriate error message.
@@ -99,9 +102,9 @@ def length():
     opPush(opPop()[0])
 
 
-def get():
+def get(scope):
     value = opPop()
-    de = lookup(value)
+    de = lookup(value, scope)
     if de is not None:
         value = de
 
@@ -150,8 +153,14 @@ def count():
 def pop():
     return opPop()
 
+#clears the opstack
 def clear():
-    opstack.clear()
+    opstack[:] = []
+
+#clears both stacks
+def clearBoth():
+    opstack[:] = []
+    dictstack[:] = []
 
 def exch():
     e1 = opPop()
@@ -182,10 +191,10 @@ def begin():
 def end():
     dictPop()
 
-def psDef():
+def psDef(scope):
     value = opPop()
     name = opPop()
-    define(name, value)
+    define(name, value, scope)
 
 def tokenize(s):
     return re.findall("/?[a-zA-Z][a-zA-Z0-9_]*|[\[][a-zA-Z-?0-9_\s!][a-zA-Z-?0-9_\s!]*[\]]|[-]?[0-9]+|[}{]+|%.*|[^ \t\n]", s)
@@ -214,9 +223,15 @@ def ifelse(scope):
     else:
         interpretSPS(code_array2, scope)
 
+def _if(scope):
+    code_array1 = opPop()
+    boolean = opPop()
+    if boolean == True:
+        interpretSPS(code_array1, scope)
+
 commands = {"def": psDef, "dup": dup, "aload": aload, "length": length, "exch": exch, "pop": pop, "add": add, "sub": sub, "mul": mul, "eq": eq, "gt": gt, "lt":lt,
             "astore": astore, "get": get, "clear": clear, "count": count, "stack": stack, "for": for_loop, "copy": copy, "begin": begin, "end": end, "put": put,
-            "dict": psDict, "ifelse": ifelse
+            "dict": psDict, "ifelse": ifelse, "if": _if
             }
 
 # The it argument is an iterator.
@@ -276,7 +291,7 @@ def interpretSPS(code, scope): # code is a code array
     elif isinstance(new, tuple):
         # verify tuple for any defines
         for x in range(0, len(new[1])):
-            de = lookup(new[1][x])
+            de = lookup(new[1][x], scope)
             if de is not None:
                 new[1][x] = de
         opPush(new)
@@ -284,9 +299,9 @@ def interpretSPS(code, scope): # code is a code array
         return
 
     g = commands.get(new)
-    de = lookup(new)
+    de = lookup(new, scope)
     if g is not None:
-        if new == "for" or new == "ifelse":
+        if new == "for" or new == "ifelse" or new == "if" or new == "get" or new == "def":
             g(scope)
         else:
             g()
@@ -294,7 +309,10 @@ def interpretSPS(code, scope): # code is a code array
         if isinstance(de, tuple) or not isinstance(de, list):
             interpretSPS([de], scope)
         else:
+            dictstack.append((0, {}))
             interpretSPS(de, scope)
+            dictPop()
+
     else:
         opPush(new)
     interpretSPS(code[1:], scope)
@@ -316,9 +334,9 @@ def check_input(s):
             l.append(c)
         return (len(l), l)
 
-    if s == "True":
+    if s == "true":
         return True
-    elif s == "False":
+    elif s == "false":
         return False
     try:
         ret = int(s)

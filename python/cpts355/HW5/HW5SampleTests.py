@@ -1,5 +1,5 @@
 import unittest
-from CptS355_HW5_solution_fall2019 import *
+from HW5 import *
 
 class HW5SampleTests(unittest.TestCase):
     def setUp(self):
@@ -33,6 +33,7 @@ class HW5SampleTests(unittest.TestCase):
         self.assertEqual(opstack,opstackOutput)
         self.assertEqual(dictstack,dictstackOutput)
 
+
     def test_input2Static(self):
         testinput2 = """
             /m 50 def
@@ -50,9 +51,10 @@ class HW5SampleTests(unittest.TestCase):
         """
         opstackOutput = [100, 50, 1, 100, 1]
         dictstackOutput = [(0, {'/m': 50, '/n': 100, '/egg1': ['/m', 25, 'def', 'n'], '/chic': ['/n', 1, 'def', '/egg2', ['n', 'stack'], 'def', 'm', 'n', 'egg1', 'egg2']})]
-        interpreter(testinput2,"static")
+        interpreter(testinput2, "static")
         self.assertEqual(opstack,opstackOutput)
-        self.assertEqual(dictstack,dictstackOutput)    
+        self.assertEqual(dictstack,dictstackOutput)
+
 
     def test_input2Dynamic(self):
         testinput2 = """
@@ -157,7 +159,7 @@ class HW5SampleTests(unittest.TestCase):
         dictstackOutput = [(0, {'/x': (4, [1, 2, 3, 4]), '/A': ['x', 'length'], '/C': ['/x', (6, [10, 20, 30, 40, 50, 60]), 'def', 'A', 'stack'], '/B': ['/x', (4, [6, 7, 8, 9]), 'def', '/A', ['x', 0, 'get'], 'def', 'C']})]
         interpreter(testinput5,"dynamic")
         self.assertEqual(opstack,opstackOutput)
-        self.assertEqual(dictstack,dictstackOutput)     
+        self.assertEqual(dictstack,dictstackOutput)
 
 if __name__ == '__main__':
     unittest.main()
