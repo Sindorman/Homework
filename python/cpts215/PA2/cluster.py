@@ -56,6 +56,7 @@ class GeneSample:
         Parameter list: list that contains data points.
         Returns: distance as float.
         '''
+
         if other is None:
             return None
 
