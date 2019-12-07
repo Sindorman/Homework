@@ -41,7 +41,11 @@ public class Piece {
     public void setRandomNumber() {
         
         Random r = new Random();
-        int x = Math.abs(r.nextInt()) % 10;
+        int x = 5;
+        //int x = Math.abs(r.nextInt(3)) % 10;
+        int rand = Math.abs(r.nextInt(4));
+        x = rand == 3 ? rand : x;
+
         setNumber(Character.forDigit(x, 10));
     }
     

@@ -13,6 +13,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import java.util.LinkedList;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
+
 public class Board extends JPanel  implements ActionListener {
 	/*define constants for customizing the game */
 	public  final int BOARD_WIDTH = 10; //number of rows in the board
@@ -271,17 +275,142 @@ public class Board extends JPanel  implements ActionListener {
      *     - the characters of the target string need to appear in the same order.*/
     public void updateBoard(Piece curPiece) {
         
-    	board[curPiece.getX()][curPiece.getY()] = curPiece.getNumber();
+        board[curPiece.getX()][curPiece.getY()] = curPiece.getNumber();
+        LinkedList<SimpleEntry<Integer, Integer>> clear = new LinkedList<SimpleEntry<Integer, Integer>>();
+        clear = check_for_target(curPiece, clear);
+        System.out.println(clear);
+        for(SimpleEntry<Integer, Integer> i :clear){
+            board[i.getKey()][i.getValue()] = SPACE;
+            repaint();
+        }
+        
+        //if (clear.size() > 0) repaint();
+        
     	/*TODO*/
         /*Update the Board: 
          * clear all cell groups including 3 (or more) matching adjacent cells
          * clear all cell groups including the target characters */
-
-    	
-
+        move_everything_down();
      }
 
-  
+     private LinkedList<SimpleEntry<Integer, Integer>> updateBoardHelper(Piece cur, LinkedList<SimpleEntry<Integer, Integer>> clear){
+        return null;
+     }
+
+     private LinkedList<SimpleEntry<Integer, Integer>> check_for_target(Piece cur, LinkedList<SimpleEntry<Integer, Integer>> clear){
+        if (cur.getNumber() == TARGET.charAt(0)){
+            int x = cur.getX();
+            int y = cur.getY();
+            boolean t = false;
+
+            // Check right side
+            if (x + TARGET.length() - 1 <  BOARD_WIDTH){
+               int counter = 1;
+               LinkedList<SimpleEntry<Integer, Integer>> clear_temp = new LinkedList<SimpleEntry<Integer, Integer>>(clear);
+               while(counter <= TARGET.length() - 1){
+                   SimpleEntry<Integer, Integer> s = new SimpleEntry<Integer, Integer>(x + counter, y);
+                   if (TARGET.charAt(counter) == board[s.getKey()][s.getValue()]){
+                        t = true;
+                        clear_temp.add(s);
+                   } else {
+                        t = false;
+                        break;
+                   }
+                   counter += 1;
+               }
+               if(t == true && clear_temp.size() == TARGET.length() - 1)
+               {
+                    clear_temp.add(new SimpleEntry<Integer, Integer>(x, y));
+                    return clear_temp;
+               }
+               
+            }
+
+            // Check left side
+            if (x - (TARGET.length() - 1) >=  0){
+               int counter = TARGET.length() - 1;
+               LinkedList<SimpleEntry<Integer, Integer>> clear_temp = new LinkedList<SimpleEntry<Integer, Integer>>(clear);
+               while(counter > 0){
+                    SimpleEntry<Integer, Integer> s = new SimpleEntry<Integer, Integer>(x - counter, y);
+                    if (TARGET.charAt(counter) == board[s.getKey()][s.getValue()]){
+                        t = true;
+                        clear_temp.add(s);
+                    } else {
+                        t = false;
+                        break;
+                    }
+                    counter -= 1;
+               }
+               if(t == true && clear_temp.size() == TARGET.length() - 1)
+               {
+                    clear_temp.add(new SimpleEntry<Integer, Integer>(x, y));
+                    return clear_temp;
+               }
+            }
+        
+
+            // Check up
+            if (y + TARGET.length() - 1 <  BOARD_HEIGHT){
+                int counter = 1;
+                LinkedList<SimpleEntry<Integer, Integer>> clear_temp = new LinkedList<SimpleEntry<Integer, Integer>>(clear);
+                while(counter <= TARGET.length() - 1){
+                    SimpleEntry<Integer, Integer> s = new SimpleEntry<Integer, Integer>(x, y + counter);
+                    if (TARGET.charAt(counter) == board[s.getKey()][s.getValue()]){
+                         t = true;
+                         clear_temp.add(s);
+                    } else {
+                         t = false;
+                         break;
+                    }
+                    counter += 1;
+                }
+                if(t == true && clear_temp.size() == TARGET.length() - 1)
+                {
+                     clear_temp.add(new SimpleEntry<Integer, Integer>(x, y));
+                     return clear_temp;
+                }
+                
+            }
+            // Check down
+            if (y - (TARGET.length() - 1) >=  0){
+                int counter = TARGET.length() - 1;
+                LinkedList<SimpleEntry<Integer, Integer>> clear_temp = new LinkedList<SimpleEntry<Integer, Integer>>(clear);
+                while(counter > 0){
+                     SimpleEntry<Integer, Integer> s = new SimpleEntry<Integer, Integer>(x, y - counter);
+                     if (TARGET.charAt(counter) == board[s.getKey()][s.getValue()]){
+                         t = true;
+                         clear_temp.add(s);
+                     } else {
+                         t = false;
+                         break;
+                     }
+                     counter -= 1;
+                }
+                if(t == true && clear_temp.size() == TARGET.length() - 1)
+                {
+                     clear_temp.add(new SimpleEntry<Integer, Integer>(x, y));
+                     return clear_temp;
+                }
+            }
+        }
+
+        return clear;
+     }
+
+    /*Moves all pieces down if possible.*/
+     private void move_everything_down(){
+        for (int i = BOARD_HEIGHT - 2; i > 1; i--) {
+            for (int j = 0; j < BOARD_WIDTH; j++) {
+                char first = board[j][i];
+                char second = board[j][i + 1];
+                if(second == SPACE){
+                    board[j][i + 1] = first;
+                    board[j][i] = SPACE;
+                }
+            }
+        }
+         repaint();
+     }
 
     /* handles the key presses*/
     class TAdapter extends KeyAdapter {
