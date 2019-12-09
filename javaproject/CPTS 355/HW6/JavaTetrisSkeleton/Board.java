@@ -221,13 +221,11 @@ public class Board extends JPanel  implements ActionListener {
             pieceDropped();
     }
 
-
-    /*checks if the fall of the current piece is completed. 
-     * **TODO** If so, updates the board and the score.*/
     private void pieceDropped() {                
         updateBoard(curPiece); 
 
         scorebar.setText(Integer.toString(player.get_score()));
+        statusbar.setText("Pieces: " + Integer.toString(player.get_pieces()));
         if (!isFallingFinished)
             createNewPiece();
     }
@@ -290,7 +288,6 @@ public class Board extends JPanel  implements ActionListener {
      public void clear_everything(Piece curPiece){
         LinkedList<Piece> clear_b = new LinkedList<Piece>();
         clear_b = updateBoardHelper(curPiece);
-        System.out.println(clear_b);
         if (clear_b.size() >= 3) {
             for(Piece i :clear_b){
                 board[i.getX()][i.getY()] = SPACE;
@@ -301,7 +298,6 @@ public class Board extends JPanel  implements ActionListener {
         } else {
             LinkedList<SimpleEntry<Integer, Integer>> clear = new LinkedList<SimpleEntry<Integer, Integer>>();
             clear = check_for_target(curPiece, clear, TARGET);
-            System.out.println(clear);
             if (clear.size() > 0) {
                 for(SimpleEntry<Integer, Integer> i :clear){
                     board[i.getKey()][i.getValue()] = SPACE;
@@ -314,7 +310,6 @@ public class Board extends JPanel  implements ActionListener {
                 // This is hacky, but it works well I think.
                 String rev_target = new StringBuilder(TARGET).reverse().toString();
                 clear = check_for_target(curPiece, clear, rev_target);
-                System.out.println(clear);
                 if (clear.size() > 0) {
                     for(SimpleEntry<Integer, Integer> i :clear){
                         board[i.getKey()][i.getValue()] = SPACE;
