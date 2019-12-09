@@ -39,7 +39,7 @@ public class Board extends JPanel  implements ActionListener {
     private Font textFont;
     private Piece curPiece;   //The current (falling) piece
     private char [][] board; //The board grid
-
+    private Player player;
     
     public Board(Tetris parent) {
 
@@ -73,7 +73,7 @@ public class Board extends JPanel  implements ActionListener {
     }
     /*initialize the game board, create the first piece, and start the timer */
     private void initBoard(Tetris parent) {
-        
+       this.player = new Player();
        setFocusable(true);
        curPiece = new Piece();
        //create the Timer. The board object is registered as the listener  for the timer. When the timer is fired, Board's action listener method will be called. 
@@ -227,6 +227,7 @@ public class Board extends JPanel  implements ActionListener {
     private void pieceDropped() {                
         updateBoard(curPiece); 
 
+        scorebar.setText(Integer.toString(player.get_score()));
         if (!isFallingFinished)
             createNewPiece();
     }
@@ -276,16 +277,8 @@ public class Board extends JPanel  implements ActionListener {
     public void updateBoard(Piece curPiece) {
         
         board[curPiece.getX()][curPiece.getY()] = curPiece.getNumber();
-        LinkedList<SimpleEntry<Integer, Integer>> clear = new LinkedList<SimpleEntry<Integer, Integer>>();
-        clear = check_for_target(curPiece, clear);
-        System.out.println(clear);
-        for(SimpleEntry<Integer, Integer> i :clear){
-            board[i.getKey()][i.getValue()] = SPACE;
-            repaint();
-        }
-        
-        //if (clear.size() > 0) repaint();
-        
+
+        clear_everything(curPiece);
     	/*TODO*/
         /*Update the Board: 
          * clear all cell groups including 3 (or more) matching adjacent cells
@@ -293,11 +286,101 @@ public class Board extends JPanel  implements ActionListener {
         move_everything_down();
      }
 
-     private LinkedList<SimpleEntry<Integer, Integer>> updateBoardHelper(Piece cur, LinkedList<SimpleEntry<Integer, Integer>> clear){
-        return null;
+
+     public void clear_everything(Piece curPiece){
+        LinkedList<Piece> clear_b = new LinkedList<Piece>();
+        clear_b = updateBoardHelper(curPiece);
+        System.out.println(clear_b);
+        if (clear_b.size() >= 3) {
+            for(Piece i :clear_b){
+                board[i.getX()][i.getY()] = SPACE;
+            }
+            player.set_pieces(player.get_pieces() + clear_b.size());
+            player.set_score(player.get_score() + clear_b.size() * 5);
+            repaint();
+        } else {
+            LinkedList<SimpleEntry<Integer, Integer>> clear = new LinkedList<SimpleEntry<Integer, Integer>>();
+            clear = check_for_target(curPiece, clear, TARGET);
+            System.out.println(clear);
+            if (clear.size() > 0) {
+                for(SimpleEntry<Integer, Integer> i :clear){
+                    board[i.getKey()][i.getValue()] = SPACE;
+                }
+                player.set_pieces(player.get_pieces() + clear.size());
+                player.set_score(player.get_score() + 20);
+                repaint();
+            }else {
+
+                // This is hacky, but it works well I think.
+                String rev_target = new StringBuilder(TARGET).reverse().toString();
+                clear = check_for_target(curPiece, clear, rev_target);
+                System.out.println(clear);
+                if (clear.size() > 0) {
+                    for(SimpleEntry<Integer, Integer> i :clear){
+                        board[i.getKey()][i.getValue()] = SPACE;
+                    }
+                    player.set_pieces(player.get_pieces() + clear.size());
+                    player.set_score(player.get_score() + 20);
+                    repaint();
+                }
+            }
+            
+        }
      }
 
-     private LinkedList<SimpleEntry<Integer, Integer>> check_for_target(Piece cur, LinkedList<SimpleEntry<Integer, Integer>> clear){
+     
+     private LinkedList<Piece> updateBoardHelper(Piece cur){
+
+        LinkedList<Piece> pieces = new LinkedList<Piece>();
+        pieces.add(cur);
+        char curr_n = cur.getNumber();
+        int size = pieces.size();
+         
+        for (int i = 0; i < size; i++) 
+         {
+            int x = pieces.get(i).getX();
+            int y = pieces.get(i).getY();
+
+            // Check above
+            if (y - 1 >= 0 && board[x][y - 1] == curr_n) {
+                Piece p = new Piece(x, y - 1, board[x][y - 1]);
+                if (!pieces.contains(p)) {
+                    pieces.add(p);
+                    size++;
+                }
+            }
+
+            // Check below
+            if (y + 1 < BOARD_HEIGHT && board[x][y + 1] == curr_n) {
+                Piece p = new Piece(x, y + 1, board[x][y + 1]);
+                if (!pieces.contains(p)) {
+                    pieces.add(p);
+                    size++;
+                }
+            }
+
+            // Check to the right
+            if (x + 1 < BOARD_WIDTH && board[x + 1][y] == curr_n) {
+                Piece p = new Piece(x + 1, y, board[x + 1][y]);
+                if (!pieces.contains(p)) {
+                    pieces.add(p);
+                    size++;
+                }
+            }
+
+            // Check to the left
+            if (x - 1 >= 0 && board[x - 1][y] == curr_n) {
+                Piece p = new Piece(x - 1, y, board[x - 1][y]);
+                if (!pieces.contains(p)) {
+                    pieces.add(p);
+                    size++;
+                }
+            }
+        }
+        return pieces;
+     }
+
+     private LinkedList<SimpleEntry<Integer, Integer>> check_for_target(Piece cur, LinkedList<SimpleEntry<Integer, Integer>> clear, String TARGET){
         if (cur.getNumber() == TARGET.charAt(0)){
             int x = cur.getX();
             int y = cur.getY();
@@ -402,14 +485,27 @@ public class Board extends JPanel  implements ActionListener {
         for (int i = BOARD_HEIGHT - 2; i > 1; i--) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
                 char first = board[j][i];
+                if (first == SPACE){
+                    continue;
+                }
                 char second = board[j][i + 1];
-                if(second == SPACE){
-                    board[j][i + 1] = first;
+                int y = i + 1;
+                if(y == BOARD_HEIGHT - 1){
+                    y += 1;
+                }
+                while(second == SPACE && y < BOARD_HEIGHT - 1){
+                    second = board[j][y + 1];
+                    y++;
+                }
+                if (board[j][y - 1] == SPACE)
+                {
+                    board[j][y - 1] = first;
                     board[j][i] = SPACE;
+                    clear_everything(new Piece(j, y - 1, first));
                 }
             }
         }
-         repaint();
+        repaint();
      }
 
     /* handles the key presses*/

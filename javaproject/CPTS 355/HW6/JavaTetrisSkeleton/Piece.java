@@ -13,6 +13,13 @@ public class Piece {
     }
     /* get and set methods for "number"*/
     
+    public Piece(int X, int Y, char n)
+    {
+        number = n;
+        curX = X;
+        curY = Y;
+    }
+
     public void setNumber(char newNumber) {
         this.number = newNumber;
     }
@@ -41,13 +48,23 @@ public class Piece {
     public void setRandomNumber() {
         
         Random r = new Random();
-        int x = 5;
-        //int x = Math.abs(r.nextInt(3)) % 10;
-        int rand = Math.abs(r.nextInt(4));
-        x = rand == 3 ? rand : x;
-
+        int x = Math.abs(r.nextInt(3)) % 10;
         setNumber(Character.forDigit(x, 10));
     }
     
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        Piece p = (Piece) obj;
+        if(p.getX() != curX) return false;
+        if(p.getY() != curY) return false;
+        if(p.getNumber() != number) return false;
+        return true;
+    }
+
+    public String toString() {
+        return "X: " + curX + ", Y: " + curY + ", Number: " + number;
+    }
     
 }
