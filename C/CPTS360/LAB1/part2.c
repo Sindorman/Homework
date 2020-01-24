@@ -77,33 +77,42 @@ void myprintf(char *fmt, ...)
 
         if(found)
         {
-            unsigned int val = (unsigned char)fmt[0] << CHAR_BIT | (unsigned char)fmt[1];
-            char c;
+            unsigned int val;
+            char *c;
             switch(*fmt)
             {
                 case 'c':
-                        c = va_arg(args, char);
+                        c = va_arg(args, int);
                         putchar(c);
                         found = false;
                         break;
                 case 's':
-                        prints(fmt);
+                        c = va_arg(args, int);
+                        prints(c);
                         found = false;
                         break;
                 case 'u':
+                        val = va_arg(args, unsigned int);
                         printu(val);
                         found = false;
                         break;
                 case 'd':
-                        printd((int) (*fmt));
+                        val = va_arg(args, int);
+                        printd(val);
                         found = false;
                         break;
                 case 'o':
+                        val = va_arg(args, unsigned int);
                         printo(val);
                         found = false;
                         break;
                 case 'x':
+                        val = va_arg(args, unsigned int);
                         printx(val);
+                        found = false;
+                        break;
+                default:
+                        printf("Not a number");
                         found = false;
                         break;
             }
@@ -122,12 +131,14 @@ void myprintf(char *fmt, ...)
 
 int main(int argc, char *argv[ ], char *env[ ])
 {
-    printu(32);
-    prints(argv[0]);
-    printd(-3);
-    printx(43);
-    printo(32);
+    printf("Tesing individual functions: \n");
+    printf("printu: "); printu(32);
+    printf("\nprints: "); prints(argv[0]);
+    printf("\nprintd: "); printd(-3);
+    printf("\nprintx: "); printx(43);
+    printf("\nprinto: "); printo(32);
 
+    printf("\nTesing myprintf: \n");
     myprintf("cha=%c string=%s      dec=%d hex=%x oct=%o neg=%d\n", 
 	       'A', "this is a test", 100,    100,   100,  -100);
 
