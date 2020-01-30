@@ -22,7 +22,7 @@ int body()
         printList("freeList ", freeList);
         printList("readyQueue", readyQueue);
         
-        printf("input a command: [ps|fork|switch|exit] : ");
+        printf("input a command: [ps|fork|switch|wait|exit] : ");
         fgets(command, 64, stdin);
         command[strlen(command)-1] = 0;
         
@@ -34,6 +34,8 @@ int body()
           do_switch();
         else if (!strcmp(command, "exit"))
           do_exit();
+        else if (!strcmp(command, "wait"))
+          do_wait();
         else
           printf("invalid command\n");
     }
@@ -75,15 +77,6 @@ int do_ps()
     }
 }
 
-/*
-int kexit(int value)
-{
-    running->exitCode = value;
-    running->status = ZOMBIE;
-    tswitch(); 
-} 
-*/
-
 int do_exit()
 {
     int value;
@@ -97,6 +90,11 @@ int do_exit()
     scanf("%d", &value);
     kexit(value);
 } 
+
+int do_wait()
+{
+  return kwait(running->status);
+}
 
 int kfork(int (*func))
 {
@@ -114,12 +112,15 @@ int kfork(int (*func))
     p->priority = 1;         // for ALL PROCs except P0
     p->ppid = running->pid;
     p->parent = running;
-    p->sibling = running->child;
+    if(running->sibling == NULL) running->sibling = 0;
     if(running->child == NULL)
     {
-      running->child = p;
+        running->child = p;
     }
-    
+    else
+    {
+      enqueue(&(running->sibling), p);
+    }
 
     //                    -1   -2  -3  -4  -5  -6  -7  -8   -9
     // kstack contains: |retPC|eax|ebx|ecx|edx|ebp|esi|edi|eflag|
@@ -127,7 +128,7 @@ int kfork(int (*func))
       p->kstack[SSIZE - i] = 0;
 
     p->kstack[SSIZE-1] = (int)func;
-    p->saved_sp = &(p->kstack[SSIZE - 9]); 
+    p->saved_sp = &(p->kstack[SSIZE - 9]);
 
     enqueue(&readyQueue, p);
 
@@ -145,7 +146,7 @@ int init()
     }
     proc[NPROC-1].next = 0;
   
-    freeList = &proc[0];        
+    freeList = &proc[0];
     readyQueue = 0;
 
     // create P0 as the initial running process
@@ -184,5 +185,3 @@ int scheduler()
     running = dequeue(&readyQueue);
     printf("next running = %d\n", running->pid);  
 }
-
-

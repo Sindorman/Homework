@@ -1,5 +1,4 @@
 /****************** queue.c file ********************/
-#include "type.h"
 int enqueue(PROC **queue, PROC *p)
 {
     PROC *q = *queue;
@@ -32,4 +31,28 @@ int printList(char *name, PROC *p)
        p = p->next;
    }
    printf("NULL\n");
+}
+
+int *removeFromQueue(PROC **queue, int pid)
+{
+   PROC *q = *queue;
+   PROC *q_prev = NULL;
+   while(q)
+   {
+      if(q->pid == pid)
+      {
+         if(q_prev == NULL)
+         {
+            q_prev = q->next;
+         }
+         else
+         {
+            q_prev->next = q->next;
+         }
+
+         break;
+      }
+      q_prev = q;
+      q = q->next;
+   }
 }
