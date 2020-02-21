@@ -6,6 +6,7 @@
 
 #define N 8
 double A[N][N+1];
+int numberOfThreads;
 pthread_barrier_t barrier;
 
 int print_matrix()
@@ -25,7 +26,7 @@ void *ge(void *arg) // threads function: Gauss elimination
     int myid = (int)arg;
     double temp, factor;
     for(i=0; i<N-1; i++){
-        if (i == myid)
+        if (i % numberOfThreads == myid)
         {
             printf("partial pivoting by thread %d on row %d: ", myid, i);
             temp = 0.0; prow = i;
@@ -52,7 +53,7 @@ void *ge(void *arg) // threads function: Gauss elimination
         pthread_barrier_wait(&barrier);
         for(j=i+1; j< N; j++)
         {
-            if (j == myid)
+            if (j % numberOfThreads == myid)
             { 
                 printf("thread %d do row %d\n", myid, j);
                 factor = A[j][i]/A[i][i];
@@ -65,7 +66,7 @@ void *ge(void *arg) // threads function: Gauss elimination
         }
         // wait for current row reductions to finish 
         pthread_barrier_wait(&barrier);
-        if (i == myid)
+        if (i % numberOfThreads == myid)
             print_matrix();
     }
 }
@@ -74,7 +75,6 @@ int main(int argc, char *argv[])
 {
     int i, j;
     double sum;
-    int numberOfThreads;
 
     printf("Please input number of even threads <= %d:", N);
     scanf("%d", &numberOfThreads);
