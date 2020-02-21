@@ -30,7 +30,7 @@ void *producer()
   for (i=0; i<N; i++){ // try to put N items into buf[ ]
       pthread_mutex_lock(&mutex);    // lock mutex
       if (data == NBUF){
-	  printf ("producer %lu: all bufs FULL: wait\n", me);
+          printf ("producer %lu: all bufs FULL: wait\n", me);
           pthread_cond_wait(&empty, &mutex); // wait
       }
       buf[head++] = i+1;             // item = 1,2,..,N
@@ -50,8 +50,8 @@ void *consumer()
   for (i=0; i<N; i++) {
       pthread_mutex_lock(&mutex);      // lock mutex
       if (data == 0) {
-         printf ("consumer %lu: all bufs EMPTY: wait\n", me);
-	 pthread_cond_wait(&full, &mutex); // wait
+          printf ("consumer %lu: all bufs EMPTY: wait\n", me);
+          pthread_cond_wait(&full, &mutex); // wait
       }
       c = buf[tail++];                 // get an item 
       tail %= NBUF; 
@@ -65,13 +65,15 @@ void *consumer()
 
 int main ()
 {
-  pthread_t pro, con;
-  init();
-  printf("main: create producer and consumer threads\n");
-  pthread_create(&pro, NULL, producer, NULL);
-  pthread_create(&con, NULL, consumer, NULL);
-  printf("main: join with threads\n");
-  pthread_join(pro, NULL);
-  pthread_join(con, NULL);
-  printf("main: exit\n");
+    pthread_t pro, con;
+    init();
+    printf("main: create producer and consumer threads\n");
+    pthread_create(&pro, NULL, producer, NULL);
+    pthread_create(&pro, NULL, producer, NULL);
+    pthread_create(&con, NULL, consumer, NULL);
+    pthread_create(&con, NULL, consumer, NULL);
+    printf("main: join with threads\n");
+    pthread_join(pro, NULL);
+    pthread_join(con, NULL);
+    printf("main: exit\n");
 }

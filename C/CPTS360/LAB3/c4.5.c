@@ -21,48 +21,53 @@ int print_matrix()
 
 void *ge(void *arg) // threads function: Gauss elimination
 {
-  int i, j, k, prow;
-  int myid = (int)arg;
-  double temp, factor;
-  for(i=0; i<N-1; i++){
-     if (i == myid){
-        printf("partial pivoting by thread %d on row %d: ", myid, i);
-        temp = 0.0; prow = i;
-        for (j=i; j<=N; j++){
-            if (fabs(A[j][i]) > temp){
-               temp = fabs(A[j][i]);
-	       prow = j;
-	    }
-        }
-        printf("pivot_row=%d  pivot=%6.2f\n", prow, A[prow][i]);
-        if (prow != i){  // swap rows
-	    for (j=i; j<N+1; j++){
-	      temp = A[i][j];
-              A[i][j] = A[prow][j];
-              A[prow][j] = temp;
-            }
-	} 
-     }
-     // wait for partial pivoting done
-     pthread_barrier_wait(&barrier);
-     for(j=i+1; j< N; j++)
-     {
-        if (j == myid)
-        { 
-            printf("thread %d do row %d\n", myid, j);
-            factor = A[j][i]/A[i][i];
-            for (k=i+1; k<=N; k++)
+    int i, j, k, prow;
+    int myid = (int)arg;
+    double temp, factor;
+    for(i=0; i<N-1; i++){
+        if (i == myid)
+        {
+            printf("partial pivoting by thread %d on row %d: ", myid, i);
+            temp = 0.0; prow = i;
+            for (j=i; j<=N; j++)
             {
-                A[j][k] -= A[i][k]*factor;
+                if (fabs(A[j][i]) > temp)
+                {
+                temp = fabs(A[j][i]);
+                    prow = j;
+                }
             }
-        A[j][i] = 0.0;
+            printf("pivot_row=%d  pivot=%6.2f\n", prow, A[prow][i]);
+            if (prow != i)
+            {  // swap rows
+                for (j=i; j<N+1; j++)
+                {
+                    temp = A[i][j];
+                    A[i][j] = A[prow][j];
+                    A[prow][j] = temp;
+                }
+            } 
         }
-     }
-     // wait for current row reductions to finish 
-     pthread_barrier_wait(&barrier);
-     if (i == myid)
-        print_matrix();
-  }
+        // wait for partial pivoting done
+        pthread_barrier_wait(&barrier);
+        for(j=i+1; j< N; j++)
+        {
+            if (j == myid)
+            { 
+                printf("thread %d do row %d\n", myid, j);
+                factor = A[j][i]/A[i][i];
+                for (k=i+1; k<=N; k++)
+                {
+                    A[j][k] -= A[i][k]*factor;
+                }
+            A[j][i] = 0.0;
+            }
+        }
+        // wait for current row reductions to finish 
+        pthread_barrier_wait(&barrier);
+        if (i == myid)
+            print_matrix();
+    }
 }
 
 int main(int argc, char *argv[])
@@ -71,8 +76,13 @@ int main(int argc, char *argv[])
     double sum;
     int numberOfThreads;
 
-    printf("Please input number of threads <= %d:", N);
+    printf("Please input number of even threads <= %d:", N);
     scanf("%d", &numberOfThreads);
+    if (numberOfThreads % 2 != 0)
+    {
+        printf("Error, number of threads inputted is not even!");
+        exit(1);
+    }
 
     pthread_t threads[numberOfThreads];
     
