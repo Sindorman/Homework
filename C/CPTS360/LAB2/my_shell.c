@@ -211,12 +211,12 @@ int fork_child()
         if (check_pipe_or_split(head, tail) == 1)
         {
             // Actually pipe
-            int pd[2], pid;
+            int pd[2], _pid;
 
             pipe(pd);
 
-            pid = fork();
-            if (pid)
+            _pid = fork();
+            if (_pid)
             {
                 close(pd[0]);
 
