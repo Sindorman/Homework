@@ -81,7 +81,7 @@ void *lu(void *arg)
             temp = A[k][m]; A[k][m] = A[j][m]; A[j][m] = temp;
         }
         print('A', A);
-        getchar();
+        //getchar();
 
         //swap L[k][0,k-2] and L[j][0,k-2]
         for (m=0; m<k-2; m++)
@@ -111,7 +111,7 @@ void *lu(void *arg)
             }
         }
         print('A', A); print('L', L); print('U', U); printP();
-        getchar();
+        //getchar();
     }
 }
 
