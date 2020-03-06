@@ -9,7 +9,7 @@
 #define MAX 256
 #define SERVER_HOST "localhost"
 #define SERVER_IP "127.0.0.1"
-#define SERVER_PORT 1235
+#define SERVER_PORT 1234
 
 #define die(e) do { fprintf(stderr, "%s\n", e); exit(EXIT_FAILURE); } while (0);
 
@@ -159,8 +159,48 @@ int main(int argc, char *argv[])
             }
             // show the line string
             printf("server: read n=%d bytes; line=[%s]\n", n, line);
-            char *result = process_command((char*) line);
+            char args_copy[MAX];
+            strcpy(args_copy, line);
+            char *token = strtok(args_copy, " ");
+            char *commands[MAX + 1];
+            int counter = 0;
+            char *result;
+            while(token != NULL)
+            {
+                commands[counter] = token;
+                token = strtok(NULL, " ");
+                counter++;
+            }
 
+            if (strcmp(commands[0], "put") == 0)
+            {
+                FILE *fp;
+                n = read(csock, line, MAX);
+                printf("server: read n=%d bytes; line=[%s]\n", n, line);
+                fp = fopen(commands[1], "w");
+                fprintf(fp, "%s", line);
+                n = write(csock, commands[0], MAX);
+                fclose(fp);
+
+
+                printf("server: wrote n=%d bytes; ECHO=[%s]\n", n, result);
+                printf("server: ready for next request\n");
+                continue;
+            }
+            else if (strcmp(commands[0], "get") == 0)
+            {
+                char buffer[MAX];
+                FILE *f;
+                f=fopen(commands[1], "r");
+                fscanf(f, "%s", buffer);
+                n = write(csock, buffer, MAX);
+                printf("server: wrote n=%d bytes; line=(%s)\n", n, buffer);
+                fclose(f);
+            }
+            else
+            {
+                result = process_command((char*) line);
+            }
 
             // process the line from clinet
             strcat(line, " ECHO");

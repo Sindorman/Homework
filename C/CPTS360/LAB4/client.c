@@ -9,7 +9,7 @@
 #define MAX 256
 #define SERVER_HOST "localhost"
 #define SERVER_IP "127.0.0.1"
-#define SERVER_PORT 1235
+#define SERVER_PORT 1234
 
 // Define variables
 struct sockaddr_in server_addr; 
@@ -135,9 +135,50 @@ int main(int argc, char *argv[ ])
         if (line[0]==0) // exit if NULL line
             exit(0);
 
+        char args_copy[MAX];
+        strcpy(args_copy, line);
+        char *token = strtok(args_copy, " ");
+        char *commands[MAX + 1];
+        int counter = 0;
+        char *result;
+        while(token != NULL)
+        {
+            commands[counter] = token;
+            token = strtok(NULL, " ");
+            counter++;
+        }
+
+        if (strcmp(commands[0], "put") == 0)
+        {
+            char buffer[MAX];
+            FILE *f;
+            f=fopen(commands[1], "r");
+            fscanf(f, "%s", buffer);
+            n = write(sock, line, MAX);
+            printf("client: wrote n=%d bytes; line=(%s)\n", n, line);
+            n = write(sock, buffer, MAX);
+            printf("client: wrote n=%d bytes; line=(%s)\n", n, buffer);
+            // Read a line from sock and show it
+            n = read(sock, ans, MAX);
+            printf("client: read n=%d bytes; echo=(%s)\n", n, ans);
+            fclose(f);
+        } 
+        else if(strcmp(commands[0], "get") == 0)
+        {
+            n = write(sock, line, MAX);
+            printf("client: wrote n=%d bytes; line=[%s]\n", n, line);
+
+            FILE *fp;
+            n = read(sock, line, MAX);
+            printf("client: read n=%d bytes; line=[%s]\n", n, line);
+            fp = fopen(commands[1], "w");
+            fprintf(fp, "%s", line);
+            fclose(fp);
+            continue;
+        }
 
         // Send ENTIRE line to server
-        if(line[0] == 'l' && line[1] != 's')
+        else if(line[0] == 'l' && strcmp(commands[0], "ls") != 0)
         {
             char *result = process_command((char*) line);
             //if(result != NULL)
