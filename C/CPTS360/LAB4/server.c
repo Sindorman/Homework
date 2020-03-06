@@ -1,6 +1,7 @@
 // This is the echo SERVER server.c
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -8,8 +9,9 @@
 #define MAX 256
 #define SERVER_HOST "localhost"
 #define SERVER_IP "127.0.0.1"
-#define SERVER_PORT 1234
+#define SERVER_PORT 1235
 
+#define die(e) do { fprintf(stderr, "%s\n", e); exit(EXIT_FAILURE); } while (0);
 
 // Define variables:
 struct sockaddr_in server_addr, client_addr;
@@ -56,32 +58,34 @@ char* concat(const char *s1, const char *s2)
 
 char* execute(char *command, char *args)
 {
-    // printf("here");
+    args[0] = concat("/bin/", command);
     char *beginning = concat("/bin/", command);
-    char *passing[] = {beginning, NULL};
+    char *buffer = malloc(MAX);
+    pid_t pid;
     int pipefd[2];
-    pipe(pipefd);
     int status;
-    if ( fork() == 0 )
+    if (pipe(pipefd)==-1)
+        die("pipe");
+    
+    if ((pid = fork()) == -1)
+        die("fork");
+
+    if ( pid == 0 )
     {
+
+        dup2(pipefd[1], STDOUT_FILENO); // send stdout to the pipe
         close(pipefd[0]);
-
-
-        dup2(pipefd[1], 1); // send stdout to the pipe
-        dup2(pipefd[1], 2); // send stderr to the pipe
         close(pipefd[1]);
-        execv(passing[0], passing); // child: call execv with the path and the args
+        execv(beginning, args); // child: call execv with the path and the args
+        die("execv");
     }
     else
     {
-        char buffer[1024];
         close(pipefd[1]); // close the write end of the pipe in the parent
+        int nbytes = read(pipefd[0], buffer, MAX);
 
-
-        while (read(pipefd[0], buffer, sizeof(buffer)) != 0)
-        {
-        }
-        return (char*) buffer;
+        wait(NULL);
+        return buffer;
     }
 }
 
@@ -91,7 +95,7 @@ char* process_command(char *args)
     char args_copy[MAX];
     strcpy(args_copy, args);
     char *token = strtok(args_copy, " ");
-    char *commands[256];
+    char *commands[MAX + 1];
     int counter = 0;
     while(token != NULL)
     {
@@ -100,6 +104,7 @@ char* process_command(char *args)
         counter++;
     }
     char *command = commands[0];
+    commands[counter + 1] = NULL;
     counter = 1;
     while(command != NULL || counter != 256)
     {
@@ -109,7 +114,7 @@ char* process_command(char *args)
         }
         else
         {
-            return execute(command, (char*)args_copy);
+            return execute(command, (char*)commands);
         }
         command = commands[counter + 1];
         counter++;
@@ -163,7 +168,8 @@ int main(int argc, char *argv[])
             n = write(csock, result, MAX);
 
 
-            printf("server: wrote n=%d bytes; ECHO=[%s]\n", n, line);
+            printf("server: wrote n=%d bytes; ECHO=[%s]\n", n, result);
+            free(result);
             printf("server: ready for next request\n");
             }
         }

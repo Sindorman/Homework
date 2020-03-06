@@ -9,7 +9,7 @@
 #define MAX 256
 #define SERVER_HOST "localhost"
 #define SERVER_IP "127.0.0.1"
-#define SERVER_PORT 1234
+#define SERVER_PORT 1235
 
 // Define variables
 struct sockaddr_in server_addr; 
@@ -68,7 +68,6 @@ char* execute(char *command, char *args)
     char *beginning = concat("/bin/", strip);
     char *passing[] = {beginning, NULL};
     int status;
-    printf("command: %s", passing[0]);
     if ( fork() == 0 )
     {
         execv(passing[0], passing); // child: call execv with the path and the args
@@ -82,7 +81,6 @@ char* execute(char *command, char *args)
 
 char* process_command(char *args)
 {
-    printf("here");
     char args_copy[MAX];
     strcpy(args_copy, args);
     char *token = strtok(args_copy, " ");
@@ -142,7 +140,8 @@ int main(int argc, char *argv[ ])
         if(line[0] == 'l' && line[1] != 's')
         {
             char *result = process_command((char*) line);
-            printf("Executing local command: %s\n", result);
+            //if(result != NULL)
+                //printf("Executing local command: %s\n", result);
             continue;
         }
         else
