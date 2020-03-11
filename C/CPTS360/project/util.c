@@ -1,5 +1,4 @@
 /*********** util.c file ****************/
-#include "type.h"
 
 int get_block(int dev, int blk, char *buf)
 {

@@ -1,5 +1,5 @@
 /****************************************************************************
-*                   KCW  Implement ext2 file system                         *
+*                   Mykhailo Bykhovtsev Implement ext2 file system                         *
 *****************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
