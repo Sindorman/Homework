@@ -131,61 +131,83 @@ int search(MINODE *mip, char *name)
 
 int getino(char *pathname)
 {
-  int i, ino, blk, disp;
-  char buf[BLKSIZE];
-  INODE *ip;
-  MINODE *mip;
+    int i, ino, blk, disp;
+    char buf[BLKSIZE];
+    INODE *ip;
+    MINODE *mip;
 
-  printf("getino: pathname=%s\n", pathname);
-  if (strcmp(pathname, "/")==0)
-      return 2;
-  
-  // starting mip = root OR CWD
-  if (pathname[0]=='/')
-     mip = root;
-  else
-     mip = running->cwd;
+    printf("getino: pathname=%s\n", pathname);
+    if (strcmp(pathname, "/")==0)
+         return 2;
+   
+   // starting mip = root OR CWD
+    if (pathname[0]=='/')
+        mip = root;
+    else
+        mip = running->cwd;
 
-  mip->refCount++;         // because we iput(mip) later
-  
-  tokenize(pathname);
+    mip->refCount++;         // because we iput(mip) later
+   
+    tokenize(pathname);
 
-  for (i=0; i<n; i++){
-      printf("===========================================\n");
-      printf("getino: i=%d name[%d]=%s\n", i, i, name[i]);
- 
-      ino = search(mip, name[i]);
+    for (i=0; i<n; i++)
+    {
+        printf("===========================================\n");
+        printf("getino: i=%d name[%d]=%s\n", i, i, name[i]);
+   
+        ino = search(mip, name[i]);
 
-      if (ino==0){
-         iput(mip);
-         printf("name %s does not exist\n", name[i]);
-         return 0;
-      }
-      iput(mip);                // release current mip
-      mip = iget(dev, ino);     // get next mip
-   }
+        if (ino==0)
+        {
+            iput(mip);
+            printf("name %s does not exist\n", name[i]);
+            return 0;
+        }
+        iput(mip);                // release current mip
+        mip = iget(dev, ino);     // get next mip
+    }
 
-  iput(mip);                   // release mip  
-   return ino;
+    iput(mip);                   // release mip  
+        return ino;
 }
 
-int findmyname(MINODE *parent, u32 myino, char *myname) 
+char *findmyname(MINODE *parent, u32 myino) 
 {
-  // WRITE YOUR code here:
-  // search parent's data block for myino;
-  // copy its name STRING to myname[ ];
+    char buf[BLKSIZE];
+    char *temp = (char* ) (char*) malloc((255+1)*sizeof(char));
+    DIR *dp;
+    char *cp;
+    
+    // Assume DIR has only one data block i_block[0]
+    get_block(dev, parent->INODE.i_block[0], buf);
+    dp = (DIR *)buf;
+    cp = buf;
+
+    while (cp < buf + BLKSIZE)
+    {
+        strncpy(temp, dp->name, dp->name_len);
+        temp[dp->name_len] = 0;
+        int type = (int) dp->file_type;
+        if(dp->inode == myino)
+        {
+            return temp;
+        }
+
+        cp += dp->rec_len;
+        dp = (DIR *)cp;
+    }
 }
 
 int findino(MINODE *mip, u32 *myino) // myino = ino of . return ino of ..
 {
-  char buf[BLKSIZE], *cp;   
-  DIR *dp;
+    char buf[BLKSIZE], *cp;
+    DIR *dp;
 
-  get_block(mip->dev, mip->INODE.i_block[0], buf);
-  cp = buf; 
-  dp = (DIR *)buf;
-  *myino = dp->inode;
-  cp += dp->rec_len;
-  dp = (DIR *)cp;
-  return dp->inode;
+    get_block(mip->dev, mip->INODE.i_block[0], buf);
+    cp = buf; 
+    dp = (DIR *)buf;
+    *myino = dp->inode;
+    cp += dp->rec_len;
+    dp = (DIR *)cp;
+    return dp->inode;
 }

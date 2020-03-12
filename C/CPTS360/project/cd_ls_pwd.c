@@ -10,42 +10,72 @@
 
 // #include "type.h"
 
-struct tm lt;
+char *t1 = "xwrxwrxwr-------";
+char *t2 = "----------------";
 
 int chdir(char *pathname)   
 {
     printf("chdir %s\n", pathname);
-    printf("under construction READ textbook HOW TO chdir!!!!\n");
-    // READ Chapter 11.7.3 HOW TO chdir
+    int ino = getino(pathname);
+    MINODE *mip = iget(dev, ino);
+    
+    
+    char buf[BLKSIZE], temp[256];
+    DIR *dp;
+    char *cp;
+    
+    // Assume DIR has only one data block i_block[0]
+    get_block(dev, mip->INODE.i_block[0], buf); 
+    dp = (DIR *)buf;
+    cp = buf;
+    int type = (int) dp->file_type;
+    if(type != 2)
+    {
+        printf("No such directory: %s\n", pathname);
+        return;
+    }
+
+    iput(running->cwd);
+    running->cwd = mip;
+    printf("after cd: cwd = [%d, %d]\n", mip->dev, mip->ino);
 }
 
 int ls_file(MINODE *mip, char *name)
 {
-    struct stat *buf;
-    buf = malloc(sizeof(struct stat));
-    stat(name, &buf);
-    // READ Chapter 11.7.3 HOW TO ls
-    int size = buf->st_size;
-    printf( (S_ISDIR(buf->st_mode)) ? "d" : "-");
-    printf( (buf->st_mode & S_IRUSR) ? "r" : "-");
-    printf( (buf->st_mode & S_IWUSR) ? "w" : "-");
-    printf( (buf->st_mode & S_IXUSR) ? "x" : "-");
-    printf( (buf->st_mode & S_IRGRP) ? "r" : "-");
-    printf( (buf->st_mode & S_IWGRP) ? "w" : "-");
-    printf( (buf->st_mode & S_IXGRP) ? "x" : "-");
-    printf( (buf->st_mode & S_IROTH) ? "r" : "-");
-    printf( (buf->st_mode & S_IWOTH) ? "w" : "-");
-    printf( (buf->st_mode & S_IXOTH) ? "x" : "-");
+    struct stat fstat, *buf;
+    int r;
+    buf = &fstat;
+    if ( (r = lstat("test.txt", &fstat)) < 0){
+        printf("can’t stat %s\n", "test.txt");
+        exit(1);
+    }
+
+
+    if ((buf->st_mode & 0xF000) == 0x8000)
+        printf("%s", "-");
+    if ((buf->st_mode & 0xF000) == 0x4000)
+        printf("%s", "d");
+    if ((buf->st_mode & 0xF000) == 0xA000)
+        printf("%s", "l");
+
+    int i;
+    for (i=8; i >= 0; i--){
+        if (buf->st_mode & (1 << i)) 
+        printf("%c", t1[i]);
+        else
+        printf("%c", t2[i]);
+
+    }
     printf("   ");
 
-    time_t t = buf->st_mtime;
-    localtime_r(&t, &lt);
-    char timebuf[80];
-    strftime(timebuf, sizeof(timebuf), "%c", &lt);
+    char ftime[64];
 
-    printf("%d \t %ld \t %s \t %s", buf->st_uid, (long)buf->st_size, timebuf, name);
+    strcpy(ftime, ctime(&buf->st_ctime));
+    ftime[strlen(ftime)-1] = 0;
+    // kill \n at end
+
+    printf("%d \t %ld \t %s \t %s", buf->st_uid, (long)buf->st_size, ftime, name);
     printf("\n");
-    free(buf);
 }
 
 int ls_dir(MINODE *mip)
@@ -60,18 +90,15 @@ int ls_dir(MINODE *mip)
     get_block(dev, mip->INODE.i_block[0], buf); 
     dp = (DIR *)buf;
     cp = buf;
-    
-    while (cp < buf + BLKSIZE){
+
+    while (cp < buf + BLKSIZE)
+    {
         strncpy(temp, dp->name, dp->name_len);
         temp[dp->name_len] = 0;
         int type = (int) dp->file_type;
-        if(type == 1)
+        if(type == 1 || type == 2)
         {
             ls_file(dp->inode, temp);
-        }
-        else if(type == 2)
-        {
-            
         }
 
         cp += dp->rec_len;
@@ -87,13 +114,36 @@ int ls(char *pathname)
     ls_dir(running->cwd);
 }
 
+char *rpwd(MINODE *wd)
+{
+    if(wd == root)
+    {
+        return;
+    }
+
+    int *my_ino;
+    int *parent_ino = findino(wd, &my_ino);
+    MINODE *pip = iget(dev, parent_ino);
+
+    char *my_name = findmyname(pip, my_ino);
+    rpwd(pip);
+    printf("/%s", my_name);
+    free(my_name);
+}
+
+
 char *pwd(MINODE *wd)
 {
-    printf("pwd: READ HOW TO pwd in textbook!!!!\n");
     if (wd == root){
-      printf("/\n");
-      return;
+        printf("/\n");
+        return;
     }
+    else
+    {
+        rpwd(wd);
+        print("\n");
+    }
+    
 }
 
 
