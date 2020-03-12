@@ -45,11 +45,7 @@ int ls_file(MINODE *mip, char *name)
     struct stat fstat, *buf;
     int r;
     buf = &fstat;
-    if ( (r = lstat("test.txt", &fstat)) < 0){
-        printf("can’t stat %s\n", "test.txt");
-        exit(1);
-    }
-
+    stat(name, &fstat);
 
     if ((buf->st_mode & 0xF000) == 0x8000)
         printf("%s", "-");
@@ -141,7 +137,7 @@ char *pwd(MINODE *wd)
     else
     {
         rpwd(wd);
-        print("\n");
+        printf("\n");
     }
     
 }
