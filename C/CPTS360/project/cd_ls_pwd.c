@@ -71,6 +71,7 @@ int ls_dir(MINODE *mip)
     char buf[BLKSIZE], temp[256];
     DIR *dp;
     char *cp;
+    MINODE *file
     
     // Assume DIR has only one data block i_block[0]
     get_block(dev, mip->INODE.i_block[0], buf); 
@@ -81,10 +82,13 @@ int ls_dir(MINODE *mip)
     {
         strncpy(temp, dp->name, dp->name_len);
         temp[dp->name_len] = 0;
+
+        file = iget(dev, getino(temp));
         int type = (int) dp->file_type;
         if(type == 1 || type == 2)
         {
-            ls_file(dp->inode, temp);
+            ls_file(file, temp);
+            iput(file);
         }
 
         cp += dp->rec_len;
