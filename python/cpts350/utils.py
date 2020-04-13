@@ -7,6 +7,7 @@ def initialize_edges_as_binary(edges: list):
     Method to initialize edges from 0 to 32 given conditions (y % 32 == (x + 8) % 32) or (y % 32 == (x + 3) % 32) and converts them to binary.
     Parameter list: list of edges.
     '''
+
     for x in range(0, 32):
         for y in range(0, 32):
             if (y % 32 == (x + 8) % 32) or (y % 32 == (x + 3) % 32):
@@ -33,9 +34,11 @@ def convert_edge_to_binary(x, y) -> list:
     Parameter list: x and y of an edge.
     returns: 10 bit list of unsigned representation of an edge.
     '''
+
     ret_list = []
     for z in (format(x, "05b") + format(y, "05b")):
         ret_list.append(int(z))
+
     return ret_list
 
 def binary_to_boolean(list_of_binaries: list) -> list:
@@ -69,15 +72,6 @@ def binary_to_boolean(list_of_binaries: list) -> list:
         boolean_list.append(created_expression)
 
     return boolean_list
-
-def compare_bdd(closure1: list, closure2: list) -> list:
-    for x in range(0, 5):
-        closure1 = closure1.compose(X[x], Z[x])
-        closure2 = closure2.compose(Z[x], Y[x])
-
-    return_list = closure1 and closure2
-    return return_list.smoothing(Z)
-
 
 def create_expression_from_list(numbers: list) -> list:
     '''
