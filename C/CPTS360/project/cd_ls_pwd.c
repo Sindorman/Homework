@@ -1,140 +1,198 @@
-/************* cd_ls_pwd.c file **************/
+/************* funcs.c file **************/
 
-char *t1 = "xwrxwrxwr-------";
-char *t2 = "----------------";
-
-int chdir(char *pathname)   
+int chdir(char *pathname)
 {
-    printf("chdir %s\n", pathname);
-    int ino = getino(pathname);
-    MINODE *mip = iget(dev, ino);
-    
-    
-    char buf[BLKSIZE], temp[256];
-    DIR *dp;
-    char *cp;
-    
-    // Assume DIR has only one data block i_block[0]
-    get_block(dev, mip->INODE.i_block[0], buf); 
-    dp = (DIR *)buf;
-    cp = buf;
-    int type = (int) dp->file_type;
-    if(type != 2)
-    {
-        printf("No such directory: %s\n", pathname);
-        return;
-    }
+	// READ Chapter 11.7.3 HOW TO chdir
+	MINODE *mip;
+	printf("cwd:[%d %d]\n", running->cwd->dev, running->cwd->ino);
+	if(pathname[0]<=0)
+	{
+		running->cwd = iget(root->dev, 2);
+		return 0;
+	}
 
-    iput(running->cwd);
-    running->cwd = mip;
-    printf("after cd: cwd = [%d, %d]\n", mip->dev, mip->ino);
+	if(strcmp(pathname, "/") == 0)
+	{
+		printf("CDing to root\n");
+		running->cwd = iget(root->dev, 2);
+		return 0;
+	}
+
+	int ino = getino(pathname);
+
+	if(ino==0)
+	{
+		printf("directory doesn't exist\n");
+		return 0;
+	}
+
+	mip = iget(dev, ino);
+	if((mip->INODE.i_mode & 0100000) == 0100000)
+	{
+		iput(mip);
+		printf("cannot cd to non dir\n");
+		return -1;
+	}
+
+	iput(running->cwd);
+	running->cwd = mip;
+	printf("cwd:[%d %d]\n", running->cwd->dev, running->cwd->ino);
+	return 0;
 }
 
 int ls_file(MINODE *mip, char *name)
 {
-    struct stat fstat, *buf;
-    int r;
-    buf = &fstat;
-    stat(name, &fstat);
+	INODE *ip = &mip->INODE;
+	//printf("ls_file: to be done: READ textbook for HOW TO!!!!\n");
+	if(S_ISDIR(mip->INODE.i_mode))
+		printf("d");
+	if(S_ISREG(mip->INODE.i_mode))
+		printf("r");
+	if(S_ISLNK(mip->INODE.i_mode))
+		printf("l");
 
-    if ((buf->st_mode & 0xF000) == 0x8000)
-        printf("%s", "-");
-    if ((buf->st_mode & 0xF000) == 0x4000)
-        printf("%s", "d");
-    if ((buf->st_mode & 0xF000) == 0xA000)
-        printf("%s", "l");
+	printf((mip->INODE.i_mode & 1 << 8) ? "r" : "-");
+	printf((mip->INODE.i_mode & 1 << 7) ? "w" : "-");
+	printf((mip->INODE.i_mode & 1 << 6) ? "x" : "-");
 
-    int i;
-    for (i=8; i >= 0; i--){
-        if (buf->st_mode & (1 << i)) 
-        printf("%c", t1[i]);
-        else
-        printf("%c", t2[i]);
+	printf((mip->INODE.i_mode & 1 << 5) ? "r" : "-");
+	printf((mip->INODE.i_mode & 1 << 4) ? "w" : "-");
+	printf((mip->INODE.i_mode & 1 << 3) ? "x" : "-");
 
-    }
-    printf("   ");
+	printf((mip->INODE.i_mode & 1 << 2) ? "r" : "-");
+	printf((mip->INODE.i_mode & 1 << 1) ? "w" : "-");
+	printf((mip->INODE.i_mode & 1 << 0) ? "x" : "-");
 
-    char ftime[64];
+	char time[64];
+	ctime_r((time_t *)&mip->INODE.i_mtime, time);
+	time[strlen(time)-1]=0;
+	printf(" %3d\t%3d\t%3d\t%20s\t%6d ", ip->i_links_count,  mip->INODE.i_uid, mip->INODE.i_gid, time, mip->INODE.i_size);
 
-    strcpy(ftime, ctime(&buf->st_ctime));
-    ftime[strlen(ftime)-1] = 0;
-    // kill \n at end
-
-    printf("%d \t %ld \t %s \t %s", buf->st_uid, (long)buf->st_size, ftime, name);
-    printf("\n");
+	if(S_ISLNK(mip->INODE.i_mode))
+	{
+		printf("\t%s -> %s", name, mip->INODE.i_block);
+	}
+	else
+	{
+		printf("\t%s", name);
+	}
+	printf("\t%4s[%d %d]\n", "", mip->dev, mip->ino);
 }
 
 int ls_dir(MINODE *mip)
 {
-    printf("ls_dir: list CWD's file names; YOU do it for ls -l\n");
+	char buf[BLKSIZE], temp[256];
+	DIR *dp;
+	char *cp;
+	MINODE *file;
+	// Assume DIR has only one data block i_block[0]
+	get_block(mip->dev, mip->INODE.i_block[0], buf); 
+	dp = (DIR *)buf;
+	cp = buf;
 
-    char buf[BLKSIZE], temp[256];
-    DIR *dp;
-    char *cp;
-    MINODE *file
-    
-    // Assume DIR has only one data block i_block[0]
-    get_block(dev, mip->INODE.i_block[0], buf); 
-    dp = (DIR *)buf;
-    cp = buf;
+	while (cp < buf + BLKSIZE)
+	{
+		strncpy(temp, dp->name, dp->name_len);
+		temp[dp->name_len] = 0;
+		int original_dev = dev;
+		int ino = getino(temp);
 
-    while (cp < buf + BLKSIZE)
-    {
-        strncpy(temp, dp->name, dp->name_len);
-        temp[dp->name_len] = 0;
+		file = iget(original_dev, ino);
+		//printf("[%d %d]", dev, original_dev);
 
-        file = iget(dev, getino(temp));
-        int type = (int) dp->file_type;
-        if(type == 1 || type == 2)
-        {
-            ls_file(file, temp);
-            iput(file);
-        }
+		// Special case of mounting point
+		if (dev != original_dev)
+		{
+			// We have mounting up
+			if (strcmp(temp, "..") == 0)
+			{
+				dev = original_dev;
+			}
+			else
+			{
 
-        cp += dp->rec_len;
-        dp = (DIR *)cp;
-    }
-    printf("\n");
+				// mounting down
+				for (int i = 0; i < NMTABLE; i++)
+				{
+					MTABLE *mt = &mtable[i];
+					if (original_dev == mt->dev)
+					{
+						//printf("dev=%d ino=%d ", file->dev, file->ino);
+						file = mt->mntDirPtr;
+						//printf("dev=%d ino=%d ", file->dev, file->ino);
+						dev = file->dev;
+						break;
+					}
+				}
+			}
+
+		}
+		//printf("dev=%d ino=%d ", file->dev, file->ino);
+		ls_file(file, temp);
+		iput(file);
+		
+		cp += dp->rec_len;
+		dp = (DIR *)cp;
+	}
+
+	printf("\n");
 }
 
-int ls(char *pathname)  
+int ls(char *pathname)
 {
-    printf("ls %s\n", pathname);
-    printf("ls CWD only! YOU do it for ANY pathname\n");
-    ls_dir(running->cwd);
+	if(strcmp(pathname, "\0") != 0)
+	{
+		printf("ls %s\n", pathname);
+		chdir(pathname);
+		ls_dir(running->cwd);
+		chdir("..");
+	}
+	else{
+		ls_dir(running->cwd);
+	}
+	return 0;
 }
 
-char *rpwd(MINODE *wd)
+void pwd(MINODE *wd, int child)
 {
-    if(wd == root)
-    {
-        return;
-    }
+	char buf[512];
+	char *cpy;
+	char name[64];
+	
+	if (wd->ino == root->ino)
+	{
+		if (wd->dev != root->dev)
+		{
+			//printf("UP cross mounting point\n");
 
-    int *my_ino;
-    int *parent_ino = findino(wd, &my_ino);
-    MINODE *pip = iget(dev, parent_ino);
+			// Get mountpoint MINODE
+			for (int i = 0; i < NMTABLE; i++)
+			{ 
+				MTABLE *table = &mtable[i];
+				if (table->dev == wd->dev)
+				{
+					printf("%s/", table->mntName);
+					return;
+				}
+			}
+		}
 
-    char *my_name = findmyname(pip, my_ino);
-    rpwd(pip);
-    printf("/%s", my_name);
-    free(my_name);
+		printf("/");
+		return;
+	}
+
+	MINODE *pip;
+
+	pip = iget(wd->dev, findino(wd, 0));
+	findmyname(pip, wd->ino, &name);
+	
+
+	if(wd->ino != root->ino)
+	{
+		pwd(pip, wd->ino);
+		iput(pip);
+		printf("%s/", name);
+	}
+	
+  return;
 }
-
-
-char *pwd(MINODE *wd)
-{
-    if (wd == root){
-        printf("/\n");
-        return;
-    }
-    else
-    {
-        rpwd(wd);
-        printf("\n");
-    }
-    
-}
-
-
-
