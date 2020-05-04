@@ -1,0 +1,52 @@
+04/24/20 21:12:55 v1.34.5 @ DESKTOP-4ILP1GN, System/Build Info: 
+Using GMP-ECM 7.0-dev, Powered by MPIR 2.6.0
+cached 78498 primes. pmax = 999983
+detected Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz
+detected L1 = 32768 bytes, L2 = 12582912 bytes, CL = 64 bytes
+measured cpu frequency ~= 3707.850080
+using 20 random witnesses for Rabin-Miller PRP checks
+
+04/24/20 21:12:55 v1.34.5 @ DESKTOP-4ILP1GN, New random seeds: 0, 745755072
+
+04/24/20 21:12:55 v1.34.5 @ DESKTOP-4ILP1GN, Processing expression: echo
+
+
+04/24/20 21:13:19 v1.34.5 @ DESKTOP-4ILP1GN, System/Build Info: 
+Using GMP-ECM 7.0-dev, Powered by MPIR 2.6.0
+cached 78498 primes. pmax = 999983
+detected Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz
+detected L1 = 32768 bytes, L2 = 12582912 bytes, CL = 64 bytes
+measured cpu frequency ~= 3701.972920
+using 20 random witnesses for Rabin-Miller PRP checks
+
+04/24/20 21:13:19 v1.34.5 @ DESKTOP-4ILP1GN, New random seeds: 0, 450365344
+
+04/24/20 21:13:19 v1.34.5 @ DESKTOP-4ILP1GN, Processing expression: kdjgkjdg
+
+
+04/24/20 21:13:24 v1.34.5 @ DESKTOP-4ILP1GN, System/Build Info: 
+Using GMP-ECM 7.0-dev, Powered by MPIR 2.6.0
+cached 78498 primes. pmax = 999983
+detected Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz
+detected L1 = 32768 bytes, L2 = 12582912 bytes, CL = 64 bytes
+measured cpu frequency ~= 3719.979980
+using 20 random witnesses for Rabin-Miller PRP checks
+
+04/24/20 21:13:24 v1.34.5 @ DESKTOP-4ILP1GN, New random seeds: 0, 932275368
+
+04/24/20 21:13:24 v1.34.5 @ DESKTOP-4ILP1GN, Processing expression: 5
+
+
+04/24/20 21:13:31 v1.34.5 @ DESKTOP-4ILP1GN, System/Build Info: 
+Using GMP-ECM 7.0-dev, Powered by MPIR 2.6.0
+cached 78498 primes. pmax = 999983
+detected Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz
+detected L1 = 32768 bytes, L2 = 12582912 bytes, CL = 64 bytes
+measured cpu frequency ~= 3698.956460
+using 20 random witnesses for Rabin-Miller PRP checks
+
+04/24/20 21:13:31 v1.34.5 @ DESKTOP-4ILP1GN, New random seeds: 0, 904855504
+
+04/24/20 21:13:31 v1.34.5 @ DESKTOP-4ILP1GN, Processing expression: 5 + 4
+
+
