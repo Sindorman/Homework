@@ -1,6 +1,6 @@
 alphabet = [(1,1,1), (1,1,0), (1,0,1), (1,0,0), (0,1,1), (0,1,0), (0,0,1), (0,0,0)]
 
-def DFS(FA: dict, start: tuple, end: tuple, path=[]):
+def DFS(FA, start, end, path=[]):
     '''
     Recursive DFS that is implemented from https://www.python.org/doc/essays/graphs/
     Parameter list: FA1 as dict, start, end, and path.
@@ -25,7 +25,7 @@ def DFS(FA: dict, start: tuple, end: tuple, path=[]):
 
     return None
 
-def get_C_max(constraint: list) -> int:
+def get_C_max(constraint):
     '''
     Method that will return Cmax for a given constraints.
     Parameter list: list of variables.
@@ -59,13 +59,13 @@ def get_C_max(constraint: list) -> int:
 
     return res
 
-def convert_C_to_binary(c: int) -> str:
+def convert_C_to_binary(c):
     '''
     Method that will convert int to binary. removes 0's on left
     Parameter list: integer.
     returns: string representing binaries.
     '''
-    binary = f'{c:08b}'
+    binary = '{0:08b}'.format(c)
 
     for n in range(len(binary)):
         if binary[n] == '1':
@@ -73,7 +73,7 @@ def convert_C_to_binary(c: int) -> str:
 
     return ""
 
-def get_K(num: int) -> int:
+def get_K(num):
     '''
     Method that will return Kc of a given int.
     Parameter list: integer.
@@ -82,7 +82,7 @@ def get_K(num: int) -> int:
     c = convert_C_to_binary(num)
     return len(c)
 
-def get_bi(c: int, i: int) -> int:
+def get_bi(c, i):
     '''
     Method that will return i-th b.
     Parameter list: integer, i.
@@ -95,7 +95,7 @@ def get_bi(c: int, i: int) -> int:
     return int(conv[i - 1])
 
 
-def create_FA(description: str) -> dict:
+def create_FA(description):
     '''
     Method that will construct FA M from given description.
     Parameter list: description as a list.
@@ -104,7 +104,7 @@ def create_FA(description: str) -> dict:
     k = get_K(description[3])
     Cmax = get_C_max(description[:-1])
 
-    print(f"K={k}, Cmax={Cmax}")
+    print("K={}, Cmax={}".format(k, Cmax))
 
     res_FA = {}
 
@@ -137,7 +137,7 @@ def create_FA(description: str) -> dict:
 
     return res_FA
 
-def get_cartesian_product(FA1: dict, FA2: dict) -> dict:
+def get_cartesian_product(FA1, FA2):
     '''
     Method that will make Cartesian product of two FA's.
     Parameter list: FA1 as dict, FA2 as dict.
@@ -145,8 +145,8 @@ def get_cartesian_product(FA1: dict, FA2: dict) -> dict:
     '''
     ret_FA = {}
     # Nested loop of iterating over each node from both FA's
-    for key1, value1 in FA1.iteritems():
-        for key2, value2 in FA2.iteritems():
+    for key1, value1 in list(FA1.iteritems()):
+        for key2, value2 in list(FA2.iteritems()):
             
             current_state = (key1[0] * key2[0], key1[1] * key2[1])
 
@@ -174,27 +174,21 @@ def get_cartesian_product(FA1: dict, FA2: dict) -> dict:
 
     return ret_FA
 
-def main():
-    # 3x1 − 2x2 − x3 + 3 = 0
-    example_expression1 = [3, -2, 1, 5]
-
-    # 6x1 − 4x2 + x3 + 3 = 0
-    example_expression2 = [6, -4, 2, 9]
-
+def solve(example_expression1, example_expression2):
     FA1 = create_FA(example_expression1)
     FA2 = create_FA(example_expression2)
 
     # The accepting state is [carry = 0, i = KC + 1].
 
     end = (0, (get_K(example_expression1[3]) + 1) * (get_K(example_expression2[3]) + 1))
-    print(f"end={end}")
+    print("end={}".format(end))
 
     cartesian_product = get_cartesian_product(FA1, FA2)
 
     # Use DFS to get path
     result = DFS(cartesian_product, ((0, 1), (0, 0, 0)), end)
 
-    print(f"path:\n{result}")
+    print("path:\n{}".format(result))
 
     # Extract actual result and convert it back
 
@@ -214,7 +208,17 @@ def main():
 
     print("converted result = ({}, {}, {})".format(int1, int2, int3))
 
-    print(3 * int1 - 2 * int2 + int3 + 5)
+def main():
+    print("Expressions:")
+    print("3x1 - 2x2 - x3 + 3 = 0")
+    print("6x1 - 4x2 + x3 + 3 = 0")
+
+    solve([3, -2, -1, 3], [6, -4, 1, 3])
+    print("Expressions:")
+    print("3x1 - 2x2 + x3 + 5 = 0")
+    print("6x1 - 4x2 + 2x3 + 9 = 0")
+
+    solve([3, -2, 1, 5], [6, -4, 2, 9])
 
 if __name__ == "__main__":
     main()
