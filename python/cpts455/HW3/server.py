@@ -9,12 +9,11 @@ Description: HW3.
 
 #import socket module
 import sys
+import threading
 from socket import *
-from requests import get
 
 def main(port : int):
     # get external IP
-    ip = get('https://api.ipify.org').text
 
     serverSocket = socket(AF_INET, SOCK_STREAM)
     #Prepare a sever socket
@@ -24,7 +23,7 @@ def main(port : int):
     while True:
 
         #Establish the connection
-        print('Ready to serve at address http://{}:{} ...'.format(ip, port))
+        print('Ready to serve at address http://localhost:{} ...'.format(port))
 
         # accept connections from outside
         (connectionSocket, addr) = serverSocket.accept()
