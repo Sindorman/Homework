@@ -1,5 +1,10 @@
 # ignore specific files
 
+#macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
 # Misc
 Release
 x64
