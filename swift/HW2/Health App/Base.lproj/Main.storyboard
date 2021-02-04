@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Health_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Health App" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53r-Gk-5Wb">
+                                <rect key="frame" x="164.5" y="44" width="85" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fm3-8F-8K5">
+                                <rect key="frame" x="191" y="832" width="32" height="30"/>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <action selector="NextTappedWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0qo-Y9-KPI"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mykhailo's Quotes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dxI-zw-opo">
+                                <rect key="frame" x="136.5" y="65" width="141" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quotation" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KxK-0g-DED" userLabel="Quotation Label">
+                                <rect key="frame" x="20" y="438" width="374" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quote:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X0X-tH-bTN">
+                                <rect key="frame" x="20" y="118" width="52" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N4R-IZ-dGC">
+                                <rect key="frame" x="20" y="160" width="56" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rCG-2A-Z3x" userLabel="Quote Text field">
+                                <rect key="frame" x="72" y="111.5" width="322" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jRR-4j-2mR" userLabel="Author Text field">
+                                <rect key="frame" x="76" y="153.5" width="318" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WlS-eT-Zfl" userLabel="Add button">
+                                <rect key="frame" x="192" y="195.5" width="30" height="30"/>
+                                <state key="normal" title="Add"/>
+                                <connections>
+                                    <action selector="AddTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bv6-IM-R40"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="KxK-0g-DED" secondAttribute="trailing" constant="20" id="8Fg-b3-3p1"/>
+                            <constraint firstItem="dxI-zw-opo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="AKd-fK-auN"/>
+                            <constraint firstItem="X0X-tH-bTN" firstAttribute="centerY" secondItem="rCG-2A-Z3x" secondAttribute="centerY" id="Dd3-h9-hA6"/>
+                            <constraint firstItem="jRR-4j-2mR" firstAttribute="leading" secondItem="N4R-IZ-dGC" secondAttribute="trailing" id="Dgl-sb-MOu"/>
+                            <constraint firstItem="KxK-0g-DED" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="DyS-rL-XO8"/>
+                            <constraint firstItem="WlS-eT-Zfl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="S79-X7-2sZ"/>
+                            <constraint firstItem="N4R-IZ-dGC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Sr2-g2-npu"/>
+                            <constraint firstItem="KxK-0g-DED" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Y4e-BA-At0"/>
+                            <constraint firstItem="X0X-tH-bTN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="YQf-RW-M4M"/>
+                            <constraint firstItem="Fm3-8F-8K5" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ZB6-Cw-8bl"/>
+                            <constraint firstItem="dxI-zw-opo" firstAttribute="top" secondItem="53r-Gk-5Wb" secondAttribute="bottom" id="a7S-Ug-16q"/>
+                            <constraint firstItem="X0X-tH-bTN" firstAttribute="top" secondItem="dxI-zw-opo" secondAttribute="bottom" constant="32" id="axI-7B-X8f"/>
+                            <constraint firstItem="WlS-eT-Zfl" firstAttribute="top" secondItem="jRR-4j-2mR" secondAttribute="bottom" constant="8" id="eBj-zF-6b0"/>
+                            <constraint firstItem="rCG-2A-Z3x" firstAttribute="leading" secondItem="X0X-tH-bTN" secondAttribute="trailing" id="ehA-Tk-23e"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="jRR-4j-2mR" secondAttribute="trailing" constant="20" id="g07-V3-q70"/>
+                            <constraint firstItem="53r-Gk-5Wb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hpc-xh-lUN" userLabel="Health App.centerX = centerX"/>
+                            <constraint firstItem="Fm3-8F-8K5" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="nCy-x3-7GX"/>
+                            <constraint firstItem="N4R-IZ-dGC" firstAttribute="centerY" secondItem="jRR-4j-2mR" secondAttribute="centerY" id="pS6-un-rRA"/>
+                            <constraint firstItem="53r-Gk-5Wb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="rL6-Kl-C6q"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rCG-2A-Z3x" secondAttribute="trailing" constant="20" id="w0Z-6c-k1h"/>
+                            <constraint firstItem="N4R-IZ-dGC" firstAttribute="top" secondItem="X0X-tH-bTN" secondAttribute="bottom" constant="21" id="zTx-gZ-Ef6"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="authorText" destination="jRR-4j-2mR" id="SeI-j5-a0a"/>
+                        <outlet property="quotationText" destination="KxK-0g-DED" id="44C-ND-9j8"/>
+                        <outlet property="quoteText" destination="rCG-2A-Z3x" id="Sbq-pl-XMG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-30.434782608695656" y="55.580357142857139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
