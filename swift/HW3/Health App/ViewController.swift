@@ -20,8 +20,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var DurationLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        authorText.delegate = self
-        quoteText.delegate = self
+        self.DurationSlider.value = 5
+        self.authorText.delegate = self
+        self.quoteText.delegate = self
         quotes.append(Quotation(quote: "Try not to become a man of success. Rather become a man of value.",author: "Albert Einstein"))
         quotes.append(Quotation(quote: "Don't you ever let a soul in the world tell you that you can't be exactly who you are.", author: "Lady Gaga"))
         quotes.append(Quotation(quote: "I have learned over the years that when one's mind is made up, this diminishes fear.", author: "Rosa Parks"))
@@ -29,7 +30,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         advanceTimer = Timer.scheduledTimer(withTimeInterval: Double(DurationSlider.value), repeats: true){ timer in
             self.switchToNextQuote()
         }
-        DurationLabel.text = "Duration: 01s"
+        self.setDurationLabel()
         
     }
 
@@ -80,8 +81,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         quotationText.text = "\"" + quotes[self.currentIndex].quote + "\" " + author
     }
     
-    func setDurationLabel(newTime: Int) {
-        self.DurationLabel.text = "Duration: " + ((newTime < 10) ? "0" + String(newTime): String(newTime))
+    func setDurationLabel(newTime: Int? = nil) {
+        let time: Int = newTime == nil ? Int(self.DurationSlider.value) : newTime!
+        self.DurationLabel.text = "Duration: " + String(time) + "s"
     }
     
     func resetTimer(newTime: Double) {
