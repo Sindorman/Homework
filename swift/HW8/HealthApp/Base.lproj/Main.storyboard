@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PJG-fG-rro">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="mRL-Qh-Fro">
+            <objects>
+                <navigationController id="PJG-fG-rro" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9z1-Du-NqV">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="tHy-if-LBn" kind="relationship" relationship="rootViewController" id="Kfe-Cb-z7o"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lxX-RO-geA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1017" y="-452"/>
+        </scene>
+        <!--Circle Test-->
+        <scene sceneID="sKF-3l-a0L">
+            <objects>
+                <viewController id="tHy-if-LBn" customClass="MainViewController" customModule="HealthApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XXK-RQ-w5C">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="phK-He-y5r">
+                                <rect key="frame" x="189" y="832" width="36" height="30"/>
+                                <state key="normal" title="Clear"/>
+                                <connections>
+                                    <action selector="ClearTapped:" destination="tHy-if-LBn" eventType="touchUpInside" id="joG-IR-jQ4"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="StatusLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVu-Hp-aJP" userLabel="StatusLabel">
+                                <rect key="frame" x="145.5" y="703" width="123" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="heL-vg-PnR"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="aVu-Hp-aJP" firstAttribute="bottom" secondItem="phK-He-y5r" secondAttribute="top" constant="-100" id="C6y-pI-HHF"/>
+                            <constraint firstItem="phK-He-y5r" firstAttribute="centerX" secondItem="heL-vg-PnR" secondAttribute="centerX" id="fh6-7J-7cj"/>
+                            <constraint firstItem="aVu-Hp-aJP" firstAttribute="centerX" secondItem="heL-vg-PnR" secondAttribute="centerX" id="hLZ-gK-Rzt"/>
+                            <constraint firstItem="phK-He-y5r" firstAttribute="bottom" secondItem="heL-vg-PnR" secondAttribute="bottom" id="kMp-Ji-64F"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Circle Test" prompt="Health App" id="og9-XQ-PUC"/>
+                    <connections>
+                        <outlet property="StatusLabel" destination="aVu-Hp-aJP" id="Um7-DX-go9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IXL-dE-phB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-42.028985507246382" y="-452.00892857142856"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
