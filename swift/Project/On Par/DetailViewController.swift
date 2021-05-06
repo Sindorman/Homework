@@ -194,7 +194,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             
             self.weatherTableView.delegate = self.tableViewDelegate
             self.weatherTableView.dataSource = self.tableViewDelegate
-            
+            self.weatherTableView.reloadData()
         }
     }
     
