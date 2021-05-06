@@ -1,5 +1,5 @@
 //
-//  QuoteCell.swift
+//  CourseCell.swift
 //  Health App
 //
 //  Created by Mykhailo on 2/24/21.
@@ -19,7 +19,11 @@ class CourseCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    @IBOutlet weak var QuoteLabelText: UILabel!
-    @IBOutlet weak var AuthorLabelText: UILabel!
+    @IBOutlet weak var NameLabel: UILabel!
+    @IBOutlet weak var DistanceLabel: UILabel!
     
+    @IBOutlet weak var hourseOfOperationLabel: UILabel!
+    @IBOutlet weak var yelpReviewLabel: UILabel!
+    
+    @IBOutlet weak var courseImageView: UIImageView!
 }

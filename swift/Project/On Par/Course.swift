@@ -6,16 +6,23 @@
 //
 
 import Foundation
+import MapKit
 
 class Course {
     
-    var quote: String
-    var author: String?
-    var id: String
+    var name: String
+    var distance: Double
+    var hoursOfOperation: String?
+    var review: Double?
+    var coordinate: CLLocationCoordinate2D?
+    var imageURls: [String]?
+    var phoneNumber: String?
+    var yelpURL: String?
     
-    internal init(quote: String, author: String? = nil) {
-        self.quote = quote
-        self.author = author
-        self.id = UUID().uuidString
+    
+    internal init(name: String, distance: Double, coordinate: CLLocationCoordinate2D) {
+        self.name = name
+        self.distance = distance
+        self.coordinate = coordinate
     }
 }

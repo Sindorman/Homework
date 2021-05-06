@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8455BCCC2643A14100782074 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455BCCB2643A14100782074 /* Weather.swift */; };
+		8455BCE42643A42000782074 /* WeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455BCE32643A42000782074 /* WeatherTableViewCell.swift */; };
+		8455BCF92643AB3800782074 /* WeatherTableDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455BCF82643AB3800782074 /* WeatherTableDelegate.swift */; };
 		84B41006262E69290073AF79 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B41001262E69290073AF79 /* Course.swift */; };
 		84B41008262E69290073AF79 /* CoursesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B41003262E69290073AF79 /* CoursesTableViewController.swift */; };
 		84B41009262E69290073AF79 /* CourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B41004262E69290073AF79 /* CourseCell.swift */; };
@@ -39,6 +42,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8455BCCB2643A14100782074 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		8455BCE32643A42000782074 /* WeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableViewCell.swift; sourceTree = "<group>"; };
+		8455BCF82643AB3800782074 /* WeatherTableDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableDelegate.swift; sourceTree = "<group>"; };
 		84B41001262E69290073AF79 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		84B41003262E69290073AF79 /* CoursesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesTableViewController.swift; sourceTree = "<group>"; };
 		84B41004262E69290073AF79 /* CourseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCell.swift; sourceTree = "<group>"; };
@@ -112,8 +118,11 @@
 				84D0FECD262E64A500EB9ADD /* ViewController.swift */,
 				84D0FECF262E64A500EB9ADD /* Main.storyboard */,
 				84D0FED2262E64A700EB9ADD /* Assets.xcassets */,
+				8455BCE32643A42000782074 /* WeatherTableViewCell.swift */,
+				8455BCF82643AB3800782074 /* WeatherTableDelegate.swift */,
 				84B41005262E69290073AF79 /* DetailViewController.swift */,
 				84B41001262E69290073AF79 /* Course.swift */,
+				8455BCCB2643A14100782074 /* Weather.swift */,
 				84B41003262E69290073AF79 /* CoursesTableViewController.swift */,
 				84B41004262E69290073AF79 /* CourseCell.swift */,
 				84D0FED4262E64A700EB9ADD /* LaunchScreen.storyboard */,
@@ -274,7 +283,10 @@
 				84D0FECE262E64A500EB9ADD /* ViewController.swift in Sources */,
 				84D0FECA262E64A500EB9ADD /* AppDelegate.swift in Sources */,
 				84B41006262E69290073AF79 /* Course.swift in Sources */,
+				8455BCF92643AB3800782074 /* WeatherTableDelegate.swift in Sources */,
+				8455BCCC2643A14100782074 /* Weather.swift in Sources */,
 				84B41009262E69290073AF79 /* CourseCell.swift in Sources */,
+				8455BCE42643A42000782074 /* WeatherTableViewCell.swift in Sources */,
 				84D0FECC262E64A500EB9ADD /* SceneDelegate.swift in Sources */,
 				84B4100A262E69290073AF79 /* DetailViewController.swift in Sources */,
 			);
